@@ -1,0 +1,4 @@
+GeoFS-V3.9_Assets/
+.DS_Store
+*.log
+node_modules/
