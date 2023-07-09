@@ -3498,3 +3498,703 @@ if (geofs.debug.F117Instruments == 0) {
 }
 	instruments.init(geofs.aircraft.instance.definition.instruments)
 	geofs.debug.F117Instruments = 1
+}
+if (geofs.animation.values.view == "cockpit") {
+	geofs.aircraft.instance.cockpitSetup.parts[0].animations[0].value = "rpm"
+	geofs.aircraft.instance.cockpitSetup.parts[0].animations[0].gt = -1
+	geofs.camera.currentDefinition.position[0] = geofs.aircraft.instance.definition.cameras.cockpit.position[0] + 0.35
+	geofs.camera.currentDefinition.position[1] = geofs.aircraft.instance.definition.cameras.cockpit.position[1] - 0.2
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//Stealth technology goes here (haven't been able to develop it)
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+   } else {
+geofs.debug.F117Instruments = 0
+geofsAddonAircraft.isF117 = 0
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+//Stealth technology goes here (haven't been able to develop it)
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	}
+}
+f117Int = setInterval(function(){runF117()},100)
+//-----Grumman F-14A-----------------------------------------------------------------------------------------------------
+geofsAddonAircraft.isF14A = 0
+geofsAddonAircraft.F14AInstruments = 0
+geofsAddonAircraft.runF14A = function(){
+   console.log("Loading F-14A Tomcat. Model credit manilov.ap")
+}
+F14ALi = document.createElement("li");
+F14ALi.innerHTML = '<div><img src="http://atlas-content-cdn.pixelsquid.com/stock-images/f-14-airplane-tomcat-fighter-jet-ENB74k2-600.jpg">Grumman F-14A Tomcat</div>';
+F14ALi.addEventListener("click", geofsAddonAircraft.runF14A);
+//this works actually
+F14ALi.setAttribute("data-aircraft", 18)
+F14ALi.setAttribute("data-livery", 6)
+document.getElementsByClassName("geofs-list geofs-toggle-panel geofs-aircraft-list")[0].appendChild(F14ALi)
+function runF14A() {
+if (geofs.aircraft.instance.id == 18 && geofs.aircraft.instance.liveryId == 6) {
+//Wing sweep physics
+   if (geofs.animation.values.optionalAnimatedPartPosition < 1) {
+geofs.aircraft.instance.definition.parts[3].area = 17
+geofs.aircraft.instance.definition.parts[4].area = 17
+geofs.aircraft.instance.definition.parts[2].area = 17
+   } else {
+geofs.aircraft.instance.definition.parts[3].area = 10
+geofs.aircraft.instance.definition.parts[4].area = 10
+geofs.aircraft.instance.definition.parts[2].area = 5
+	}
+//area refinements
+geofs.aircraft.instance.definition.parts[11].area = 0.5
+geofs.aircraft.instance.definition.parts[14].area = 5
+geofs.aircraft.instance.definition.parts[15].area = 5
+geofs.aircraft.instance.definition.parts[6].area = 5
+geofs.aircraft.instance.definition.parts[5].area = 5
+//removing the thrust vectoring
+geofs.aircraft.instance.definition.parts[46].animations[0].ratio = 0.069;
+geofs.aircraft.instance.definition.parts[46].animations[1].ratio = 0.069;
+geofs.aircraft.instance.definition.parts[51].animations[0].ratio = 0.069;
+geofs.aircraft.instance.definition.parts[51].animations[1].ratio = 0.069;
+//TF30s having no thrust unless you go really fast
+//mass is 25300 by default, try increasing it so thrust can increase as well
+geofs.aircraft.instance.definition.mass = 35000
+   if (geofs.animation.values.mach >= 1.75) {
+geofs.aircraft.instance.engines[0].thrust = 85000
+geofs.aircraft.instance.engines[0].afterBurnerThrust = 190000
+geofs.aircraft.instance.engines[1].thrust = 85000
+geofs.aircraft.instance.engines[1].afterBurnerThrust = 190000
+	} else {
+geofs.aircraft.instance.engines[0].thrust = 85000
+geofs.aircraft.instance.engines[0].afterBurnerThrust = 145000
+geofs.aircraft.instance.engines[1].thrust = 85000
+geofs.aircraft.instance.engines[1].afterBurnerThrust = 145000
+   }
+
+//attempt at landing gear adjustment
+geofs.aircraft.instance.definition.parts[17].collisionPoints[0][2] = -0.8
+geofs.aircraft.instance.definition.parts[27].collisionPoints[0][2] = -0.8
+//Sound adjustment
+audio.soundplayer.setRate(geofs.aircraft.instance.definition.sounds[3].id, 0.5)
+if (geofs.animation.values.view == "cockpit") {
+	geofs.aircraft.instance.cockpitSetup.parts[0].animations[0].value = "rpm"
+	geofs.aircraft.instance.cockpitSetup.parts[0].animations[0].gt = -1
+geofs.camera.currentDefinition.position[1] = 6.4
+geofs.camera.currentDefinition.position[2] = 1.08
+}
+//HUD
+	geofs.aircraft.instance.setup.instruments.correctHUD = {
+            "cockpit": {
+                "position": [0, 7.109, 1.06],
+                "scale": 0.65
+            },
+            "animations": [
+                {"value": "view", "type": "show", "eq": "cockpit"}
+            ]
+	}
+if (geofsAddonAircraft.F14AInstruments == 0) {
+	instruments.init(geofs.aircraft.instance.setup.instruments)
+   geofsAddonAircraft.F14AInstruments = 1
+}
+//Tailhook
+geofsAddonAircraft.runAddonTailhook()
+//Replacing the tires lol
+geofs.aircraft.instance.definition.contactProperties = {
+        "wheel": {
+        	"frictionCoef": 2,
+        	"dynamicFriction": 0.01,
+        	"rollingFriction": 0.00001,
+            "damping": 1
+        },
+        "frame": {
+        	"frictionCoef": 2,
+        	"dynamicFriction": 0.01,
+            "damping": 1
+        },
+	    "airfoil": {
+        	"frictionCoef": 2,
+        	"dynamicFriction": 0.01,
+            "damping": 1
+        },
+        "hook": {
+            "frictionCoef": 2,
+            "dynamicFriction": 0.01,
+            "damping": 1
+        }
+    };
+//Adding the airbrake
+geofs.aircraft.instance.definition.airbrakesTravelTime = 1;
+geofs.aircraft.instance.definition.instruments.spoilers = "";
+if (geofs.animation.values.airbrakesTarget > 0) {
+   geofs.aircraft.instance.definition.dragFactor = 7
+} else {
+   geofs.aircraft.instance.definition.dragFactor = 1.5
+}
+setTimeout(() => {
+   geofsAddonAircraft.isF14A = 1
+},5000)
+setTimeout(() => {
+	geofs.aircraft.instance.definition.parts[0].animations[0].value = "rpm"
+	geofs.aircraft.instance.definition.parts[0].animations[0].gt = -1
+	 geofs.aircraft.instance.definition.parts[50].animations[0].gt = 100000
+	 geofs.aircraft.instance.definition.parts[55].animations[0].gt = 100000
+},10000)} else {
+   geofsAddonAircraft.isF14A = 0
+   geofsAddonAircraft.F14AInstruments = 0
+}
+}
+f14aInterval = setInterval(function(){runF14A()},10)
+
+
+// ============================================================
+// MODULE: autothrottle.js
+// ============================================================
+/**
+ * GeoFS-V3.9_Autothrottle | Standalone
+ * 
+ * Implements a high-precision PID-based speed maintenance system. 
+ * Features automatic Mach/Knots conversion, Landing Mode (Auto-Retard) 
+ * with touchdown detection, and joystick input suppression.
+ * 
+ * Part of the GeoFS-V3.9_Ecosystem.
+ * 
+ * © 2026 amfi-disable. Licensed under the MIT License.
+ */
+
+(function() {
+    function main () {
+        geofs.autothrottle = {
+            on: !1,
+
+            /**
+             * System Bootstrapper: Foundation & Callbacks
+             * Injects styles, registers frame callbacks, and prepares the HUD panel.
+             */
+            init: function () {
+                geofs.autothrottle.initStyles();
+                // Register high-frequency physics tick
+                geofs.autothrottle.callbackID = geofs.api.addFrameCallback(geofs.autothrottle.tickWrapper);
+                
+                /**
+                 * User Interface: Autopilot Bar Integration
+                 * Injects a stylized A/THR button into the Autopilot bar to serve as the
+                 * primary toggle for the standalone control panel.
+                 */
+                const $bar = $(`
+                    <div class="ext-autothrottle-bar">
+                        <div class="ext-autothrottle-control-pad ext-autothrottle-pad" id="autothrottle-button" tabindex="0" onclick="geofs.autothrottle.toggle()" style="cursor: pointer; pointer-events: all;">
+                            <div class="control-pad-label transp-pad" style="pointer-events: none;">A/THR</div>
+                        </div>
+                        <div class="ext-autothrottle-controls" style="display: none;">
+                            <div class="ext-autothrottle-control" style="position: relative;">
+                                <div id="v39-at-rev" style="display: none; font-size: 8px; color: #ef4444; font-weight: 900; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); letter-spacing: 1px; text-shadow: 0 0 5px #ef4444;">[REV]</div>
+                                <a class="ext-autothrottle-numberDown numberDown ext-autothrottle-control">-</a><input class="ext-autothrottle-numberValue numberValue ext-autothrottle-speed" min="0" data-smallstep="5" data-stepthreshold="100" step="10" data-method="setSpeed" maxlength="4" max="9999" value="0"><a class="ext-autothrottle-numberUp numberUp">+</a>
+                                <span class="ext-autothrottle-switch ext-autothrottle-speedMode">
+                                    <a class="ext-autothrottle-switchLeft switchLeft green-pad" data-method="setAutothrottleSpeedMode" value="knots" id="knotsMode">KTS</a>
+                                    <a class="ext-autothrottle-switchRight switchRight" data-method="setAutothrottleSpeedMode" value="mach" id="machMode">M.</a>
+                                </span>
+                            </div>
+                            <div class="geofs-autopilot-control" style="display: inline-block; vertical-align: bottom; margin-left: 5px; text-align: center;">
+                                <span style="display: block; font-size: 10px; font-weight: bold; color: #aaa; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px;">LND</span>
+                                <span class="ext-autothrottle-switch ext-autothrottle-mode" id="autothrottle-landing-mode-switch">
+                                    <a class="ext-autothrottle-switchLeft switchLeft green-pad" data-method="setArm" value="false" id="armOff">OFF</a>
+                                    <a class="ext-autothrottle-switchRight switchRight" data-method="setArm" value="true" id="armOn">ON</a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mdl-tooltip" id="autothrottle-tooltip" for="autothrottle-button">Toggle autothrottle on/off</div>
+                        <div class="mdl-tooltip" id="autothrottle-landing-mode-tooltip" for="autothrottle-landing-mode-switch">Landing Mode (Auto-Retard on touchdown)</div>
+                    </div>
+                `).appendTo(".geofs-autopilot-bar");
+
+                if (window.componentHandler) {
+                    if (document.querySelector("#autothrottle-tooltip")) {
+                        componentHandler.upgradeElement(document.querySelector("#autothrottle-tooltip"));
+                    }
+                    if (document.querySelector("#autothrottle-landing-mode-tooltip")) {
+                        componentHandler.upgradeElement(document.querySelector("#autothrottle-landing-mode-tooltip"));
+                    }
+                }
+                
+                // Auto-select on focus/click
+                $(document).on("focus click", ".ext-autothrottle-speed", (e) => {
+                    e.target.select();
+                });
+
+                $(document).on("change input", ".ext-autothrottle-speed", (e) => {
+                    const val = parseFloat(e.target.value);
+                    if (!isNaN(val)) geofs.autopilot.setSpeed(val);
+                });
+
+                /**
+                 * System Synchronization Events
+                 * Handlers for engagement/disengagement state changes.
+                 */
+                $(document).on("autothrottleOn", function() {
+                    geofs.autopilot.on && geofs.autopilot.turnOff();
+                    clearTimeout(geofs.autothrottle.panelTimeout);
+                    geofs.autopilot.setArm(!1); // Standard safety: Start with Landing Mode OFF.
+                    $("#autothrottle-button").removeClass("red-pad").addClass("green-pad");
+                    $(".ext-autothrottle-controls").show();
+                    geofs.autothrottle.on = !0;
+                    
+                    // Mode Validation: Validate KIAS, MACH, or KNOTS, and sync green active lights.
+                    let mode = geofs.autopilot.speedMode;
+                    if (!mode || (mode !== "mach" && mode !== "kias" && mode !== "knots")) {
+                        mode = "kias";
+                    } else if (mode === "knots") {
+                        mode = "kias";
+                    }
+                    geofs.autopilot.setAutothrottleSpeedMode(mode === "mach" ? "mach" : "knots");
+
+                    const isMach = mode == "mach";
+                    
+                    // Capture input speed first to prevent wiping out user target speed
+                    const $input = $(".ext-autothrottle-speed");
+                    let targetVal = parseFloat($input.val());
+                    if (isNaN(targetVal) || targetVal <= 0) {
+                        targetVal = isMach ? (geofs.animation.values.mach || 0.8) : Math.round(geofs.animation.values.kias || 250);
+                    } else {
+                        // Protect against mode/value mismatch
+                        if (isMach && targetVal > 50) {
+                            const kias = geofs.animation.values.kias;
+                            const mach = geofs.animation.values.mach;
+                            if (kias && kias > 50 && mach) {
+                                targetVal = (targetVal / kias) * mach;
+                            } else {
+                                targetVal = targetVal / 661.47;
+                            }
+                        } else if (!isMach && targetVal < 10) {
+                            const kias = geofs.animation.values.kias;
+                            const mach = geofs.animation.values.mach;
+                            if (kias && kias > 50 && mach) {
+                                targetVal = (targetVal / mach) * kias;
+                            } else {
+                                targetVal = targetVal * 661.47;
+                            }
+                            targetVal = Math.round(targetVal);
+                        }
+                    }
+                    
+                    geofs.autopilot.setSpeed(targetVal);
+                    $input.val(isMach ? targetVal.toFixed(6) : Math.round(targetVal));
+                    
+                    if (window.V39_NOTIF) {
+                        V39_NOTIF.success(`🛫 Autothrottle Engaged - Holding ${targetVal.toFixed(isMach ? 2 : 0)} ${isMach ? 'Mach' : 'Knots'}`);
+                    }
+                    document.dispatchEvent(new CustomEvent('v39_autothrottleStateChanged', { detail: { active: !0 } }));
+                });
+
+                // Triggered when the system is disengaged.
+                $(document).on("autothrottleOff", function() {
+                    $("#autothrottle-button").removeClass("green-pad").addClass("red-pad");
+                    $(".ext-autothrottle-controls").hide();
+                    geofs.autothrottle.on = !1;
+                    
+                    geofs.autothrottle.panelTimeout = setTimeout(function() {
+                        $("#autothrottle-button").removeClass("red-pad");
+                    }, 3000);
+                    
+                    if (geofs.autothrottle.opSyncActive) {
+                        geofs.autothrottle.opSyncActive = false;
+                        document.dispatchEvent(new CustomEvent('v39_opSyncStateChanged', { detail: { active: false } }));
+                        
+                        if (globalThis.isThrustActive && window.toggleThrustMode) {
+                            window.toggleThrustMode();
+                        }
+                        if (globalThis.isCeilingActive && window.toggleCeilingMode) {
+                            window.toggleCeilingMode();
+                        }
+                    }
+                    
+                    if (geofs.autothrottle.reverseEngaged) {
+                        geofs.autothrottle.reverseEngaged = false;
+                        if (geofs.aircraft.instance.definition && geofs.autothrottle._origReverse !== undefined) {
+                            geofs.aircraft.instance.definition.reverse = geofs.autothrottle._origReverse;
+                        }
+                    }
+
+                    // Remove REV visual indicator in case it was active during disengagement
+                    $("#v39-at-rev").hide();
+                    // Reset our tracking values to prevent spikes on subsequent engagements
+                    geofs.autothrottle._lastFrameTime = null;
+                    geofs.autothrottle._prevKias = null;
+                    geofs.autothrottle._currentAccelKts = 0;
+                    
+                    geofs.autopilot.setSpeedMode(geofs.autopilot.speedMode);
+                    geofs.autothrottle.on = !1;
+                    
+                    if (window.V39_NOTIF) {
+                        V39_NOTIF.info("🛬 Autothrottle Disengaged - Control Returned to Pilot");
+                    }
+                    document.dispatchEvent(new CustomEvent('v39_autothrottleStateChanged', { detail: { active: !1 } }));
+                });
+
+                // Safety: Automatically disengage if the main Autopilot is turned on.
+                $(document).on("autopilotOn", () => {
+                    geofs.autopilot.setSpeedMode("knots");
+                    geofs.autopilot.setSpeed(geofs.animation.values.kias);
+                    geofs.autothrottle.on && $(document).trigger("autothrottleOff")
+                });
+
+                /**
+                 * Input Suppression: Joystick Compatibility
+                 * While Autothrottle is active, physical throttle axis inputs are suppressed
+                 * to prevent conflicting commands between the pilot and the PID controller.
+                 */
+                const o = controls.axisSetters.throttle.process;
+                controls.axisSetters.throttle.process = function (e, t) {
+                    if (geofs.autothrottle.on) return;
+                    o(e, t);
+                };
+            },
+            /**
+             * Injects the necessary CSS for the legacy bar button and panel states.
+             * This ensures the addon looks correct even if the main design system is slow to load.
+             */
+            initStyles: function () {
+                const style = document.createElement("style");
+                style.innerHTML = `
+                   .ext-autothrottle-pad {
+                       width: 60px;
+                       margin: 0px 10px;
+                   }
+                   .ext-autothrottle-bar {
+                       white-space: nowrap;
+                       display: flex;
+                       align-items: flex-start;
+                       pointer-events: all;
+                   }
+                   .ext-autothrottle-control-pad {
+                       border: 1px solid #888;
+                       background-color: #000;
+                       box-shadow: 0px 0px 5px #000;
+                       border-radius: 15px;
+                       cursor: pointer !important;
+                   }
+                   .ext-autothrottle-controls {
+                       vertical-align: bottom;
+                       display: none;
+                       margin-right: 10px;
+                   }
+                   .ext-autothrottle-control {
+                       position: relative;
+                       text-align: center;
+                       margin: 0px 5px;
+                       color: white;
+                       line-height: 25px;
+                       display: inline-block;
+                   }
+                   .ext-autothrottle-control span {
+                       display: block;
+                       text-align: center;
+                       text-shadow: #000 1px 1px 3px;
+                       font-size: 12px;
+                       top: 0px;
+                       position: relative;
+                   }
+                   .ext-autothrottle-bar .ext-autothrottle-switch .ext-autothrottle-switchRight {
+                       top: 0px !important;
+                       border-radius: 0px 15px 15px 0px;
+                       left: 0px;
+                   }
+                   .ext-autothrottle-bar .ext-autothrottle-switch .ext-autothrottle-switchLeft {
+                       top: 0px !important;
+                       border-radius: 15px 0px 0px 15px;
+                       border-right: 5px;
+                       right: -3px;
+                   }
+                   .ext-autothrottle-bar .ext-autothrottle-switch a {
+                       user-select: none;
+                       -webkit-user-select: none;
+                       position: relative;
+                       display: inline-block;
+                       width: 35px;
+                       height: 17px;
+                       line-height: 19px;
+                       cursor: pointer;
+                       color: white;
+                       background: #000;
+                       margin: 2px 0px;
+                       display: inline-block;
+                       border: 1px solid white;
+                       box-shadow: 0px 0px 5px #000;
+                   }
+                   .ext-autothrottle-bar .ext-autothrottle-control {
+                       position: relative;
+                       text-align: center;
+                       margin: 0px 5px;
+                       color: white;
+                       line-height: 25px;
+                       display: inline-block;
+                   }
+                   .ext-autothrottle-bar .ext-autothrottle-speed {
+                       width: 50px !important;
+                   }
+                   .ext-autothrottle-numberDown {
+                       border-radius: 15px 0px 0px 15px;
+                       line-height: 23px;
+                       right: -5px;
+                       position: relative !important;
+                   }
+                   .ext-autothrottle-numberUp {
+                       border-radius: 0px 15px 15px 0px;
+                       line-height: 26px;
+                       left: -5px;
+                       position: relative !important;
+                   }
+                   .ext-autothrottle-control .ext-autothrottle-numberDown,.ext-autothrottle-control .ext-autothrottle-numberUp {
+                       user-select: none;
+                       -webkit-user-select: none;
+                       vertical-align: top;
+                       cursor: pointer;
+                       text-align: center;
+                       color: white;
+                       background: #000;
+                       margin: 0px;
+                       width: 30px;
+                       display: inline-block;
+                       border: 1px solid white;
+                       height: 25px;
+                       box-shadow: 0px 0px 5px #000;
+                   }
+                   .ext-autothrottle-control .ext-autothrottle-numberValue {
+                       font-family: 'LCD-Bold', monospace;
+                       font-size: 20px !important;
+                       letter-spacing: 1px;
+                       display: inline-block;
+                       vertical-align: top;
+                       padding: 0px 5px;
+                       margin: 0px;
+                       background: #000;
+                       border: 1px solid;
+                       border-radius: 0px;
+                       height: 25px;
+                       line-height: 26px;
+                       box-shadow: 0px 0px 5px #000;
+                       color: white;
+                       width: 120px; /* overriden in ext-autothrottle-speed */
+                       text-align: right;
+                    }
+                    .green-pad {
+                       border-color: #10b981 !important;
+                       box-shadow: 0 0 10px rgba(16, 185, 129, 0.4) !important;
+                    }
+                    .red-pad {
+                       border-color: #ef4444 !important;
+                       box-shadow: 0 0 10px rgba(239, 68, 68, 0.4) !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            },
+            /**
+             * Toggles the system state between ON and OFF.
+             * Triggers the corresponding document events for synchronization.
+             * Includes a pre-engagement validation check to ensure modes are selected.
+             */
+            toggle: function () {
+                if (geofs.autothrottle.error) return;
+                
+                if (!geofs.autothrottle.on) {
+                    // Electrical System Dependency: Block engagement if no power.
+                    if (window.failureSimulator?.fails?.electrical) {
+                        if (window.V39_NOTIF) V39_NOTIF.critical("⚡ AUTOTHROTTLE OFFLINE - NO ELECTRICAL POWER");
+                        return;
+                    }
+
+                    // Auto-initialize Speed Mode to Knots if not set or invalid
+                    const mode = geofs.autopilot.speedMode;
+                    const isModeValid = (mode === "mach" || mode === "knots");
+                    if (!isModeValid) {
+                        geofs.autopilot.setAutothrottleSpeedMode('knots');
+                    }
+
+                    // Auto-initialize Landing Mode to OFF if not set
+                    const isArmValid = (typeof geofs.autothrottle.armed !== "undefined");
+                    if (!isArmValid) {
+                        geofs.autopilot.setArm(!1);
+                    }
+                }
+                
+                geofs.autothrottle.on ? $(document).trigger("autothrottleOff") : $(document).trigger("autothrottleOn");
+            },
+            /**
+             * Core Feedback Engine (PID Controller)
+             * Calculates the differential throttle command required to reach the 
+             * target indicated airspeed or Mach number.
+             * @param {number} a - Integrated delta time (seconds).
+             * @param {number} b - Frame delta time (milliseconds).
+             */
+            tick: function (a, b) {
+                // Physics scaling: Normalize delta based on simulation frequency
+                var A = clamp(Math.floor(b / geofs.api.renderingSettings.physicsDeltaMs), 1, 10)
+                  , B = a / A;
+                var c = geofs.animation.values
+                , d = geofs.autopilot
+                , e = d.values.speed
+                , f = c.kias;
+
+                // Mode logic: Convert Mach target to knots for internal PID processing
+                geofs.autopilot.speedMode == "mach" && (e = geofs.utils.machToKnots(d.values.speed),
+                f = geofs.utils.machToKnots(c.mach));
+
+                // --- 1. Reverse Thrust Engine ---
+                const currentMach = c.mach || (f / 661.47);
+                const reverseThreshold = clamp(0.8 - (currentMach * 0.05), 0.1, 0.8);
+                
+                if (e < f * reverseThreshold && !geofs.autothrottle.reverseEngaged) {
+                    geofs.autothrottle.reverseEngaged = true;
+                    // Force the aircraft definition to support reverse thrust so controls.update doesn't clamp negative throttle
+                    if (geofs.aircraft.instance.definition) {
+                        geofs.autothrottle._origReverse = geofs.aircraft.instance.definition.reverse;
+                        geofs.aircraft.instance.definition.reverse = true;
+                    }
+                    $("#v39-at-rev").show();
+                } else if (f <= e * 1.05 && geofs.autothrottle.reverseEngaged) {
+                    geofs.autothrottle.reverseEngaged = false;
+                    // Restore original reverse property of aircraft definition
+                    if (geofs.aircraft.instance.definition && geofs.autothrottle._origReverse !== undefined) {
+                        geofs.aircraft.instance.definition.reverse = geofs.autothrottle._origReverse;
+                    }
+                    $("#v39-at-rev").hide();
+                }
+
+                /**
+                 * --- 2. [Integration] Seamless OP Engines Bridge ---
+                 */
+                const mass = geofs.aircraft.instance.setup.mass || 1000; // Default to 1 ton if missing
+                const OP_LIMIT_KNOTS = (mass < 10000) ? 200 : 500;
+                
+                // Keep OP Engines engaged if targeting supersonic, OR if air-braking from supersonic
+                if (e > OP_LIMIT_KNOTS || (geofs.autothrottle.reverseEngaged && f > OP_LIMIT_KNOTS)) {
+                    // Auto-activate OP Engines if target speed exceeds physical aircraft limits
+                    if (!globalThis.isThrustActive && window.toggleThrustMode) {
+                        window.toggleThrustMode();
+                        if (window.V39_NOTIF) V39_NOTIF.warn(`🚀 Physical limit (${OP_LIMIT_KNOTS}kts) exceeded. OP Engines engaged.`);
+                    }
+                    
+                    // Auto-activate Ceiling Bypass to handle extreme high-altitude atmospheric heights
+                    if (!globalThis.isCeilingActive && window.toggleCeilingMode) {
+                        window.toggleCeilingMode();
+                    }
+                    
+                    if (!geofs.autothrottle.opSyncActive) {
+                        geofs.autothrottle.opSyncActive = true;
+                        document.dispatchEvent(new CustomEvent('v39_opSyncStateChanged', { detail: { active: true } }));
+                    }
+                    
+                    if (globalThis.isThrustActive) {
+                        const activeSpeed = geofs.autothrottle.reverseEngaged ? f : e; // Use current speed for base multiplier if braking
+                        const rawError = Math.abs(e - f); // Absolute error
+                        const baseMult = activeSpeed / 500;
+                        
+                        // Scale errorBoost aggressively for massive hypersonic target differences
+                        let errorBoost = rawError / 100;
+                        if (rawError > 1000) {
+                            errorBoost = (rawError / 10) * (1 + (rawError / 10000));
+                        }
+                        
+                        let targetMult = clamp(baseMult + errorBoost, 1, 1000000000);
+                        
+                        // Smoothly slide the multiplier towards the optimal target
+                        window.opMultiplier += (targetMult - window.opMultiplier) * 0.15;
+                        
+                        window.opMultiplier = clamp(window.opMultiplier, 1, 1000000000);
+                        
+                        // Broadcast live updates to sync the Overpowered Engines UI
+                        document.dispatchEvent(new CustomEvent('v39_opMultiplierUpdated', { detail: { value: window.opMultiplier } }));
+                    }
+                } else {
+                    // Target is achievable within standard flight envelope
+                    if (geofs.autothrottle.opSyncActive) {
+                        geofs.autothrottle.opSyncActive = false;
+                        document.dispatchEvent(new CustomEvent('v39_opSyncStateChanged', { detail: { active: false } }));
+                        
+                        // Gracefully relinquish control and disable overpowered engines
+                        if (globalThis.isThrustActive && window.toggleThrustMode) {
+                             window.toggleThrustMode();
+                             if (window.V39_NOTIF) V39_NOTIF.warn("🛬 Returned to standard flight envelope. OP Engines disengaged.");
+                        }
+                        
+                        // Restore standard atmospheric limits
+                        if (globalThis.isCeilingActive && window.toggleCeilingMode) {
+                             window.toggleCeilingMode();
+                        }
+                    }
+                }
+
+                const mult = (globalThis.isThrustActive && window.opMultiplier) ? window.opMultiplier : 1.0;
+                const error = Math.abs(e - f); // Absolute Difference
+                
+                // Track real-time acceleration in knots/second
+                const now = geofs.utils.now();
+                if (!geofs.autothrottle._lastFrameTime) {
+                    geofs.autothrottle._lastFrameTime = now;
+                    geofs.autothrottle._prevKias = f;
+                    geofs.autothrottle._currentAccelKts = 0;
+                }
+                const dt = Math.max((now - geofs.autothrottle._lastFrameTime) / 1000, 0.001);
+                geofs.autothrottle._lastFrameTime = now;
+
+                const dKias = f - geofs.autothrottle._prevKias;
+                geofs.autothrottle._prevKias = f;
+
+                if (dt > 0 && Math.abs(dKias) < 2000) {
+                    const rawAccel = dKias / dt;
+                    geofs.autothrottle._currentAccelKts = geofs.autothrottle._currentAccelKts * 0.8 + rawAccel * 0.2;
+                }
+                
+                // Base Formula: More permissive fractional damping (50 instead of 12) for high-multiplier authority
+                let damping = (50 / (mult + 49)); 
+                
+                // Hypersonic Scaling: If error is huge, smoothly transition damping towards 1.0 (no damping) to unleash full thrust
+                const errorRatio = clamp(error / 1000, 0, 1);
+                damping = damping * (1 - errorRatio) + 1.0 * errorRatio;
+                
+                // Boost Factor: Increase authority when far from target speed
+                damping *= (1 + 0.2 * Math.sin(Math.min(error / 150, Math.PI / 2)));
+                
+                // PID Update: Inject dynamic dampening into the controller
+                const pid = d.PIDs.throttle;
+                
+                if (geofs.autothrottle.reverseEngaged) {
+                    pid.set(e, -1, 1); // Expand bounds to allow negative throttle computation during deceleration
+                } else {
+                    pid.set(e, 0, 1);
+                }
+                
+                // State Sync: Apply dampening to Proportional and Integral components
+                let throttleCmd = pid.compute(f, B);
+                
+                if (geofs.autothrottle.reverseEngaged) {
+                    // Invert negative PID output to positively spool engines in reverse mode
+                    throttleCmd = Math.abs(throttleCmd);
+                }
+                
+                // Acceleration Guard: Force thrust reduction if acceleration is excessive (limit to 100 knots/sec)
+                const currentAccel = geofs.autothrottle._currentAccelKts || 0;
+                if (mult > 1 && currentAccel > 100) {
+                     throttleCmd *= (100 / currentAccel); // Proportional cut to maintain exactly 100 kts/sec
+                }
+
+                if (geofs.autothrottle.reverseEngaged) {
+                     controls.throttle = clamp(-throttleCmd * damping, -1, 0); // Apply negative throttle for reverse thrust
+                } else {
+                     controls.throttle = clamp(throttleCmd * damping, 0, 1);
+                }
+            },
+            /**
+             * Tick Orchestrator & Safety Guard
+             * Manages the execution context for the PID loop and implements 
+             * the Landing Mode (Auto-Retard) logic.
+             */
+            tickWrapper: function (a) {
+                if (geofs.autothrottle.on) {
+                    // Electrical System Dependency: Immediate emergency cut if power is lost.
+                    if (window.failureSimulator?.fails?.electrical) {
+                        if (window.V39_NOTIF) V39_NOTIF.critical("⚡ AUTOTHROTTLE DISENGAGED - ELECTRICAL FAILURE");
+                        $(document).trigger("autothrottleOff");
+                        return;
+                    }
+
+                    // Touchdown Guard: Immediate engine cut upon ground contact if ARMED
+                    if (geofs.aircraft.instance.groundContact && geofs.autothrottle.armed) {
+                        controls.throttle = 0;
+                        $(document).trigger("autothrottleOff");
