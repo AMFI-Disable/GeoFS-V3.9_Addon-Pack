@@ -1398,3 +1398,703 @@ void main() {
 }
 `
 let timer = 0;
+let initTime = 0;
+let holdT = 0;
+let timerCheck = null;
+let boInit = false;
+
+function getStrength() {
+  if (timer >= 0.6) {
+    if (!timerCheck) timerCheck = setInterval(function(){
+      if (timer < 0.6) {
+      clearInterval(timerCheck);
+      timerCheck = null;
+      }
+    }, 100)
+  }
+  var g = geofs.animation.values.loadFactor;
+  if (g > 9 && geofs.animation.values.view == "cockpit") {
+    initTime += 0.05; //0.01, speed of blackout effect
+    //console.log(initTime);
+    if (initTime > 0.1) boInit = true; //1, time delay before blackout
+    if (boInit) {
+      if (timer < 1) timer += 0.001 * ((g - 5) / 10) * (1 + timer / 10);
+      if (timer == 1 && holdT < 10) holdT = timer += 0.001 * ((g - 5) / 10) * (1 + timer / 10);
+      return timer;
+    } else {
+      return 0;
+    }
+  } else {
+      initTime = 0;
+      if (holdT > 0) holdT -= 0.0005;
+      if (timer > 0 && holdT == 0) timer -= 0.0005;
+      if (timer <= 0) boInit = false;
+      return timer;
+  }
+}
+
+geofs.fx.overg = {
+  create: function() {
+    geofs.fx.overg.shader = new Cesium.PostProcessStage({
+      fragmentShader : geofs["overlayG.glsl"],
+      uniforms: {
+        strength: 0.0,
+      }
+    })
+    geofs.api.viewer.scene.postProcessStages.add(geofs.fx.overg.shader);
+  },
+  update: function() {
+    geofs.fx.overg.shader.uniforms.strength = getStrength();
+  }
+};
+
+//make this only execute if the advanced atmosphere is done loading
+//geofs.fx.atmosphere.atmospherePostProcessStage._ready
+geofs.fx.overg.create()
+blackoutEffectInterval = setInterval(function(){geofs.fx.overg.update();}, 10)
+clearInterval(blackoutLoadInt)
+   }
+}, 1000)
+    function fixSpin() {
+        if (geofs.aircraft.instance.id == 2948 || geofs.aircraft.instance.id == 2581) {
+            var pitch = geofs.animation.values.atilt;
+            setTimeout(() => {
+                if (geofs.animation.values.atilt + 50 < pitch || geofs.animation.values.atilt - 50 > pitch) {
+                    geofs.aircraft.instance.definition.minimumSpeed = 600;
+                    console.log("Spin detected");
+                    geofs.flyToCamera();
+                    console.log("Spin fixed");
+                    setTimeout(() => {
+                        geofs.aircraft.instance.definition.minimumSpeed = 250;
+                    }, 5000);
+                }
+            }, 500);
+        }
+        if (geofs.aircraft.instance.id == 2808 || geofs.aircraft.instance.id == 3460) {
+            var pitch = geofs.animation.values.atilt;
+            setTimeout(() => {
+                if (geofs.animation.values.atilt + 50 < pitch || geofs.animation.values.atilt - 50 > pitch) {
+                    geofs.aircraft.instance.definition.minimumSpeed = 200;
+                    console.log("Spin detected");
+                    geofs.flyToCamera();
+                    console.log("Spin fixed");
+                    setTimeout(() => {
+                        geofs.aircraft.instance.definition.minimumSpeed = 200;
+                    }, 5000);
+                }
+            }, 500);
+        }
+        if (geofs.aircraft.instance.id == 2988) {
+            var pitch = geofs.animation.values.atilt;
+            setTimeout(() => {
+                if (geofs.animation.values.atilt + 50 < pitch || geofs.animation.values.atilt - 50 > pitch) {
+                    geofs.aircraft.instance.definition.minimumSpeed = 1000;
+                    console.log("Spin detected");
+                    geofs.flyToCamera();
+                    console.log("Spin fixed");
+                    setTimeout(() => {
+                        geofs.aircraft.instance.definition.minimumSpeed = 250;
+                    }, 5000);
+                }
+            }, 500);
+        }
+    }
+    fixyFixy = setInterval(function () {
+        fixSpin();
+    }, 1000);
+    geofs.aircraftList["1000"].dir = "|models|aircraft|generics|c182|";
+    var aircraftChecked = new Boolean(0);
+    var script2 = document.createElement("script");
+    script2.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/realismify.js";
+    document.body.appendChild(script2);
+    script2.onload = function () {
+        realismify();
+    };
+/* //Removed for now because it's buggy at certain times of day (flickering stars at dawn/dusk)
+   //Besides, it didn't work anyway - probably overwritten by some other part of the GeoFS enviro engine
+   //TODO: new implementation (possibly create new skybox?)
+    function showTheStars() {
+        if (geofs.aircraft.instance.altitude >= 80000 || geofs.isNight == 1) {
+            geofs.api.viewer.scene.skyBox.show = 1;
+        } else {
+            geofs.api.viewer.scene.skyBox.show = 0;
+        }
+    }
+    starsInterval = setInterval(function () {
+        showTheStars();
+    }, 1000);
+*/
+    const BCAircraft= new Set ([9, 52, 2840, 4090, 1025, 2806, 4197, 2806]);
+
+    function runBladeCollisions() {
+        let checkNumber = Number(geofs.aircraft.instance.id);
+        window.hasBC = BCAircraft.has(checkNumber);
+        if (window.hasBC) {
+            console.log(hasBC)
+        if (geofs.animation.values.aroll > 70 || geofs.animation.values.aroll < -70) {
+            if (geofs.animation.values.haglFeet <= 5 && geofs.preferences.crashDetection == 1) {
+                    geofs.aircraft.instance.crash();
+                }
+            }
+        }
+    }
+    bladeCollisionInterval = setInterval(function () {
+        runBladeCollisions();
+    }, 1000);
+    function runTurbAccel() {
+        if (geofs.aircraft.instance.definition.maxRPM == 10000) {
+            if (geofs.animation.values.rpm < 5999) {
+                geofs.aircraft.instance.definition.engineInertia = 0.2;
+            }
+            if (geofs.animation.values.rpm >= 6000 && geofs.animation.values.rpm < 6999) {
+                geofs.aircraft.instance.definition.engineInertia = 0.5;
+            }
+            if (geofs.animation.values.rpm >= 7000) {
+                geofs.aircraft.instance.definition.engineInertia = 1;
+            }
+        }
+    }
+    turbAccelInt = setInterval(function () {
+        runTurbAccel();
+    }, 100);
+    var scriptC = document.createElement("script");
+    scriptC.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/Advanced-2d-CloudsD.js";
+    document.body.appendChild(scriptC);
+    scriptC.onload = function () {
+        fixCloudsDensity();
+    };
+    //kludge fix
+    geofs.cons = true;
+    var scriptCCP = document.createElement("script");
+    scriptCCP.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/ClickableCockpits.js";
+    document.body.appendChild(scriptCCP);
+    scriptCCP.onload = function () {
+        runClickableCockpits();
+    };
+    var scriptVC = document.createElement("script");
+    scriptVC.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/vcon.js";
+    document.body.appendChild(scriptVC);
+    scriptVC.onload = function () {
+        runVortexCons();
+    }; 
+function addFBW() {
+    geofs.animation.values.cobraMode = 0;
+    document.addEventListener("keydown", function(e) {
+        if (e.keyCode == 222) {
+    geofs.animation.values.cobraMode == 0 ? geofs.animation.values.cobraMode = 1 : geofs.animation.values.cobraMode = 0
+    }
+    })
+
+
+    //Fighter jet FBW
+    //Average pull rate: (geofs.animation.values.pitchrate + geofs.animation.values.turnrate) / 2
+    //clearInterval(FBWint)
+    let tiltToHold = 0;
+    let deadZone = 0.005;
+    let rollTohold = 0;
+    let pitchStage1 = 0;
+    let computingPitch = 0;
+    let pullRate = 0;
+    let normalizedG = 0;
+    let normalizedAoA = 0;
+    let input = 0;
+    let inputR = 0;
+    geofs.animation.values.computedPitch = 0;
+    geofs.animation.values.computedRoll = 0;
+    geofs.animation.values.cobraMode = 0;
+    computePitch = function() {
+        normalizedG = (geofs.animation.values.loadFactor / 9)
+        normalizedAoA = (geofs.animation.values.aoa / 17)
+        input = geofs.animation.values.pitch
+    //Make it run at 100 ms int
+    if (geofs.pause == 0) {
+    //G and alpha protection (F-22 does not need alpha protection)
+    if (normalizedAoA > 1 && geofs.animation.values.cobraMode == 0 && geofs.aircraft.instance.id != 2857) {
+    geofs.animation.values.computedPitch = geofs.animation.values.computedPitch - 0.03
+    } else if (normalizedG > 1 && geofs.animation.values.cobraMode == 0) {
+    geofs.animation.values.computedPitch = geofs.animation.values.computedPitch - 0.03
+    } else {
+    //This adjust sensitivity and trim automatically, to try and keep G response the same throughout the flight envelope.
+    if (geofs.aircraft.instance.id == 7) {
+    geofs.animation.values.computedPitch = (input / (geofs.animation.values.kias/200)) - (geofs.animation.values.kias/6000)
+    } else if (geofs.aircraft.instance.id == 2857) {
+    geofs.animation.values.kias > 300 ? geofs.animation.values.computedPitch = (input / (geofs.animation.values.kias/25)) - (geofs.animation.values.kias/6000) : geofs.animation.values.computedPitch = (input / (geofs.animation.values.kias/100)) - (geofs.animation.values.kias/6000)
+    }
+    }
+    }
+    }
+    computeRoll = function() {
+    inputR = geofs.animation.values.roll
+    if (geofs.pause == 0) {
+    geofs.animation.values.computedRoll = inputR
+    }
+    }
+    let rollInputs = [0, 0, 0, 0, 0, 0, 0];
+    let pitchInputs = [0, 0, 0, 0, 0, 0, 0];
+    geofs.animation.values.averagePitch = null;
+    geofs.animation.values.outerAveragePitch = null;
+    geofs.animation.values.averageRoll = null;
+    geofs.animation.values.outerAverageRoll = null;
+    pushInputs = function() {
+    pitchInputs.push(geofs.animation.values.computedPitch);
+    rollInputs.push(geofs.animation.values.computedRoll)
+    }
+    computeOutputs = function() {
+    var pitchcheck = movingAvg(pitchInputs, 2, 2);
+    var rollcheck = movingAvg(rollInputs, 2, 2)
+    geofs.animation.values.averagePitch = pitchcheck[pitchcheck.length - 3]
+    geofs.animation.values.averageRoll = rollcheck[rollcheck.length - 3];
+    geofs.animation.values.outerAverageRoll = clamp(geofs.animation.values.averageRoll, -1, 1);
+    geofs.animation.values.outerAveragePitch = clamp(geofs.animation.values.averagePitch / 1, -1, 1);
+    }
+    movingAvg = function (array, countBefore, countAfter) {
+    if (countAfter == undefined) countAfter = 0;
+    const result = [];
+    for (let i = 0; i < array.length; i++) {
+        const subArr = array.slice(Math.max(i - countBefore, 0), Math.min(i + countAfter + 1, array.length));
+        const avg = subArr.reduce((a, b) => a + (isNaN(b) ? 0 : b), 0) / subArr.length;
+        result.push(avg);
+    }
+    return result;
+    }
+    assignControls = function () {
+    if (geofs.aircraft.instance.id == 7 && geofs.addonAircraft.isMiG21 != 1) {
+    geofs.aircraft.instance.definition.parts.elevatorLeft.animations[0].value = "outerAveragePitch";
+    geofs.aircraft.instance.definition.parts.elevatorRight.animations[0].value = "outerAveragePitch";
+    geofs.aircraft.instance.definition.parts.aileronLeft.animations[1].value = "outerAverageRoll";
+    geofs.aircraft.instance.definition.parts.aileronRight.animations[1].value = "outerAverageRoll";
+
+    } else if (geofs.aircraft.instance.id == 7 && geofs.addonAircraft.isMiG21 == 1) {
+    geofs.aircraft.instance.definition.parts[7].animations[0].value = "pitch"
+    geofs.aircraft.instance.definition.parts[8].animations[0].value = "pitch"
+    //geofs.aircraft.instance.definition.parts[7].animations[1].value = "roll"
+    //geofs.aircraft.instance.definition.parts[8].animations[1].value = "roll"
+    }
+        if (geofs.aircraft.instance.id == 2857) {
+    geofs.aircraft.instance.definition.parts[14].animations[0].value = "outerAveragePitch"
+    geofs.aircraft.instance.definition.parts[15].animations[0].value = "outerAveragePitch"
+    geofs.aircraft.instance.definition.parts[14].animations[1].value = "outerAverageRoll"
+    geofs.aircraft.instance.definition.parts[15].animations[1].value = "outerAverageRoll"
+        }
+    }
+    FBWint = setInterval(function(){
+    computePitch();
+    pushInputs();
+    computeOutputs();
+    assignControls();
+    }, 100)
+}
+
+shaLoaded = 0
+loadInterval = setInterval(function(){
+	if (shaLoaded == 0 && geofs.fx.overg.shader) {
+    var scriptSHA = document.createElement("script");
+    scriptSHA.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SSR.js";
+    document.body.appendChild(scriptSHA);
+    shaLoaded = 1
+	}
+}, 1000)
+    var scriptSB = document.createElement("script");
+    scriptSB.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sound-changes.js";
+    document.body.appendChild(scriptSB);
+    scriptSB.onload = function () {
+        addEffects();
+    };
+    var scriptCCI = document.createElement("script");
+    scriptCCI.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/fix.js";
+    document.body.appendChild(scriptCCI);
+    scriptCCI.onload = function () {
+        redoPFDSHUDS();
+    };
+    
+    (() => {var EJScript = document.createElement('script'); EJScript.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/ejections.js";document.body.appendChild(EJScript);})()
+
+
+/*geofs.aircraft.instance.animationValue.spoilerArming = 0
+
+controls.setters.setSpoilerArming = {
+    label: "Spoiler Arming",
+    set: function () {
+        if (!geofs.aircraft.instance.groundContact && controls.airbrakes.position === 0){
+        geofs.aircraft.instance.animationValue.spoilerArming = 1
+        }
+    },
+};
+
+controls.setters.setAirbrakes= {
+    label: "Air Brakes",
+    set: function () {
+        controls.airbrakes.target = 0 == controls.airbrakes.target ? 1 : 0;
+        controls.setPartAnimationDelta(controls.airbrakes);
+        geofs.aircraft.instance.animationValue.spoilerArming = 0
+    },
+}
+
+instruments.definitions.spoilers.overlay.overlays[3] = {
+    anchor: { x: 0, y: 0 },
+    size: { x: 50, y: 50 },
+    position: { x: 0, y: 0 },
+    animations: [{ type: "show", value: "spoilerArming", when: [1] }],
+    class: "control-pad-dyn-label green-pad",
+    text: "SPLR<br/>ARM",
+    drawOrder: 1
+};
+
+instruments.init(geofs.aircraft.instance.setup.instruments)
+
+$(document).keydown(
+    function (e) {
+        if (e.which == 16){ //spoiler arming key is shift
+            controls.setters.setSpoilerArming.set()
+        }
+    }
+)
+
+setInterval(
+    function(){
+        if(geofs.aircraft.instance.animationValue.spoilerArming === 1 && geofs.aircraft.instance.groundContact && controls.airbrakes.position === 0){
+            controls.setters.setAirbrakes.set();
+            geofs.aircraft.instance.animationValue.spoilerArming = 0;
+        }
+    },
+100) */
+
+//add spoiler indicator for those planes that do not have it by themselves
+setInterval(
+    function(){
+        if(["3292", "3054"].includes(geofs.aircraft.instance.id) && geofs.aircraft.instance.setup.instruments["spoilers"] === undefined){
+            geofs.aircraft.instance.setup.instruments["spoilers"] = "";
+            instruments.init(geofs.aircraft.instance.setup.instruments);
+        }
+    },
+500)
+
+    var scriptKCAS = document.createElement("script");
+    scriptKCAS.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/RealisticKIAS.js";
+    document.body.appendChild(scriptKCAS);
+    scriptKCAS.onload = function () {
+        runTrueKias();
+    };
+    var scriptML = document.createElement("script");
+    scriptML.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/LiverySelector.js";
+    document.body.appendChild(scriptML);
+    localStorage.favorites = "";
+
+    function lookBack() {
+        if (geofs.camera.currentModeName == "cockpit" && geofsAddonAircraft.isF117 != 1) {
+            geofs.camera.currentDefinition.position[0] = geofs.aircraft.instance.definition.cameras.cockpit.position[0] + geofs.camera.definitions["cockpit"].orientations.current[0] / 1000;
+        }
+    }
+    lookBackInterval = setInterval(function () {
+        lookBack();
+    }, 100);
+    
+    function checkOverlays() {
+    if (Object.values(geofs.runways.nearRunways)[0].icao == "VNLK") {
+       void(0)
+    } else {
+    geofs.runways.setRunwayModelVisibility(0)
+    }
+    };checkOverlayInt = setInterval(function(){checkOverlays()},1000)
+    
+    // console.log("Original immersion SFX scripts copyright Ariakim Taiyo");
+    // console.log("Modified by NVB9 and Kolos26");
+    
+    // //variable to tell if the script has run or not
+    // var b737Sounds = 0
+    // soundInt = null;
+    // tcasIntervalAnnounce = null;
+    // effectInterval = null;
+    // accelInt = null;
+    // flexInterval = null;
+    
+    // function checkForBoeing737() {
+    // if (geofs.aircraft.instance.aircraftRecord.name.includes("Boeing") && geofs.aircraft.instance.aircraftRecord.name.includes("737")) { //if the aircraft currently being flown is a 737
+    // if (b737Sounds != geofs.aircraft.instance.id){ //if the script hasn't already run on this aircraft
+    // //preventing errors
+    //         clearInterval(soundInt);
+    //         clearInterval(tcasIntervalAnnounce);
+    //         clearInterval(accelInt);
+    //         clearInterval(flexInterval);
+    // //running the script
+    // var script737 = document.createElement('script'); 
+    // script737.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SFX_737.js";
+    // document.body.appendChild(script737);
+    // script737.onload = function(){clearInterval(tcasIntervalAnnounce)};
+    
+    // //script has run now, so we change scriptHasRun to avoid having the script execute multiple times per aircraft instance
+    // //this avoids massive lag
+    // b737Sounds = geofs.aircraft.instance.id
+    //       }
+    //    }
+    // //if the aircraft isn't a 737
+    // else {
+    // //clearing the script when the aircraft isn't a 737 to avoid filling up the console with errors
+    // if (typeof soundInt != undefined) {
+    //    clearInterval(soundInt)
+    //    clearInterval(tcasIntervalAnnounce)
+    //    clearInterval(accelInt)
+    //    clearInterval(flexInterval)
+    // } else {
+    // void(0)
+    // };
+    // //making sure the script can run again next time a 737 is selected
+    //     b737Sounds = 0
+    //    }
+    // }
+    
+    // //running the above function once per second
+    // checkInterval = setInterval(function(){
+    // checkForBoeing737()
+    // }, 1000)
+    
+    // var b777sounds = new Boolean(0)
+    
+    // function checkForBoeing777() {
+    
+    // if (geofs.aircraft.instance.aircraftRecord.name.includes("Boeing") && geofs.aircraft.instance.aircraftRecord.name.includes("777")) {
+    // if (b777sounds == 0){
+    
+    // var script777 = document.createElement('script'); 
+    // script777.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SFX_777.js";
+    // document.body.appendChild(script777);
+    // script777.onload = function (){change777s()}
+    
+    // b777sounds = 1
+    //       }
+    //    } else {
+    // if (typeof effectInterval != undefined) {
+    //    clearInterval(effectInterval)
+    // } else {
+    //    void(0)
+    // }
+    //     b777sounds = 0
+    //    }
+    // }
+    
+    // checkInterval1 = setInterval(function(){
+    // checkForBoeing777()
+    // }, 1000)
+    
+    // //variable to tell if the script has run or not
+    //     var a320Sounds = 0
+    
+    //     function checkFora320() {
+    //     if (geofs.aircraft.instance.id == 2865 || geofs.aircraft.instance.id == 2870 || geofs.aircraft.instance.id == 2871 || geofs.aircraft.instance.id == 242 || geofs.aircraft.instance.id == 2843 || geofs.aircraft.instance.id == 2899 || geofs.aircraft.instance.id == 24 || geofs.aircraft.instance.id == 2973) { //if the aircraft currently being flown is a320 or a220 or a350
+	// if (a320Sounds != geofs.aircraft.instance.id){ //if the script hasn't already run on this aircraft
+    //     //preventing errors
+    //             clearInterval(soundInt);
+    //             clearInterval(tcasIntervalAnnounce);
+    //             clearInterval(accelInt);
+    //             clearInterval(flexInterval);
+    //     //running the script
+    //     var a320script = document.createElement('script'); 
+    //     a320script.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SFX_a320.js";
+    //     document.body.appendChild(a320script);
+    
+    //     //script has run now, so we change scriptHasRun to avoid having the script execute multiple times per aircraft instance
+    //     //this avoids massive lag
+    //     a320Sounds = geofs.aircraft.instance.id
+    //         }
+    //     }
+    //     //if the aircraft isn't a 320
+    //     else {
+    //         //making sure the script can run again next time a 320 is selected
+    //         a320Sounds = 0
+    //     }
+    //     }
+    
+    //     //running the above function once per second
+    //     checkInterval2 = setInterval(function(){
+    //     checkFora320()
+    //     }, 1000)
+    
+    
+    
+    //Add them in the places where the normal PFDs & HUDs are
+    
+    geofs.calculatedAOA = null;
+    function normalizeAroll() {
+       var normalized = null;
+    if (geofs.animation.values.aroll < 0) {
+       normalized = geofs.animation.values.aroll * -1
+    } else {
+       normalized = geofs.animation.values.aroll
+    }
+       return normalized
+    }
+    function verifyAoA() {
+       var verticalComp = normalizeAroll() - geofs.animation.values.atilt
+        var zeroedGLoad = geofs.animation.values.loadFactor - 1
+        var climbrate = geofs.animation.values.verticalSpeed //in ft/min or something similar
+        var pitchControl = geofs.animation.values.pitch
+        var rollControl = geofs.animation.values.roll
+        var originalAOA = geofs.animation.values.aoa
+        geofs.calculatedAOA = pitchControl//for now
+    }
+    aoaInterval = setInterval(function(){verifyAoA()},10)
+    
+    //now includes machmeter!
+    instruments.renderers.genericHUD = function (a) {
+            var b = exponentialSmoothing("smoothKias", geofs.animation.getValue("kias"), 0.1),
+                c = [256, 256],
+                d = a.canvasAPI.context;
+            a.canvasAPI.clear();
+            d.fillStyle = "#00ff00";
+            d.strokeStyle = "#00ff00";
+            d.save();
+            d.beginPath();
+            d.arc(c[0], c[1], 200, 0, 6.28);
+            d.clip();
+            a.drawGrads(a.canvasAPI, {
+                position: c,
+                center: [100, 100],
+                zero: [100, 100],
+                size: [200, 200],
+                orientation: "y",
+                direction: -1,
+                rotation: geofs.animation.getValue("aroll") * DEGREES_TO_RAD,
+                value: -geofs.animation.getValue("atilt"),
+                interval: 5,
+                pixelRatio: 20,
+                pattern: [
+                    [
+                        {
+                            length: 40,
+                            offset: { x: -50, y: 0 },
+                            legend: !0,
+                            legendOffset: { x: -80, y: 5 },
+                            process: function (e) {
+                                return Math.round(e);
+                            },
+                        },
+                        {
+                            length: 40,
+                            offset: { x: 10, y: 0 },
+                            legend: !0,
+                            legendOffset: { x: 60, y: 5 },
+                            process: function (e) {
+                                return Math.round(e);
+                            },
+                        },
+                    ],
+                ],
+            });
+            d.restore();
+            a.canvasAPI.drawRotatedSprite({ image: a.images.overlays, origin: [248, 0], size: [36, 28], center: [18, 210], destination: [256, 256], rotation: geofs.animation.getValue("aroll") * DEGREES_TO_RAD, translation: [0, 0] });
+            d.drawImage(a.images.background, 0, 0);
+            // a.canvasAPI.drawSprite({
+            //     image: a.images.overlays,
+            //     origin: [230, 239],
+            //     size: [51, 30],
+            //     center: [26, 15],
+            //     destination: c,
+            //         //, clamp(100 * geofs.calculatedAOA, -150, 150)
+            //     translation: [clamp(6.5 * geofs.animation.getValue("NAV1CourseDeviation"), -75, 75), clamp(300 * geofs.calculatedAOA, -250, 250)],
+            // });
+            d.lineWidth = 2;
+            d.font = "20px sans-serif";
+            d.textAlign = "right";
+            d.save();
+            d.beginPath();
+            d.rect(84, 116, 70, 280);
+            d.rect(68, 243, 75, 25);
+            d.clip("evenodd");
+            a.drawGrads(a.canvasAPI, {
+                position: [104, 116],
+                zero: [0, 140],
+                size: [50, 280],
+                orientation: "y",
+                direction: -1,
+                value: b,
+                interval: 10,
+                pixelRatio: 1.3,
+                align: "right",
+                pattern: [
+                    [{ length: -10, legend: !0, legendOffset: { x: -14, y: 7 } }],
+                    [{ length: -7 }],
+                    [{ length: -7 }],
+                    [{ length: -7 }],
+                    [{ length: -7 }],
+                    [{ length: -10 }],
+                    [{ length: -7 }],
+                    [{ length: -7 }],
+                    [{ length: -7 }],
+                    [{ length: -7 }],
+                ],
+                sprites: [{ image: a.images.overlays, origin: [143, 0], size: [25, 27], center: [-8, 13], value: geofs.autopilot.values.speed, clamp: !0 }],
+            });
+            d.restore();
+            d.save();
+            d.beginPath();
+            d.rect(358, 116, 47, 280);
+            d.rect(368, 243, 75, 25);
+            d.clip("evenodd");
+            a.drawGrads(a.canvasAPI, {
+                position: [358, 116],
+                zero: [0, 140],
+                size: [47, 280],
+                orientation: "y",
+                direction: -1,
+                value: geofs.animation.getValue("altitude"),
+                interval: 100,
+                pixelRatio: 0.13,
+                pattern: [
+                    [
+                        {
+                            length: 10,
+                            legend: !0,
+                            legendOffset: { x: 47, y: 7 },
+                            process: function (e) {
+                                return Math.round(e / 100);
+                            },
+                        },
+                    ],
+                    [{ length: 7 }],
+                    [{ length: 7 }],
+                    [{ length: 7 }],
+                    [{ length: 7 }],
+                ],
+                sprites: [
+                    { image: a.images.overlays, origin: [223, 0], size: [25, 62], center: [5, 31], value: geofs.autopilot.values.altitude, clamp: !0 },
+                    { image: a.images.overlays, origin: [383, 0], size: [42, 255], center: [0, 0], value: geofs.animation.values.haglFeet },
+                ],
+            });
+            d.restore();
+            d.save();
+            d.beginPath();
+            d.rect(173, 440, 165, 30);
+            d.clip("evenodd");
+            d.textAlign = "center";
+            a.drawGrads(a.canvasAPI, {
+                position: [173, 440],
+                zero: [82, 0],
+                size: [165, 30],
+                orientation: "x",
+                direction: 1,
+                value: geofs.animation.getValue("heading360"),
+                interval: 5,
+                pixelRatio: 7.25,
+                pattern: [
+                    [
+                        {
+                            length: 10,
+                            legend: !0,
+                            legendOffset: { x: 0, y: 30 },
+                            process: function (e) {
+                                return Math.round(fixAngle360(e) / 10);
+                            },
+                        },
+                    ],
+                    [{ length: 5 }],
+                ],
+            });
+            d.restore();
+            d.font = "20px sans-serif";
+            d.textAlign = "right";
+            d.fillText(Math.round(geofs.animation.getValue("kias")), 129, 264);
+            d.fillText(Math.round(geofs.animation.getValue("altitude")), 441, 264);
+            d.fillText(Math.round(geofs.calculatedAOA), 410, 426);
+            d.fillText("M " + geofs.animation.getValue("mach").toFixed(2), 150, 425);
+            c = b = a = "";
+            geofs.autopilot.on && ((a = "SPD"), "NAV" == geofs.autopilot.mode ? ((b = "NAV"), geofs.autopilot.VNAV ? ((b = "LOC"), (c = "G/S")) : (c = "ALT")) : ((b = "HDG"), (c = "ALT")));
