@@ -6298,3 +6298,703 @@ window.removeCloseStreetlights = async function() {
 
     // Populate grid with streetlights for spatial indexing
     for (let i = 0; i < window.rPos.length; i++) {
+        const pos = window.rPos[i][0];
+        const cellKey = getCellKey(pos);
+
+        if (!grid.has(cellKey)) grid.set(cellKey, []);
+        grid.get(cellKey).push(i);
+    }
+
+    // Check each cell and its neighbors
+    for (let [cellKey, indices] of grid) {
+        const [cellX, cellY] = cellKey.split(',').map(Number);
+
+        // Check the cell and its 8 neighbors
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                const neighborKey = `${cellX + dx},${cellY + dy}`;
+                const neighborIndices = grid.get(neighborKey) || [];
+
+                for (let i = 0; i < indices.length; i++) {
+                    const index1 = indices[i];
+                    const pos1 = window.rPos[index1][0];
+
+                    for (let j = 0; j < neighborIndices.length; j++) {
+                        const index2 = neighborIndices[j];
+                        if (index1 >= index2) continue;
+
+                        const pos2 = window.rPos[index2][0];
+                        const distance = calculateDistance(pos1, pos2);
+
+                        if (distance <= 5) indicesToRemove.add(index2);
+                    }
+                }
+            }
+        }
+    }
+
+    // Batch remove streetlights in reverse order to avoid index shifting issues
+    const sortedIndices = Array.from(indicesToRemove).sort((a, b) => b - a);
+    for (const index of sortedIndices) {
+        window.geofs.api.viewer.entities.remove(window.roads[index]);
+    }
+
+    // Clean up arrays
+    for (const index of sortedIndices) {
+        window.rPos.splice(index, 1);
+        window.roads.splice(index, 1);
+    }
+
+    console.log(`${sortedIndices.length} streetlights removed.`);
+};
+
+
+// ============================================================
+// MODULE: twlights.js
+// ============================================================
+(function() {
+    'use strict';
+    window.twLights = [];
+    window.errs = 0;
+    window.twLC = {
+        oldChunks: [],
+        newChunks: [],
+        toAdd: [],
+        toRemove: []
+    };
+    if (!window.gmenu || !window.GMenu) {
+        console.log("Taxiway Lights getting GMenu");
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+            .then(response => response.text())
+            .then(script => {eval(script);})
+            .then(() => {setTimeout(afterGMenu, 100);});
+    } else afterGMenu()
+    async function afterGMenu() {
+        const twLM = new window.GMenu("Taxiway Lights", "twL");
+        twLM.addItem("Update Interval (seconds): ", "UpdateInterval", "number", 0, '5');
+        twLM.addItem("Green/Yellow Light Size: ", "GSize", "number", 0, "0.05");
+        twLM.addItem("Blue Light Size: ", "BSize", "number", 0, "0.07");
+        console.log("TwL Enabled? " + localStorage.getItem("twLEnabled"));
+        setTimeout(() => {window.updateLights();}, 100*Number(localStorage.getItem("twLUpdateInterval")));
+        //Update notification
+        async function checkForUpdates() {
+            // Disabled for localization
+            return;
+        }
+        checkForUpdates();
+
+        //ANONYMOUS TRACKING DISABLED
+        async function track() {
+            return;
+        }
+    }
+})();
+function fpe(num) {
+    return Number(num.toFixed(3));
+}
+
+window.updateLights = async function() {
+    if (window.geofs.cautiousWithTerrain == false && (localStorage.getItem("twLEnabled") == 'true')) { //timeRatio is basically how bright the terrain should be--at noon it's 0, at midnight it's 1
+        let chunkSize = 0.04;
+        let renderDist = 3;
+        function chunkTick() {
+            //Chunks creation
+            let lla = window.geofs.aircraft.instance.llaLocation;
+            window.twLC.newChunks = [];
+            for (let v = -renderDist; v <= renderDist; v++) {
+                let arr = [];
+                for (let h = -renderDist; h <= renderDist; h++) {
+                    arr.push({min: [fpe(Math.floor(lla[0]/chunkSize)*chunkSize + v*chunkSize), fpe(Math.floor(lla[1]/chunkSize)*chunkSize + h*chunkSize)], max: [fpe(Math.floor(lla[0]/chunkSize)*chunkSize + (v+1)*chunkSize), fpe(Math.floor(lla[1]/chunkSize)*chunkSize + (h+1)*chunkSize)]});
+                }
+                window.twLC.newChunks.push(arr);
+            }
+            //Testing new/old chunks
+            if (JSON.stringify(window.twLC.newChunks) == JSON.stringify(window.twLC.oldChunks)) {
+                return;
+            }
+            window.twLC.toAdd = [];
+            window.twLC.toRemove = [];
+            //To Add
+            for (let a = 0; a < window.twLC.newChunks.length; a++) {
+                for (let b = 0; b < window.twLC.newChunks.length; b++) {
+                    if (JSON.stringify(window.twLC.oldChunks).indexOf(JSON.stringify(window.twLC.newChunks[a][b])) == -1) { //If it hadn't existed before, it's new
+                        window.twLC.toAdd.push([a,b]);
+                    }
+                    if ((window.twLC.oldChunks[a] && window.twLC.oldChunks[a][b]) && JSON.stringify(window.twLC.newChunks).indexOf(JSON.stringify(window.twLC.oldChunks[a][b])) == -1) { //If it doesn't exist anymore, it's old
+                        window.twLC.toRemove.push([a,b]);
+                    }
+                }
+            }
+            for (let f in window.twLC.toRemove) {
+                let bds = window.twLC.oldChunks[window.twLC.toRemove[f][0]][window.twLC.toRemove[f][1]];
+                let bound = `${fpe(bds.min[0])}, ${fpe(bds.min[1])}, ${fpe(bds.max[0])}, ${fpe(bds.max[1])}`;
+                for (let l in window.twLights[bound]) {
+                    window.geofs.api.viewer.entities.remove(window.twLights[bound][l]);
+                }
+                delete window.twLights[bound];
+            }
+            function addTheStuff(e) {
+                if (e == window.twLC.toAdd.length) {
+                    return;
+                }
+                console.log("adding " + e);
+                let bds = window.twLC.newChunks[window.twLC.toAdd[e][0]][window.twLC.toAdd[e][1]]; //bounds, no formatting
+                let bound = `${fpe(bds.min[0])}, ${fpe(bds.min[1])}, ${fpe(bds.max[0])}, ${fpe(bds.max[1])}`;
+                if (e == 45) {
+                    console.log([window.twLC.newChunks, window.twLC.oldChunks]);
+                }
+                window.getTwD(bound, bound); //getTaxiwayData
+                setTimeout(() => {window.getTwDE(bound, bound)}, 150); //getTaxiwayDataEdgeless
+                setTimeout(() => {addTheStuff(e+1)},300); // Throttling logic to ensure requests stay within the upstream limit of 10 requests per second.
+            }
+            addTheStuff(0);
+            window.twLC.oldChunks = window.twLC.newChunks;
+        }
+        chunkTick();
+    } else if ((localStorage.getItem("twLEnabled") != 'true')) {
+        window.lastBounds = "";
+        //for (let i in window.twLights) {
+        //    window.geofs.api.viewer.entities.remove(window.twLights[i]);
+        //}
+        //window.twLights = [];
+        //console.log("It's either daytime or the taxiway lights aren't enabled, lights are off");
+    }
+    setTimeout(() => {window.updateLights();}, 1000*Number(localStorage.getItem("twLUpdateInterval")));
+}
+
+function calculateBearing(lon1, lat1, lon2, lat2) {
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const lat1Rad = lat1 * Math.PI / 180;
+    const lat2Rad = lat2 * Math.PI / 180;
+
+    const y = Math.sin(dLon) * Math.cos(lat2Rad);
+    const x = Math.cos(lat1Rad) * Math.sin(lat2Rad) -
+          Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
+
+    const bearing = Math.atan2(y, x) * 180 / Math.PI;
+    return (bearing + 360) % 360; // Normalize to 0-360 degrees
+}
+
+// Function to calculate the offset points based on the bearing.
+function calculateOffsetPoint(lon, lat, bearing, offsetDistance) {
+    const R = 6378137; // Earth's radius in meters
+
+    // Convert bearing to radians
+    const bearingRad = (bearing + 90) * Math.PI / 180; // +90 to make it perpendicular
+
+    // Calculate offset in radians
+    const dLat = offsetDistance * Math.cos(bearingRad) / R;
+    const dLon = offsetDistance * Math.sin(bearingRad) / (R * Math.cos(Math.PI * lat / 180));
+
+    return {
+        lonPlus: lon + dLon * 180 / Math.PI,
+        latPlus: lat + dLat * 180 / Math.PI,
+        lonMinus: lon - dLon * 180 / Math.PI,
+        latMinus: lat - dLat * 180 / Math.PI
+    };
+}
+
+function interpolatePoints(start, end, interval) {
+    const [lon1, lat1] = start;
+    const [lon2, lat2] = end;
+
+    const distance = Math.sqrt(
+        Math.pow(lon2 - lon1, 2) + Math.pow(lat2 - lat1, 2)
+    );
+
+    const numPoints = Math.max(Math.floor(distance / interval), 1);
+    const interpolated = [];
+
+    for (let i = 0; i <= numPoints; i++) {
+        const ratio = i / numPoints;
+        const lon = lon1 + (lon2 - lon1) * ratio;
+        const lat = lat1 + (lat2 - lat1) * ratio;
+        interpolated.push([lon, lat, 0]);
+    }
+
+    return interpolated;
+}
+
+async function getTaxiwayData(bounds) {
+    const overpassUrl = 'https://overpass.private.coffee/api/interpreter';
+    const query = `
+        [out:json];
+        (
+            way["aeroway"="taxiway"]({{bbox}})[ref];
+        );
+        out body;
+        >;
+        out skel qt;
+    `;
+    const bbox = bounds;
+
+    try {
+        const response = await fetch(overpassUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Project-Name": "GeoFS Taxiway Lights",
+                "From": "https://tylerbmusic.github.io/contact"
+            },
+            body: "data=" + encodeURIComponent(query.replace('{{bbox}}', bbox))
+        });
+        const data = await response.json();
+
+        const taxiwayEdges = [];
+        const nodes = {};
+
+        data.elements.forEach(element => {
+            if (element.type === 'node') {
+                nodes[element.id] = element;
+            }
+        });
+
+        data.elements.forEach(element => {
+            if (element.type === 'way') {
+                const wayNodes = element.nodes.map(nodeId => {
+                    const node = nodes[nodeId];
+                    if (node) {
+                        return [node.lon, node.lat, 0];
+                    }
+                }).filter(Boolean);
+
+                if (wayNodes.length > 1) {
+                    const edgePoints = [];
+                    const interval = 0.0002 + ((Math.random()-0.5)*0.00005); // Adjust for desired spacing
+
+                    for (let i = 0; i < wayNodes.length - 1; i++) {
+                        const segmentPoints = interpolatePoints(wayNodes[i], wayNodes[i + 1], interval);
+                        const bearing = calculateBearing(
+                            wayNodes[i][0], wayNodes[i][1],
+                            wayNodes[i + 1][0], wayNodes[i + 1][1]
+                        );
+
+                        // Calculate edge points for each interpolated point
+                        const offset = 10; // 10 meters from centerline
+                        const interpolatedEdgePoints = segmentPoints.map(([lon, lat, alt]) => {
+                            const offsetPoints = calculateOffsetPoint(lon, lat, bearing, offset);
+                            return [
+                                [offsetPoints.lonPlus, offsetPoints.latPlus, alt],
+                                [offsetPoints.lonMinus, offsetPoints.latMinus, alt]
+                            ];
+                        });
+
+                        edgePoints.push(...interpolatedEdgePoints);
+                    }
+
+                    taxiwayEdges.push(edgePoints);
+                }
+            }
+        });
+
+        return taxiwayEdges;
+    } catch (error) {
+        console.error('Error fetching taxiway data:', error);
+    }
+}
+
+///
+async function getTaxiwayDataEdgeless(bounds) {
+    const overpassUrl = 'https://overpass.private.coffee/api/interpreter';
+    const query = `
+        [out:json];
+        (
+            way["aeroway"="taxiway"]({{bbox}});
+        );
+        out body;
+        >;
+        out skel qt;
+    `;
+    const bbox = bounds;
+
+    try {
+        const response = await fetch(overpassUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Project-Name": "GeoFS Taxiway Lights",
+                "From": "https://tylerbmusic.github.io/contact"
+            },
+            body: "data=" + encodeURIComponent(query.replace('{{bbox}}', bbox))
+        });
+        const data = await response.json();
+
+        const centerlinePoints = [];
+        const nodes = {};
+
+        data.elements.forEach(element => {
+            if (element.type === 'node') {
+                nodes[element.id] = element;
+            }
+        });
+
+        data.elements.forEach(element => {
+            if (element.type === 'way') {
+                const wayNodes = element.nodes.map(nodeId => {
+                    const node = nodes[nodeId];
+                    if (node) {
+                        return [node.lon, node.lat, 0];
+                    }
+                }).filter(Boolean);
+
+                if (wayNodes.length > 1) {
+                    const interval = 0.00007 + ((Math.random()-0.5)*0.00002); // Semi-random spacing
+
+                    for (let i = 0; i < wayNodes.length - 1; i++) {
+                        const segmentPoints = interpolatePoints(wayNodes[i], wayNodes[i + 1], interval);
+                        centerlinePoints.push(...segmentPoints);
+                    }
+                }
+            }
+        });
+
+        return centerlinePoints;
+    } catch (error) {
+        console.error('Error fetching taxiway data:', error);
+    }
+}
+window.getTwD = async function(bounds, id) {
+    getTaxiwayData(bounds).then(edges => {
+        if (edges && edges.length && edges.length > 0) {
+            edges.forEach(edge => {
+                edge.forEach(([plus, minus]) => {
+                    [plus, minus].forEach(epos => {
+                        const apos = window.geofs.getGroundAltitude([epos[1], epos[0], epos[2]]).location;
+                        apos[2] += 0.3556; //Offset 14 inches from the ground
+                        const pos = window.Cesium.Cartesian3.fromDegrees(apos[1], apos[0], apos[2]);
+                        if (pos[2] < 0) {
+                            window.errs++;
+                            pos[2] = 0 - pos[2];
+                        }
+                        if (!window.twLights[id]) {
+                            window.twLights[id] = [];
+                        }
+                        window.twLights[id].push(
+                            window.geofs.api.viewer.entities.add({
+                                position: pos,
+                                billboard: {
+                                    image: "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/bluelight.png",
+                                    scale: Number(localStorage.getItem("twLBSize")) * (1 / window.geofs.api.renderingSettings.resolutionScale),
+                                    scaleByDistance: { //May or may not work
+                                        "near": 1,
+                                        "nearValue": 0.5,
+                                        "far": 1500,
+                                        "farValue": 0.2
+                                    },
+                                    translucencyByDistance: new window.Cesium.NearFarScalar(10, 0.6, 10e3, 0.1)
+                                },
+                            }));
+                    });
+                });
+            });
+        }
+    });
+};
+
+///
+function checkProximityToRunway(pos) {
+    // Retrieve and cache nearest runway if not already cached
+    if (!window.runwayThresholds) {
+        window.runwayThresholds = [];
+        for (var i in window.geofs.runways.nearRunways) {
+            const nearestRunway = window.geofs.runways.nearRunways[i];
+            const l0 = nearestRunway.threshold1;
+            const l1 = nearestRunway.threshold2;
+            window.runwayThresholds.push(interpolatePoints([l0[1], l0[0]], [l1[1], l1[0]], 5 / 111000));
+        }
+    }
+
+    const distSquared = (40 / 111000) ** 2; // Square distance to avoid sqrt calculations
+    const posLon = pos[0];
+    const posLat = pos[1];
+
+    // Check if any point along the runway centerline is within the set proximity distance
+    for (var v in window.runwayThresholds) {
+        if (window.runwayThresholds[v].some(([lon, lat]) => {
+            const deltaLon = lon - posLon;
+            const deltaLat = lat - posLat;
+            return deltaLon ** 2 + deltaLat ** 2 < distSquared;
+        })) {
+            return true; // Return true if any point is within proximity
+        }
+    }
+    return false; // Return false if no points were close enough
+}
+///
+
+window.getTwDE = async function(bounds, id) {
+    getTaxiwayDataEdgeless(bounds).then(centerline => {
+        var z = 0;
+        if (centerline && centerline.length && centerline.length > 0) {
+            centerline.forEach(epos => {
+                z++;
+                const apos = window.geofs.getGroundAltitude([epos[1], epos[0], epos[2]]).location;
+                apos[2] += 0.3556; //Offset 14 inches from the ground
+                const pos = window.Cesium.Cartesian3.fromDegrees(apos[1], apos[0], apos[2]);
+
+                // Calculate distance to runway and set light color accordingly
+                const isNearRunway = checkProximityToRunway(epos); // Calculate proximity
+                const lightImage = (z%2 == 0 && isNearRunway) ?
+                      "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/yellowlight.png" :
+                "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/greenlight.png";
+
+                if (pos[2] < 0) {
+                    window.errs++;
+                    pos[2] = 0 - pos[2];
+                }
+                if (!window.twLights[id]) {
+                    window.twLights[id] = [];
+                }
+                window.twLights[id].push(
+                    window.geofs.api.viewer.entities.add({
+                        position: pos,
+                        billboard: {
+                            image: lightImage,
+                            scale: Number(localStorage.getItem("twLGSize")) * (1 / window.geofs.api.renderingSettings.resolutionScale),
+                            scaleByDistance: {
+                                "near": 1,
+                                "nearValue": 0.5,
+                                "far": 2000,
+                                "farValue": 0.2
+                            },
+                            translucencyByDistance: new window.Cesium.NearFarScalar(10, 0.6, 10e3, 0.1)
+                        },
+                    })
+                );
+            });
+        }
+    });
+};
+
+
+// ============================================================
+// MODULE: twsigns.js
+// ============================================================
+const workerScript = () => {
+    //This function was written by AI
+    function calculateAngle(p1, p2, p3) {
+        if (p1 && p2 && p3) {
+            const dx1 = p2[1] - p1[1];
+            const dy1 = p2[0] - p1[0];
+            const dx2 = p3[1] - p2[1];
+            const dy2 = p3[0] - p2[0];
+
+            const mag1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+            const mag2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+            if (mag1 === 0 || mag2 === 0) {
+                return null; // Return null if vectors are zero-length
+            }
+
+            let cosineAngle = (dx1 * dx2 + dy1 * dy2) / (mag1 * mag2);
+            cosineAngle = Math.min(1, Math.max(-1, cosineAngle)); // Clamp to [-1, 1]
+
+            const angle = Math.acos(cosineAngle);
+            return angle * (180 / Math.PI); // Convert to degrees
+        }
+        return null; // Default return value if points are missing
+    }
+    //This function was partially written with AI.
+    async function getTwMData(bounds) {
+        const bbox = bounds;
+        const overpassUrl = 'https://overpass-api.de/api/interpreter';
+        const query = `[out:json];
+        (
+            way["aeroway"="taxiway"]({{bbox}})[ref];
+            way["aeroway"="runway"]({{bbox}})[ref];
+        );
+        out body;
+        >;
+        out skel qt;
+    `;
+
+        try {
+            const response = await fetch(`${overpassUrl}?data=${encodeURIComponent(query.replaceAll('{{bbox}}', bbox))}`);
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async function getTwM(bounds, twSAngle) {
+        var theNodes;
+        var theWays = {};
+        getTwMData(bounds).then(twMD => {
+            const nodeWays = {};
+            const intersections = [];
+            const nodes = [];
+            twMD.elements.forEach(e => { //e=element
+                if (e.type == 'node') {
+                    nodes[e.id] = [e.lat, e.lon];
+                }
+            });
+            theNodes = nodes;
+
+            // Collect the taxiway names for each node
+            twMD.elements.forEach(element => {
+                if (element.type === 'way' && element.tags && element.tags.ref) {
+                    const taxiwayName = element.tags.ref;
+                    console.log([element.tags.ref, element.nodes]);
+                    theWays[element.tags.ref] = element.nodes;
+                    element.nodes.forEach(nodeId => {
+                        if (!nodeWays[nodeId]) {
+                            nodeWays[nodeId] = new Set();
+                        }
+                        nodeWays[nodeId].add(taxiwayName);
+                    });
+                }
+            });
+            var toFilter = [];
+            // Function to filter out nodes based on angles
+            for (let w in theWays) {
+                let toFilter = [];
+
+                for (let n = theWays[w].length - 2; n > 0; n--) {
+                    let angle = calculateAngle(theNodes[theWays[w][n - 1]], theNodes[theWays[w][n]], theNodes[theWays[w][n + 1]]);
+
+                    // Adjust threshold if needed
+                    if (angle > Number(twSAngle) && angle < 40) { //LocSt twSAngle
+                        toFilter.push(n);
+                    } else {
+                        console.log(`Skipped node ${n} with angle: ${angle}`); // Debug: log skipped nodes
+                    }
+                }
+
+                // Remove nodes in reverse to avoid index shift
+                for (let i = toFilter.length - 1; i >= 0; i--) {
+                    let index = toFilter[i];
+                    console.log(`Removing node ${index} with angle: ${calculateAngle(theNodes[theWays[w][index - 1]], theNodes[theWays[w][index]], theNodes[theWays[w][index + 1]])}`); // Debug: log removed nodes
+                    theWays[w].splice(index, 1);
+                }
+            }
+
+
+            // Filter nodes that are intersections (appear in multiple ways)
+            twMD.elements.forEach(element => {
+                if (element.type === 'node' && nodeWays[element.id] && nodeWays[element.id].size > 1) {
+                    const intersectingTaxiways = Array.from(nodeWays[element.id]).join(" ");
+                    intersections.push([element.lat, element.lon, intersectingTaxiways, element.id]);
+                }
+            });
+            var twSize = 0;
+            for (var i in twMD.elements) {
+                if (twMD.elements[i].type == 'way' && twMD.elements[i].tags.aeroway == 'runway' && twMD.elements[i].tags.width && Number(twMD.elements[i].tags.width) > twSize) {
+                    twSize = Number(twMD.elements[i].tags.width);
+                }
+            }
+            if (twSize == 0) {
+                console.log("twSize == 0");
+                twSize = 45;
+            }
+            const theData = {data: intersections, theNodes: theNodes, theWays: theWays, twSize: twSize};
+            self.postMessage({type: "getTwM", data: theData});
+        });
+    }
+    self.addEventListener('message', function(event) {
+        if (event.data.type == 'getTwM') {
+            getTwM(event.data.data[0], event.data.data[1]);
+        }
+    });
+};
+(function() {
+    'use strict';
+    window.twM = [];
+    window.twS = [];
+    window.theWays = [];
+    window.theNodes = [];
+    window.twSPos = [];
+    window.twSOri = [];
+    window.twSignWorker = new Worker(URL.createObjectURL(new Blob([`(${workerScript})()`], { type: 'application/javascript' })));
+    window.twSignWorker.addEventListener('message', function(event) {
+        if (event.data.type == 'getTwM' && (localStorage.getItem("twSEnabled") == "true")) {
+            window.theWays = event.data.data.theWays;
+            window.theNodes = event.data.data.theNodes;
+            window.twSize = event.data.data.twSize / 3;
+            window.setTwM(event.data.data.data); //That's a lot of data!
+        } else if (event.data.type == 'testLabel') {
+            var pos = event.data.data.pos;
+            window.geofs.api.viewer.entities.add({
+                position: window.Cesium.Cartesian3.fromDegrees(pos[0], pos[1], window.geofs.api.viewer.scene.globe.getHeight(window.Cesium.Cartographic.fromDegrees(pos[0], pos[1]))),
+                label: {
+                    text: event.data.data.text
+                }
+            });
+        }
+    });
+    if (!window.gmenu || !window.GMenu) {
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+            .then(response => response.text())
+            .then(script => {eval(script);})
+            .then(() => {setTimeout(afterGMenu, 100);});
+    } else afterGMenu()
+    function afterGMenu() {
+        const twSM = new window.GMenu("Taxiway Signs", "twS");
+        twSM.addItem("Render distance (degrees): ", "RenderDist", "number", 0, 0.05);
+        twSM.addItem("Update Interval (seconds): ", "UpdateInterval", "number", 0, 4);
+        twSM.addItem("Filter Angle (Filters taxiway points greater than the specified angle): ", "Angle", "number", 0, 1);
+        //twSM.addItem("desc", "ls", "type", 0, "defaultValue");
+        setInterval(() => {window.updateMarkers();}, 1000*Number(localStorage.getItem("twSUpdateInterval"))); //LocSt twSUpdateInterval
+    }
+})();
+window.updateMarkers = async function() {
+    if (window.geofs.cautiousWithTerrain == false) {
+        var renderDistance = Number(localStorage.getItem("twSRenderDist")); //Render distance, in degrees. //LocSt twSRenderDist
+        var l0 = Math.floor(window.geofs.aircraft.instance.llaLocation[0]/renderDistance)*renderDistance;
+        var l1 = Math.floor(window.geofs.aircraft.instance.llaLocation[1]/renderDistance)*renderDistance;
+        var bounds = (l0) + ", " + (l1) + ", " + (l0+renderDistance) + ", " + (l1+renderDistance);
+        if (!window.MLastBounds || (window.MLastBounds != bounds)) {
+            //Remove existing markers
+            for (let i = 0; i < window.twM.length; i++) {
+                window.geofs.api.viewer.scene.primitives.remove(window.twM[i]);
+            }
+            for (let i in window.twS) {
+                window.geofs.api.viewer.scene.primitives.remove(window.twS[i]);
+            }
+            window.twM = [];
+            window.twS = [];
+            window.theWays = [];
+            window.theNodes = [];
+            console.log("Markers removed, placing new ones");
+            //Place new markers
+            window.twSignWorker.postMessage({type: "getTwM", data: [bounds, localStorage.getItem("twSAngle")]});
+        }
+        window.MLastBounds = bounds;
+    }
+}
+function offsetCoordinate(coord, angle, offsetDistance) {
+    const [lat, lon, int, id] = coord;
+    const earthRadius = 6371000; // Earth radius in meters
+
+    const offsetLat = lat + (offsetDistance / earthRadius) * (180 / Math.PI) * Math.cos(angle);
+    const offsetLon = lon + (offsetDistance / earthRadius) * (180 / Math.PI) * Math.sin(angle) / Math.cos(lat * Math.PI / 180);
+
+    return [offsetLat, offsetLon];
+}
+window.setTwM = async function(intersections) {
+    var heading = 0; //HEADING IS IN RADIANS!
+    console.log(intersections);
+    intersections.forEach(epos => {
+        //heading = Math.atan2(segmentEnd[1] - segmentStart[1], segmentEnd[0] - segmentStart[0]);
+        const splitTw = epos[2].split(" ");
+        for (var hFlip = 0; hFlip <= 1; hFlip++) { //headingFlip, in a couple of years I will hate myself for naming variables like this
+            for (var sTw = 0; sTw < splitTw.length; sTw++) { //splitTaxiway
+                const twNodeIds = window.theWays[splitTw[sTw]];
+                var twArr = splitTw;
+                var twP = twArr.splice(sTw, 1)[0];
+                twArr.unshift(twP);
+                var twStr = twArr.join(" ");
+                var hNode;
+                var notReversed = true;
+                var twBothWays = true;
+                for (var i = 0; i < twNodeIds.length; i++) {
+                    if (twNodeIds[i] < epos[3] /*&& i == 0*/) { //Logic to handle if the sign is at the start of a taxiway
+                        hNode = window.theNodes[twNodeIds[i]];
+                        notReversed = false;
+                        break;
+                    } else if (twNodeIds[i] > epos[3]) { //If the taxiway continues in the opposite direction, use that node.
+                        hNode = window.theNodes[twNodeIds[i]];
+                        break;
+                    }
+                }
+                for (var z = 0; z < twNodeIds.length; z++) {
