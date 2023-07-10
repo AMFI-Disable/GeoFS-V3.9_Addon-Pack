@@ -4198,3 +4198,703 @@ f14aInterval = setInterval(function(){runF14A()},10)
                     if (geofs.aircraft.instance.groundContact && geofs.autothrottle.armed) {
                         controls.throttle = 0;
                         $(document).trigger("autothrottleOff");
+                        return;
+                    }
+                    var b = a - geofs.utils.now();
+                    var c = b / 1E3;
+                    try {
+                        geofs.autothrottle.tick(c, b);
+                    } catch (err) {
+                        geofs.autothrottle.handleError(err);
+                    }
+                }
+            },
+            /**
+             * Standardized error handling to prevent the script from crashing the simulator.
+             */
+            handleError: function (a) {
+                console.error(a);
+                ui.notification.show('An error with autothrottle occured, autothrottle is now disabled. Check console for more details.');
+                geofs.debug.log("meatbroc autothrottle error");
+                geofs.api.removeFrameCallback(geofs.autothrottle.callbackID);
+                $(document).trigger("autothrottleOff");
+                geofs.autothrottle.error = !0;
+            },
+            _ktsSpeedAttributes: {smallstep: "5", stepthreshold: "100", step: "10", maxlength: "4", max: "9999"},
+            _machSpeedAttributes: {smallstep: "0.01", decimals: "2", max: "10"}
+        };
+        geofs.autothrottle.init();
+        /**
+         * Autopilot API Extensions
+         * Overrides default GeoFS autopilot functions to integrate the Autothrottle's 
+         * enhanced speed and landing modes.
+         */
+
+        /**
+         * Custom Landing Mode (Arming) toggle.
+         * Renamed to "Landing Mode" in the UI for better user understanding.
+         */
+        geofs.autopilot.setArm = function (a) {
+            const b = JSON.parse(a);
+            geofs.autothrottle.armed = b;
+            $("#armOn").toggleClass("green-pad active", b);
+            $("#armOff").toggleClass("green-pad active", !b);
+        };
+
+        /**
+         * Manages switching between KNOTS and MACH speed hold modes.
+         * Updates the UI inputs to reflect the correct precision (e.g., 2 decimals for Mach).
+         */
+        geofs.autopilot.setAutothrottleSpeedMode = function (e) {
+            const isMach = "mach" == e;
+            $("#machMode").toggleClass("green-pad active", isMach);
+            $("#knotsMode").toggleClass("green-pad active", !isMach);
+            
+            const $input = $(".ext-autothrottle-speed");
+            let currentTarget = parseFloat($input.val());
+            if (isNaN(currentTarget) || currentTarget <= 0) {
+                currentTarget = geofs.autopilot.values.speed || (isMach ? 0.8 : 250);
+            }
+            
+            const kias = geofs.animation.values.kias;
+            const mach = geofs.animation.values.mach;
+            const prevMode = this.speedMode; // "mach" or "kias" / "knots"
+
+            if (isMach && prevMode !== "mach") {
+                // Transitioning Knots -> Mach: convert knots value to mach
+                if (kias && kias > 50 && mach) {
+                    currentTarget = (currentTarget / kias) * mach;
+                } else {
+                    currentTarget = currentTarget / 661.47;
+                }
+            } else if (!isMach && prevMode === "mach") {
+                // Transitioning Mach -> Knots: convert mach value to knots
+                if (kias && kias > 50 && mach) {
+                    currentTarget = (currentTarget / mach) * kias;
+                } else {
+                    currentTarget = currentTarget * 661.47;
+                }
+                currentTarget = Math.round(currentTarget);
+            }
+
+            this.setSpeedMode(isMach ? "mach" : "kias");
+            this.setSpeed(currentTarget);
+            
+            // UI Sync: Update attributes before value to ensure correct clamping/formatting.
+            $input.removeAttr("max");
+            $input.attr(isMach ? geofs.autothrottle._machSpeedAttributes : geofs.autothrottle._ktsSpeedAttributes);
+            $input.val(isMach ? currentTarget.toFixed(6) : Math.round(currentTarget)); // Increased precision to maintain exact user values
+
+            if (window.V39_NOTIF) {
+                V39_NOTIF.info(`🔄 Speed Mode Switched to ${isMach ? 'Mach' : 'Knots'} (${currentTarget.toFixed(isMach ? 2 : 0)} ${isMach ? 'M' : 'kts'})`);
+            }
+        }
+
+        if (window.V39_NOTIF) {
+            window.V39_NOTIF.success("GeoFS-V3.9_Autothrottle Loaded.");
+        }
+        console.log("[GeoFS-V3.9_Autothrottle] >> Autothrottle System Initialized.");
+    }
+    window.executeOnEventDone("geofsInitialized", main);
+})();
+
+
+// ============================================================
+// MODULE: autoland.js
+// ============================================================
+// Importing types for TypeScript support
+// <reference types="jquery" />
+// <reference types="@geps/geofs-types" />
+
+// Function to wait for a condition to be true
+async function waitForCondition(checkFunction) {
+  return new Promise((resolve) => {
+    const intervalId = setInterval(() => {
+      if (checkFunction()) {
+        // Check if the condition is met
+        clearInterval(intervalId); // Stop checking
+        resolve(); // Resolve the promise
+      }
+    }, 100); // Check every 100 milliseconds
+  });
+}
+
+// Function to wait until the UI is ready
+async function waitForUI() {
+  return waitForCondition(() => typeof ui !== "undefined"); // Checks if 'ui' is defined
+}
+
+// Function to wait until the aircraft instance is ready
+async function waitForInstance() {
+  return waitForCondition(() => geofs.aircraft && geofs.aircraft.instance); // Checks if aircraft instance exists
+}
+
+// Function to wait until the instruments are available
+async function waitForInstruments() {
+  return waitForCondition(
+    () => instruments && geofs.aircraft.instance.setup.instruments // Checks if instruments are set up
+  );
+}
+
+// Main function to handle the autospoilers functionality
+async function autospoilers() {
+  await waitForUI(); // Wait for the UI to be ready
+  await waitForInstance(); // Wait for the aircraft instance to be ready
+
+  // Show a notification about the new spoiler arming key
+ // ui.notification.show("Note: spoiler arming key has now changed to Shift.");
+
+  // Initialize the spoiler arming status
+  geofs.aircraft.instance.animationValue.spoilerArming = 0;
+
+  // Function to toggle spoiler arming status
+  const toggleSpoilerArming = () => {
+    // Check if the aircraft is not on the ground and airbrakes are off
+    if (
+      !geofs.aircraft.instance.groundContact &&
+      controls.airbrakes.position < 0.03 
+    ) {
+      // Toggle the spoiler arming value between 0 and 1
+      geofs.aircraft.instance.animationValue.spoilerArming =
+        geofs.aircraft.instance.animationValue.spoilerArming === 0 ? 1 : 0;
+    }
+  };
+
+  // Function to toggle airbrakes
+  const toggleAirbrakes = () => {
+    // Toggle airbrakes position between 0 and 1
+    //need to override the spoiler controls first
+    controls.airbrakes.target = controls.airbrakes.target === 0 ? 1 : 0;
+    controls.setPartAnimationDelta(controls.airbrakes); // Update the animation delta
+    geofs.aircraft.instance.animationValue.spoilerArming = 0; // Reset spoiler arming
+  };
+
+  // Define control setter for spoiler arming
+  controls.setters.setSpoilerArming = {
+    label: "Spoiler Arming", // Label for the control
+    set: toggleSpoilerArming, // Function to execute when toggled
+  };
+
+  // Define control setter for airbrakes
+  controls.setters.setAirbrakes = {
+    label: "Air Brakes", // Label for the control
+    set: toggleAirbrakes, // Function to execute when toggled
+  };
+
+  await waitForInstruments(); // Wait for the instruments to be available
+
+  // Set up an overlay for the spoilers in the instruments
+  instruments.definitions.spoilers.overlay.overlays[3] = {
+    anchor: { x: 0, y: 0 }, // Position of the overlay
+    size: { x: 50, y: 50 }, // Size of the overlay
+    position: { x: 0, y: 0 }, // Initial position of the overlay
+    animations: [
+      { type: "show", value: "spoilerArming", when: [1] }, // Show conditions
+      { type: "hide", value: "spoilerArming", when: [0] }, // Hide conditions
+    ],
+    class: "control-pad-dyn-label green-pad", // CSS class for styling
+    text: "SPLR<br/>ARM", // Text to display on the overlay
+    drawOrder: 1, // Draw order for layering
+  };
+
+  instruments.init(geofs.aircraft.instance.setup.instruments); // Initialize the instruments
+  //set the camera again
+  let camera = geofs.camera.currentMode;
+  let fov = geofs.camera.currentFOV;
+  window.geofs.camera.set(camera);
+  window.geofs.camera.setFOV(fov);
+
+
+  // Event listener for keyboard events
+  $(document).keydown(function (e) {
+    if (e.which === 16 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      // Check if the "Shift" key is pressed
+      console.log("Toggled Arming Spoilers"); // Log the action
+      controls.setters.setSpoilerArming.set(); // Execute the toggle function
+    }
+  });
+//START OF JOYSTICK SUPPORTED CODE//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+let throttleOverridden = false;
+let currentThrottleJoystickInput = 0;
+let revThrottleOverridden = false;
+let currentRevThrottleJoystickInput = 0;
+let spoilersOverridden = false;
+let currentSpoilersJoystickInput = 0;
+
+
+if (!controls.axisSetters.throttle.__original) {
+    controls.axisSetters.throttle.__original = controls.axisSetters.throttle.process;
+}
+if (!controls.axisSetters.throttlereverse.__original) {
+    controls.axisSetters.throttlereverse.__original = controls.axisSetters.throttlereverse.process;
+}
+if (!controls.axisSetters.airbrakesPosition.__original) {
+    controls.axisSetters.airbrakesPosition.__original = controls.axisSetters.airbrakesPosition.process;
+}
+
+controls.axisSetters.throttle.process = function (e, t) {
+    // Always track joystick input
+    currentThrottleJoystickInput = e;
+    //console.log(currentThrottleJoystickInput)
+    if (throttleOverridden) {
+        // block joystick from reaching sim
+        return;
+    }
+    controls.axisSetters.throttle.__original(e, t);
+};
+controls.axisSetters.throttlereverse.process = function (e, t) {
+    // Always track joystick input
+    currentRevThrottleJoystickInput = e;
+    //console.log(currentRevThrottleJoystickInput)
+    if (revThrottleOverridden) {
+        // block joystick from reaching sim
+        return;
+    }
+    controls.axisSetters.throttlereverse.__original(e, t);
+};
+controls.axisSetters.airbrakesPosition.process = function (e, t) {
+    // Always track joystick input
+    currentSpoilersJoystickInput = e;
+    //console.log(currentSpoilersJoystickInput)
+    if (spoilersOverridden) {
+        // block joystick from reaching sim
+        return;
+    }
+    controls.axisSetters.airbrakesPosition.__original(e, t);
+};
+
+
+setInterval(function () {
+  // Check for landing + reversers
+  if (
+    geofs.aircraft.instance.animationValue.spoilerArming === 1 &&
+    geofs.aircraft.instance.groundContact &&
+    !throttleOverridden &&
+    !spoilersOverridden
+  ) { //deploy spoilers and reverse thrust. only runs once on touchdown
+    if (controls.airbrakes.position < 0.03) {
+        spoilersOverridden = true;
+        const originalSpoilers = controls.axisSetters.airbrakesPosition.process;
+        window.lastSpoilersInput = currentSpoilersJoystickInput;
+        controls.setters.setAirbrakes.set(); //deploy spoilers
+    } 
+    geofs.aircraft.instance.animationValue.spoilerArming = 0;
+
+    // Arm reverse thrust takeover
+    throttleOverridden = true; //switch to dummy throttle
+    const originalThrottle = controls.axisSetters.throttle.process; //original throttle logic
+    window.lastThrottleInput = currentThrottleJoystickInput; //save throttle at the moment of touchdown
+    revThrottleOverridden = true; //switch to dummy throttle
+    const originalRevThrottle = controls.axisSetters.throttlereverse.process; //original throttle logic
+    window.lastRevThrottleInput = currentRevThrottleJoystickInput; //save throttle at the moment of touchdown
+
+    setTimeout(() => {
+      geofs.autopilot.turnOff();
+      $(document).trigger("autothrottleOff");
+    }, 200);
+    setTimeout(() => {
+      controls.throttle = -9; // reverse thrust
+    }, 200);
+  } //end of deploying spoilers and reverse thrust
+
+  // --- Detect joystick movement to restore throttle control ---
+  if (throttleOverridden) {
+    if (Math.abs(currentThrottleJoystickInput - window.lastThrottleInput) > 0.01) { // buffer for noise
+      // restore
+      throttleOverridden = false;
+      console.log("throttle control handed back to pilot");
+    }
+  }  
+  if (revThrottleOverridden) {
+    if (Math.abs(currentRevThrottleJoystickInput - window.lastRevThrottleInput) > 0.01) { // buffer for noise
+      // restore
+      revThrottleOverridden = false;
+      console.log("throttle/reverse control handed back to pilot");
+    }
+  }
+    // --- Detect joystick movement to restore spoilers control ---
+  if (spoilersOverridden) {
+    if (Math.abs(currentSpoilersJoystickInput - window.lastSpoilersInput) > 0.01) { // buffer for noise
+      // restore
+      spoilersOverridden = false;
+      console.log("spoilers control handed back to pilot");
+    }
+  }
+
+
+    if (geofs.aircraft.instance.animationValue.spoilerArming === 1 && controls.airbrakes.position > 0.03) {
+        geofs.aircraft.instance.animationValue.spoilerArming = 0; // Reset spoiler arming
+    }
+
+  }, 100); // Run this check every 100 milliseconds
+//END OF JOYSTICK SUPPORTED CODE/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // Interval to ensure instruments are set up correctly for specific aircraft IDs
+  setInterval(function () {
+    // Check if the aircraft ID is known and instruments are not initialized
+    if (
+      ["3292", "3054"].includes(geofs.aircraft.instance.id) &&
+      geofs.aircraft.instance.setup.instruments["spoilers"] === undefined
+    ) {
+      geofs.aircraft.instance.setup.instruments["spoilers"] = ""; // Initialize spoilers instrument
+      instruments.init(geofs.aircraft.instance.setup.instruments); // Reinitialize instruments
+    }
+  }, 500); // Run this check every 500 milliseconds
+}
+
+// Call the autospoilers function to start the script
+autospoilers();
+
+
+// ============================================================
+// MODULE: gpws.js
+// ============================================================
+const gpwsAircraft= new Set ([5002, 5409, 5516, 5314, 5316, 3292, 1023, 1021, 1018, 1016, 2706, 3575, 2843, 2899, 5156, 2878, 2879, 3140, 3534, 2870, 2871, 2865, 5086, 242, 4646, 2856, 244, 4631, 2951, 2153, 2973, 239, 2788, 2418, 2420, 2426, 2395, 3011, 2772, 2769, 4140, 5203, 2003, 3054, 252, 5193, 238, 4743, 4745, 237, 4764, 4402, 240, 3179, 3180, 235, 2386, 2706, 3307, 247, 5073, 1069, 2461, 2004, 3289, 3436, 236, 3036, 2943, 3341, 2700, 4017, 3460, 5038, 2556, 2976, 3109, 2892, 2752, 5, 6, 4, 10, 20, 24, 25, 26, 1014, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1015, 1017, 1020]);
+setInterval(() => {
+    let checkNumber = Number(geofs.aircraft.instance.id);
+    let hasGPWS = gpwsAircraft.has(checkNumber);
+    window.soundsOn = hasGPWS;
+    console.log(`Has GPWS? ${hasGPWS} `);
+}, 1000);
+
+    let masterAPlayed = false;
+    let bankAnglePlayed = false;
+    let stallPlayed = false;
+
+    'use strict';
+    window.soundsToggleKey = "none"; //CHANGE THIS LETTER TO CHANGE THE KEYBOARD SHORTCUT TO TOGGLE THE SOUNDS.
+    window.soundsOn = true; //This decides whether callouts are on by default or off by default.
+    // Total Independence: Local Audio Base Path
+    const audioBase = 'https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/';
+
+    window.a2500 = new Audio(`${audioBase}2500.wav`);
+    window.a2000 = new Audio(`${audioBase}2000.wav`);
+    window.a1000 = new Audio(`${audioBase}1000.wav`);
+    window.a500 = new Audio(`${audioBase}500.wav`);
+    window.a400 = new Audio(`${audioBase}400.wav`);
+    window.a300 = new Audio(`${audioBase}300.wav`);
+    window.a200 = new Audio(`${audioBase}200.wav`);
+    window.a100 = new Audio(`${audioBase}100.wav`);
+    window.a50 = new Audio(`${audioBase}50.wav`);
+    window.a40 = new Audio(`${audioBase}40.wav`);
+    window.a30 = new Audio(`${audioBase}30.wav`);
+    window.a20 = new Audio(`${audioBase}20.wav`);
+    window.a10 = new Audio(`${audioBase}10.wav`);
+    window.aRetard = new Audio(`${audioBase}retard.wav`);
+    window.a5 = new Audio(`${audioBase}5.wav`);
+    window.stall = new Audio(`${audioBase}stall.wav`);
+    window.glideSlope = new Audio(`${audioBase}glideslope.wav`);
+    window.tooLowFlaps = new Audio(`${audioBase}too-low_flaps.wav`);
+    window.tooLowGear = new Audio(`${audioBase}too-low_gear.wav`);
+    window.apDisconnect = new Audio(`${audioBase}ap-disconnect.wav`);
+    window.minimumBaro = new Audio(`${audioBase}minimum.wav`);
+    window.dontSink = new Audio(`${audioBase}dont-sink.wav`);
+    window.masterA = new Audio(`${audioBase}masterAlarm.wav`);
+    window.bankAngle = new Audio(`${audioBase}bank-angle.wav`);
+    window.overspeed = new Audio(`${audioBase}overspeed.wav`);
+    window.justPaused = false;
+    window.masterA.loop = true;
+    window.bankAngle.loop = true;
+    window.overspeed.loop = true;
+    window.iminimums = false;
+    window.i2500 = false;
+    window.i2000 = false;
+    window.i1000 = false;
+    window.i500 = false;
+    window.i400 = false;
+    window.i300 = false;
+    window.i200 = false;
+    window.i100 = false;
+    window.i50 = false;
+    window.i40 = false;
+    window.i30 = false;
+    window.i20 = false;
+    window.i10 = false;
+    window.i7 = false;
+    window.i5 = false;
+    window.gpwsRefreshRate = 100;
+    window.willTheDoorFallOff = false;
+    window.didAWheelFall = false;
+    window.DEGREES_TO_RAD = window.DEGREES_TO_RAD || 0.017453292519943295769236907684886127134428718885417254560971914401710091146034494436822415696345094822123044925073790592483854692275281012398474218934047117319168245015010769561697553581238605305168789;
+    window.RAD_TO_DEGREES = window.RAD_TO_DEGREES || 57.295779513082320876798154814105170332405472466564321549160243861202847148321552632440968995851110944186223381632864893281448264601248315036068267863411942122526388097467267926307988702893110767938261;
+    window.METERS_TO_FEET = window.METERS_TO_FEET || 3.280839895;
+    function isInRange(i, a, vs) {
+        if (i >= 100) {
+            if ((i <= a+10) && (i >= a-10)) {
+                return true;
+            }
+        } else if (i >= 10) {
+            if ((i < a+4) && (i > a-4)) {
+                return true;
+            }
+        } else {
+            if (i <= a+1 && i >= a-1) {
+                return true;
+            }
+        }
+        return false;
+    }
+    window.wasAPOn = false;
+    //window.isRadioPanelOpen = false;
+    var flightDataElement = document.getElementById('flightDataDisplay1');
+    if (!flightDataElement) {
+        var bottomDiv = document.getElementsByClassName('geofs-ui-bottom')[0];
+        flightDataElement = document.createElement('div');
+        flightDataElement.id = 'flightDataDisplay1';
+        flightDataElement.classList = 'mdl-button';
+setInterval(() => {
+if (flight.recorder.playing) {
+    flightDataElement.style.display = "none";
+} else {
+    flightDataElement.style.display = "inline";
+}
+}, 100);
+        bottomDiv.appendChild(flightDataElement);
+    }
+
+    flightDataElement.innerHTML = `
+                <input style="background: 0 0; border: none; border-radius: 2px; color: #000; display: inline-block; padding: 0 8px; width: 60px;" placeholder="Minimums (Baro)" id="minimums">
+            `;
+
+
+    function updateGPWS() {
+        // Check if geofs.animation.values is available
+        if (typeof geofs.animation.values != 'undefined' && !geofs.isPaused()) {
+            if (window.justPaused) {
+                window.justPaused = false;
+            }
+            window.willTheDoorFallOff = geofs.aircraft.instance.aircraftRecord.name.includes("Boeing");
+            window.isAsOldAsYourMom = geofs.aircraft.instance.aircraftRecord.name.includes("757") || geofs.aircraft.instance.aircraftRecord.name.includes("767");
+            if (window.isAsOldAsYourMom && !window.wasAsOldAsYourMom) {
+                window.a2500 = new Audio(`${audioBase}b2500.wav`);
+                window.a2000 = new Audio(`${audioBase}b2000.wav`);
+                window.a1000 = new Audio(`${audioBase}o1000.wav`);
+                window.a500 = new Audio(`${audioBase}o500.wav`);
+                window.a400 = new Audio(`${audioBase}o400.wav`);
+                window.a300 = new Audio(`${audioBase}o300.wav`);
+                window.a200 = new Audio(`${audioBase}o200.wav`);
+                window.a100 = new Audio(`${audioBase}o100.wav`);
+                window.a50 = new Audio(`${audioBase}o50.wav`);
+                window.a40 = new Audio(`${audioBase}o40.wav`);
+                window.a30 = new Audio(`${audioBase}o30.wav`);
+                window.a20 = new Audio(`${audioBase}o20.wav`);
+                window.a10 = new Audio(`${audioBase}o10.wav`);
+                window.a5 = new Audio(`${audioBase}b5.wav`);
+                window.stall = new Audio(`${audioBase}bstall.wav`);
+                window.glideSlope = new Audio(`${audioBase}oglideslope.wav`);
+                window.tooLowFlaps = new Audio(`${audioBase}otoo-low_flaps.wav`);
+                window.tooLowGear = new Audio(`${audioBase}otoo-low_gear.wav`);
+                window.apDisconnect = new Audio(`${audioBase}bap-disconnect.wav`);
+                window.minimumBaro = new Audio(`${audioBase}ominimums.wav`);
+                window.dontSink = new Audio(`${audioBase}odont-sink.wav`);
+                window.masterA = new Audio(`${audioBase}bmasterAlarm.wav`);
+                window.bankAngle = new Audio(`${audioBase}obank-angle.wav`);
+                window.overspeed = new Audio(`${audioBase}boverspeed.wav`);
+                window.masterA.loop = true;
+                window.bankAngle.loop = true;
+                window.overspeed.loop = true;
+            } else if (window.willTheDoorFallOff && !window.didAWheelFall && !window.isAsOldAsYourMom) {
+                window.a2500 = new Audio(`${audioBase}b2500.wav`);
+                window.a2000 = new Audio(`${audioBase}b2000.wav`);
+                window.a1000 = new Audio(`${audioBase}b1000.wav`);
+                window.a500 = new Audio(`${audioBase}b500.wav`);
+                window.a400 = new Audio(`${audioBase}b400.wav`);
+                window.a300 = new Audio(`${audioBase}b300.wav`);
+                window.a200 = new Audio(`${audioBase}b200.wav`);
+                window.a100 = new Audio(`${audioBase}b100.wav`);
+                window.a50 = new Audio(`${audioBase}b50.wav`);
+                window.a40 = new Audio(`${audioBase}b40.wav`);
+                window.a30 = new Audio(`${audioBase}b30.wav`);
+                window.a20 = new Audio(`${audioBase}b20.wav`);
+                window.a10 = new Audio(`${audioBase}b10.wav`);
+                window.a5 = new Audio(`${audioBase}b5.wav`);
+                window.stall = new Audio(`${audioBase}bstall.wav`);
+                window.glideSlope = new Audio(`${audioBase}bglideslope.wav`);
+                window.tooLowFlaps = new Audio(`${audioBase}btoo-low_flaps.wav`);
+                window.tooLowGear = new Audio(`${audioBase}btoo-low_gear.wav`);
+                window.apDisconnect = new Audio(`${audioBase}bap-disconnect.wav`);
+                window.minimumBaro = new Audio(`${audioBase}bminimums.wav`);
+                window.dontSink = new Audio(`${audioBase}bdont-sink.wav`);
+                window.masterA = new Audio(`${audioBase}bmasterAlarm.wav`);
+                window.bankAngle = new Audio(`${audioBase}bbank-angle.wav`);
+                window.overspeed = new Audio(`${audioBase}boverspeed.wav`);
+                window.masterA.loop = true;
+                window.bankAngle.loop = true;
+                window.overspeed.loop = true;
+            } else if (!window.willTheDoorFallOff && window.didAWheelFall) {
+                window.a2500 = new Audio(`${audioBase}2500.wav`);
+                window.a2000 = new Audio(`${audioBase}2000.wav`);
+                window.a1000 = new Audio(`${audioBase}1000.wav`);
+                window.a500 = new Audio(`${audioBase}500.wav`);
+                window.a400 = new Audio(`${audioBase}400.wav`);
+                window.a300 = new Audio(`${audioBase}300.wav`);
+                window.a200 = new Audio(`${audioBase}200.wav`);
+                window.a100 = new Audio(`${audioBase}100.wav`);
+                window.a50 = new Audio(`${audioBase}50.wav`);
+                window.a40 = new Audio(`${audioBase}40.wav`);
+                window.a30 = new Audio(`${audioBase}30.wav`);
+                window.a20 = new Audio(`${audioBase}20.wav`);
+                window.a10 = new Audio(`${audioBase}10.wav`);
+                window.a5 = new Audio(`${audioBase}5.wav`);
+                window.stall = new Audio(`${audioBase}stall.wav`);
+                window.glideSlope = new Audio(`${audioBase}glideslope.wav`);
+                window.tooLowFlaps = new Audio(`${audioBase}too-low_flaps.wav`);
+                window.tooLowGear = new Audio(`${audioBase}too-low_gear.wav`);
+                window.apDisconnect = new Audio(`${audioBase}ap-disconnect.wav`);
+                window.minimumBaro = new Audio(`${audioBase}minimum.wav`);
+                window.dontSink = new Audio(`${audioBase}dont-sink.wav`);
+                window.masterA = new Audio(`${audioBase}masterAlarm.wav`);
+                window.bankAngle = new Audio(`${audioBase}bank-angle.wav`);
+                window.overspeed = new Audio(`${audioBase}overspeed.wav`);
+                window.masterA.loop = true;
+                window.bankAngle.loop = true;
+                window.overspeed.loop = true;
+            }
+            // Retrieve and format the required values
+            var minimum = ((document.getElementById("minimums") !== null) && document.getElementById("minimums").value !== undefined) ? Number(document.getElementById("minimums").value) : undefined;
+            var agl = (geofs.animation.values.altitude !== undefined && geofs.animation.values.groundElevationFeet !== undefined) ? Math.round((geofs.animation.values.altitude - geofs.animation.values.groundElevationFeet) + (geofs.aircraft.instance.collisionPoints[geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]*3.2808399)) : 'N/A';
+            var verticalSpeed = geofs.animation.values.verticalSpeed !== undefined ? Math.round(geofs.animation.values.verticalSpeed) : 'N/A';
+            //Glideslope calculation
+            var glideslope;
+            if (geofs.animation.getValue("NAV1Direction") && (geofs.animation.getValue("NAV1Distance") !== geofs.runways.getNearestRunway([geofs.nav.units.NAV1.navaid.lat,geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.185)) { //The second part to the if statement prevents the divide by 0 error.
+                glideslope = (geofs.animation.getValue("NAV1Direction") === "to") ? Number((Math.atan(((geofs.animation.values.altitude/3.2808399+(geofs.aircraft.instance.collisionPoints[geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]+0.1))-geofs.nav.units.NAV1.navaid.elevation) / (geofs.animation.getValue("NAV1Distance")+geofs.runways.getNearestRunway([geofs.nav.units.NAV1.navaid.lat,geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.185))*RAD_TO_DEGREES).toFixed(1)) : Number((Math.atan(((geofs.animation.values.altitude/3.2808399+(geofs.aircraft.instance.collisionPoints[geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]+0.1))-geofs.nav.units.NAV1.navaid.elevation) / Math.abs(geofs.animation.getValue("NAV1Distance")-geofs.runways.getNearestRunway([geofs.nav.units.NAV1.navaid.lat,geofs.nav.units.NAV1.navaid.lon,0]).lengthMeters*0.185))*RAD_TO_DEGREES).toFixed(1));
+            } else {
+                glideslope = undefined;
+            } //End Glideslope calculation
+            if (audio.on && window.soundsOn) {
+                if (((geofs.aircraft.instance.stalling && !geofs.aircraft.instance.groundContact) || (geofs.nav.units.NAV1.navaid !== null && (agl > 100 && (glideslope < (geofs.nav.units.NAV1.navaid.slope - 1.5) || (glideslope > geofs.nav.units.NAV1.navaid.slope + 2)))) || (!geofs.aircraft.instance.groundContact && agl < 300 && (geofs.aircraft.instance.definition.gearTravelTime !== undefined) && (geofs.animation.values.gearPosition >= 0.5)) || (!geofs.aircraft.instance.groundContact && agl < 500 && (geofs.animation.values.flapsSteps !== undefined) && (geofs.animation.values.flapsPosition == 0) && window.tooLowGear.paused) || (!geofs.aircraft.instance.groundContact && agl < 300 && geofs.animation.values.throttle > 0.95 && verticalSpeed <= 0) || (Math.abs(geofs.aircraft.instance.animationValue.aroll) > 45)) && window.masterA.paused) {
+                    window.masterA.play();
+                    masterAPlayed = true;
+                } else if (!((geofs.aircraft.instance.stalling && !geofs.aircraft.instance.groundContact) || (geofs.nav.units.NAV1.navaid !== null && (agl > 100 && (glideslope < (geofs.nav.units.NAV1.navaid.slope - 1.5) || (glideslope > geofs.nav.units.NAV1.navaid.slope + 2)))) || (!geofs.aircraft.instance.groundContact && agl < 300 && (geofs.aircraft.instance.definition.gearTravelTime !== undefined) && (geofs.animation.values.gearPosition >= 0.5)) || (!geofs.aircraft.instance.groundContact && agl < 500 && (geofs.animation.values.flapsSteps !== undefined) && (geofs.animation.values.flapsPosition == 0) && window.tooLowGear.paused) || (!geofs.aircraft.instance.groundContact && agl < 300 && geofs.animation.values.throttle > 0.95 && verticalSpeed <= 0) || (Math.abs(geofs.aircraft.instance.animationValue.aroll) > 45)) && !window.masterA.paused) {
+                    if (!masterAPlayed) return;
+                    window.masterA.pause();
+                }
+                if (Math.abs(geofs.aircraft.instance.animationValue.aroll) > 45 && window.bankAngle.paused) {
+                    window.bankAngle.play();
+                    bankAnglePlayed = true;
+                } else if (!(Math.abs(geofs.aircraft.instance.animationValue.aroll) > 45) && !window.bankAngle.paused) {
+                    if (!bankAnglePlayed) return;
+                    window.bankAngle.pause();
+                }
+                if (geofs.aircraft.instance.stalling && !geofs.aircraft.instance.groundContact && window.stall.paused) { //Stall
+                    window.stall.play();
+                    stallPlayed = true;
+                } else if (!window.stall.paused && !geofs.aircraft.instance.stalling) {
+                    if (!stallPlayed) return;
+                    window.stall.pause();
+                }
+                if (geofs.nav.units.NAV1.navaid !== null && (agl > 100 && (glideslope < (geofs.nav.units.NAV1.navaid.slope - 1.5) || (glideslope > geofs.nav.units.NAV1.navaid.slope + 2)) && window.glideSlope.paused)) { //Glideslope
+                    window.glideSlope.play();
+                }
+                if (!geofs.aircraft.instance.groundContact && agl < 300 && (geofs.aircraft.instance.definition.gearTravelTime !== undefined) && (geofs.animation.values.gearPosition >= 0.5) && window.tooLowGear.paused) { //Too Low - Gear (This warning takes priority over the Too Low - Flaps warning)
+                    window.tooLowGear.play();
+                }
+                if (!geofs.aircraft.instance.groundContact && agl < 500 && (geofs.animation.values.flapsSteps !== undefined) && (geofs.animation.values.flapsPosition == 0) && window.tooLowGear.paused && window.tooLowFlaps.paused) { //Too Low - Flaps
+                    window.tooLowFlaps.play();
+                }
+                if (!geofs.autopilot.on && window.wasAPOn) { //Autopilot Disconnect
+                    window.apDisconnect.play();
+                }
+                if (verticalSpeed <= 0) {
+                    if (!geofs.aircraft.instance.groundContact && agl < 300 && geofs.animation.values.throttle > 0.95 && window.dontSink.paused) { //Don't Sink
+                        window.dontSink.play();
+                    }
+                    if ((minimum !== undefined) && (geofs.animation.values.altitude+2 > minimum && minimum > geofs.animation.values.altitude-2) && !window.iminimums) { //Minimum
+                        window.minimumBaro.play();
+                        window.iminimums = true;
+                    }
+                    if (isInRange(2500, agl) && !window.i2500) { //2,500
+                        window.a2500.play();
+                        window.i2500 = true;
+                    }
+                    if (isInRange(2000, agl) && !window.i2000) { //2,000
+                        window.a2000.play();
+                        window.i2000 = true;
+                    }
+                    if (isInRange(1000, agl) && !window.i1000) { //1,000
+                        window.a1000.play();
+                        window.i1000 = true;
+                    }
+                    if (isInRange(500, agl) && !window.i500) { //500
+                        window.a500.play();
+                        window.i500 = true;
+                    }
+                    if (isInRange(400, agl) && !window.i400) { //400
+                        window.a400.play();
+                        window.i400 = true;
+                    }
+                    if (isInRange(300, agl) && !window.i300) { //300
+                        window.a300.play();
+                        window.i300 = true;
+                    }
+                    if (isInRange(200, agl) && !window.i200) { //200
+                        window.a200.play();
+                        window.i200 = true;
+                    }
+                    if (isInRange(100, agl) && !window.i100) { //100
+                        window.a100.play();
+                        window.i100 = true;
+                    }
+                    if (isInRange(50, agl) && !window.i50) { //50
+                        window.a50.play();
+                        window.i50 = true;
+                    }
+                    if (isInRange(40, agl) && !window.i40) { //40
+                        window.a40.play();
+                        window.i40 = true;
+                    }
+                    if (isInRange(30, agl) && !window.i30) { //30
+                        window.a30.play();
+                        window.i30 = true;
+                    }
+                    if (isInRange(20, agl) && !window.i20) { //20
+                        window.a20.play();
+                        window.i20 = true;
+                    }
+                    if (isInRange(10, agl) && !window.i10) { //10
+                        window.a10.play();
+                        window.i10 = true;
+                    }
+                    if (!geofs.aircraft.instance.groundContact && ((agl+(geofs.animation.values.verticalSpeed/60)*2) <= 1.0) && !window.i7) { //Retard 2 seconds from touchdown
+                        window.aRetard.play();
+                        window.i7 = true;
+                    }
+                    if (isInRange(5, agl) && !window.i5) { //5
+                        window.a5.play();
+                        window.i5 = true;
+                    }
+                    window.gpwsRefreshRate = 30;
+                } else if (verticalSpeed > 0) {
+                    if (window.iminimums) {
+                        window.iminimums = false;
+                    }
+                    if (window.i2500) {
+                        window.i2500 = false;
+                    }
+                    if (window.i2000) {
+                        window.i2000 = false;
+                    }
+                    if (window.i1000) {
+                        window.i1000 = false;
+                    }
+                    if (window.i500) {
+                        window.i500 = false;
+                    }
+                    if (window.i400) {
+                        window.i400 = false;
+                    }
+                    if (window.i300) {
+                        window.i300 = false;
+                    }
+                    if (window.i200) {
+                        window.i200 = false;
+                    }
+                    if (window.i100) {
+                        window.i100 = false;
+                    }
+                    if (window.i50) {
+                        window.i50 = false;
+                    }
+                    if (window.i40) {
+                        window.i40 = false;
+                    }
