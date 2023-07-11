@@ -9098,3 +9098,703 @@ window.addEventListener("beforeunload", () => {
                             window.instruments.show();
                             window.sd.cam.modified = !window.sd.cam.modified;
                         });
+                        recoder.addEventListener("dataavailable", (evt) => {
+                            const a = document.createElement("a");
+                            a.href = URL.createObjectURL(evt.data);
+                            a.download = "capture.webm";
+                            a.click();
+                        });
+                    });
+                    document.getElementById("sdPath").addEventListener('click', () => {
+                        if (window.sd.cam.path) {
+                            window.geofs.api.viewer.entities.remove(window.sd.cam.path);
+                            for (let a in window.sd.cam.pathKeyframes) {
+                                window.geofs.api.viewer.entities.remove(window.sd.cam.pathKeyframes[a]);
+                            }
+                            window.sd.cam.pathKeyframes = [];
+                            window.sd.cam.path = null;
+                        } else {
+                            let d = window.sd.cam.data[c];
+                            let arr = [];
+                            for (let j = 0; j < Object.keys(window.sd.cam.data).length; j++) {
+                                arr.push(window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos);
+                                window.sd.cam.pathKeyframes.push(window.geofs.api.viewer.entities.add({
+                                    position: window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos,
+                                    billboard: {
+                                        image: "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/keyframe.png",
+                                        scale: 0.2
+                                    },
+                                }));
+                            }
+
+                            window.sd.cam.path = window.geofs.api.viewer.entities.add({
+                                name: `cameraPath+${Math.random()*1E16}`,
+                                polyline: {
+                                    positions: arr,
+                                    width: 3,
+                                    material: new window.Cesium.PolylineOutlineMaterialProperty({
+                                        outlineWidth: 1,
+                                        outlineColor: window.Cesium.Color.BLACK,
+                                        color: window.Cesium.Color.YELLOW, //Cycle through rainbow colors
+                                    }),
+                                },
+                            });
+                        }
+                    });
+                    document.getElementById("sdTime").addEventListener('input', (e) => {
+                        if (window.sd.paused) {
+                            window.sd.cam.modified = false;
+                        }
+                        window.sd.tickNum = Number(e.target.value);
+                        window.sd.nextTime = Date.now() + window.sd.uTime;
+                    });
+                    document.getElementById("geofs-ui-3dview").addEventListener('mousedown', () => {
+                        window.sd.cam.modified = true;
+                    });
+                }, 400);
+            }
+        }
+        window.sd.playbackInit = function(cT) { //Initialize playback
+            for (let i in window.sd.data) {
+                let d = window.sd.data[i];
+                if (d.enabled && !d.model) {
+                    d.model = new window.geofs.api.Model(null, {
+                        url: d.modelPath,
+                        location: d[d.firstTick].lla,
+                        rotation: d[d.firstTick].htr
+                    });
+                    d.model.setVisibility((cT || window.sd.tickNum) >= d.firstTick);
+                }
+                if ((localStorage.getItem("utilsEnabled") == "true") && d.enabled && !d.smoke && d[d.firstTick].smokeOn !== null) {
+                    window.sd.isSmoke = true;
+                }
+                if ((localStorage.getItem("utilsEnabled") == "true") && d.enabled && !d.flareData && d[d.firstTick].flaresOn !== null) {
+                    window.sd.isFlare = true;
+                }
+                if (d.enabled && !d.map && window.geofs.map.mapActive) {
+                    let mS = d.modelPath.split("/");
+                    let aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
+                    d.map = window.geofs.map.addPlayerMarker((Math.random()*Date.now()).toString(), "blue", `${aircraft} Flight ${i}<br/>${d[d.firstTick].htr[0]}dg<br/>${d[d.firstTick].lla[2]*window.METERS_TO_FEET}ft`);
+                    d.map.update(d[d.firstTick].lla[0], d[d.firstTick].lla[1], d[d.firstTick].htr[0]);
+                }
+            }
+            window.sd.isPlayback = true;
+        }
+
+        //TICK FUNCTIONS//
+        window.sd.tick = function() {
+            if (window.sd.saved && window.sd.window && window.sd.window.document.getElementById("save")) {
+                window.sd.window.document.getElementById("save").className = "saved";
+                window.sd.window.document.getElementById("save").innerHTML = (window.sd.saving) ? `Saving` : `Saved`;
+            } else if (window.sd.window && !window.isRec) {
+                if (window.sd.window.document.getElementById("save")) {
+                    window.sd.window.document.getElementById("save").className = "unsaved";
+                    window.sd.window.document.getElementById("save").innerHTML = `Save`;
+                }
+                if (window.sd.isRec && (localStorage.getItem("sdAutoSave") == "true") && (Date.now() >= (window.sd.lastSaved + 60000*Number(localStorage.getItem("sdSTime"))))) {
+                    window.sendToLS();
+                    window.sd.lastSaved = Date.now() + 60000*Number(localStorage.getItem("sdSTime"));
+                }
+            }
+            if (window.sd.window && window.sd.window.document.getElementById("pause")) {
+                window.sd.window.document.getElementById("pause").innerHTML = (window.sd.paused) ? "Play" : "Pause";
+            }
+            if (document.getElementById("sdPlay")) {
+                document.getElementById("sdPlay").innerHTML = (window.sd.paused) ? "Play" : "Pause";
+            }
+            if (document.getElementById("sdScrn")) {
+                document.getElementById("sdScrn").style.display = (window.instruments.visible) ? "block" : "none";
+            }
+            if (document.getElementById("sdTContainer")) {
+                document.getElementById("sdTContainer").style.display = (window.instruments.visible) ? "block" : "none";
+            }
+            window.sd.uTime = 100 / window.geofs.preferences.simulationSpeed;
+            if (window.sd.data) {
+                for (let i in window.sd.data) {
+                    window.sd.maxTick = Math.max(window.sd.data[i].lastTick, window.sd.maxTick);
+                }
+            }
+            window.sd.currTime = Date.now();
+            window.sd.fac = 1 - (window.sd.nextTime - window.sd.currTime)/window.sd.uTime;
+            window.sd.playbackTick(window.sd.tickNum, ((window.sd.paused || window.geofs.pause) ? 0 : window.sd.fac));
+            window.sd.cam.tick();
+            if (window.sd.paused || window.geofs.pause) {
+                window.sd.nextTime = Date.now() + window.sd.uTime;
+            } else {
+                if (window.sd.fac >= 1) {
+                    window.sd.tickNum++;
+                    window.sd.nextTime += window.sd.uTime;
+                    window.sd.recTick(window.sd.tickNum);
+                    if (window.sd.tickNum > window.sd.maxTick) {
+                        window.sd.maxTick = window.sd.tickNum;
+                    }
+                    window.sd.fac = 1 - (window.sd.nextTime - window.sd.currTime)/window.sd.uTime;
+
+                }
+            }
+            if (window.sd.window) {
+                let t = window.sd.window.document.getElementById("timeSlider");
+                if (t) {
+                    t.max = window.sd.maxTick;
+                    t.value = window.sd.tickNum;
+                }
+                let currTime = window.sd.msToTime(window.sd.tickNum*window.sd.uTime);
+                let maxTime = window.sd.msToTime(window.sd.maxTick*window.sd.uTime);
+                if (window.sd.window.document.getElementById("time")) {
+                    window.sd.window.document.getElementById("time").innerHTML = `${currTime} / ${maxTime}`;
+                }
+            }
+            let u = document.getElementById("sdTime");
+            if (u) {
+                u.max = window.sd.maxTick;
+                u.value = window.sd.tickNum;
+            }
+            requestAnimationFrame(window.sd.tick);
+        };
+        window.sd.recTick = function(cT) {
+            if (window.sd.isRec) {
+                let id = window.sd.data.length - 1;
+                let d = window.sd.data[id][(cT || window.sd.tickNum)];
+                let anims = {};
+                for (let i in window.sd.data[id].animationParts) {
+                    if (window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1])) {
+                        anims[window.sd.data[id].animationParts[i][1]] = window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1]).matrix.clone();
+                    } else if (window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1].toLowerCase())) {
+                        anims[window.sd.data[id].animationParts[i][1]] = window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1].toLowerCase()).matrix.clone();
+                    }
+                }
+                let smokeOn = null;
+                let flaresOn = null;
+                if ((localStorage.getItem("utilsEnabled") == 'true')) {
+                    smokeOn = window.isSmokeOn;
+                    flaresOn = window.emittingFlares;
+                }
+                window.sd.data[id][(cT || window.sd.tickNum)] = {
+                    lla: window.geofs.aircraft.instance.llaLocation,
+                    htr: window.geofs.aircraft.instance.htr,
+                    anims: anims,
+                    smokeOn: smokeOn,
+                    vel: window.geofs.aircraft.instance.velocity,
+                    flaresOn: flaresOn
+                };
+                window.sd.data[id].lastTick = (cT || window.sd.tickNum);
+            }
+        };
+
+        window.sd.playbackTick = function(cT, factor) {
+            try {
+                if (window.sd.isPlayback) {
+                    for (let i in window.sd.data) {
+                        let d = window.sd.data[i];
+                        window.sd.fac = 1 - (window.sd.nextTime - window.sd.currTime)/window.sd.uTime;
+                        let t1 = d[window.sd.tickNum];
+                        let t2 = d[window.sd.tickNum+1];
+                        if (d.enabled == true && t1 && t1.lla && d.model) {
+                            if (window.sd.getDistance(window.geofs.aircraft.instance.llaLocation, t1.lla) <= 1) {
+                                if (t2 && t2.lla) {
+                                    let lla = [
+                                        t1.lla[0] + (t2.lla[0] - t1.lla[0]) * factor,
+                                        t1.lla[1] + (t2.lla[1] - t1.lla[1]) * factor,
+                                        t1.lla[2] + (t2.lla[2] - t1.lla[2]) * factor,
+                                    ];
+                                    let htr = [
+                                        t1.htr[0] + (t2.htr[0] - t1.htr[0]) * factor,
+                                        t1.htr[1] + (t2.htr[1] - t1.htr[1]) * factor,
+                                        t1.htr[2] + (t2.htr[2] - t1.htr[2]) * factor,
+                                    ];
+                                    d.model.setPositionOrientationAndScale(lla, htr, null);
+                                    let mS = window.sd.data[i].modelPath.split("/");
+                                    let aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
+                                    if (d.map) {
+                                        d.map.update(lla[0], lla[1], htr[0], `${aircraft} Flight ${i}<br/>${Math.round(htr[0])}dg<br/>${Math.round(lla[2]*window.METERS_TO_FEET)}ft`);
+                                    } else if (window.geofs.map.mapActive) {
+                                        d.map = window.geofs.map.addPlayerMarker((Math.random()*Date.now()).toString(), "blue", `${aircraft} Flight ${i}<br/>${Math.round(htr[0])}dg<br/>${Math.round(lla[2]*window.METERS_TO_FEET)}ft`);
+                                        d.map.update(lla[0], lla[1], htr[0]);
+                                    }
+                                } else {
+                                    d.model.setPositionOrientationAndScale(t1.lla, t1.htr, null);
+                                    let mS = window.sd.data[i].modelPath.split("/");
+                                    let aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
+                                    if (d.map) {
+                                        d.map.update(t1.lla[0], t1.lla[1], t1.htr[0], `${aircraft} Flight ${i}<br/>${Math.round(t1.htr[0])}dg<br/>${Math.round(t1.lla[2]*window.METERS_TO_FEET)}ft`);
+                                    } else if (window.geofs.map.mapActive) {
+                                        d.map = window.geofs.map.addPlayerMarker((Math.random()*Date.now()).toString(), "blue", `${aircraft} Flight ${i}<br/>${Math.round(t1.htr[0])}dg<br/>${Math.round(t1.lla[2]*window.METERS_TO_FEET)}ft`);
+                                        d.map.update(t1.lla[0], t1.lla[1], t1.htr[0]);
+                                    }
+                                }
+                                if (window.sd.isSmoke) {
+                                    if (!d.smoke && t1.smokeOn) { //Smoke turn on
+                                        d.smoke = new window.geofs.fx.ParticleEmitter({
+                                            off: 0,
+                                            location: t1.lla,
+                                            duration: 1E10,
+                                            rate: .03,
+                                            life: Number(localStorage.getItem("utilsSLife"))*1E3, //60 seconds by default
+                                            easing: "easeOutQuart",
+                                            startScale: Number(localStorage.getItem("utilsSmokeStart")),
+                                            endScale: Number(localStorage.getItem("utilsSmokeEnd")),
+                                            randomizeStartScale: 0.005,
+                                            randomizeEndScale: 0.05,
+                                            startOpacity: 1,
+                                            endOpacity: .4,
+                                            startRotation: "random",
+                                            texture: "whitesmoke"
+                                        });
+                                        d.smoke._options.location = t1.lla;
+                                        d.smoke._options._location = t1.lla;
+                                        if (!window.sd.isFlare) {
+                                            let c = window.sd.hexToRgb(localStorage.getItem("utilsColor")); //c for Color
+                                            window.geofs.fx.setParticlesColor(new window.Cesium.Color(c.r/255, c.g/255, c.b/255, 1));
+                                        }
+                                    } else if (d.smoke && t1.smokeOn) { //Smoke location update
+                                        d.smoke._options.location = t1.lla;
+                                        d.smoke._options._location = t1.lla;
+                                        if (!window.sd.isFlare) {
+                                            let c = window.sd.hexToRgb(localStorage.getItem("utilsColor")); //c for Color
+                                            window.geofs.fx.setParticlesColor(new window.Cesium.Color(c.r/255, c.g/255, c.b/255, 1));
+                                        }
+                                    } else if (d.smoke && !t1.smokeOn) {
+                                        d.smoke.destroy();
+                                        d.smoke = null;
+                                    }
+                                }
+                                if (window.sd.isFlare) {
+                                    if (!d.flareData && t1.flaresOn) { //Flares turn on
+                                        let doRight = window.gmenu.get("utils", "FRight");
+                                        let doLeft = window.gmenu.get("utils", "FLeft");
+                                        let doCenter = window.gmenu.get("utils", "FCenter");
+                                        let doUp = window.gmenu.get("utils", "FUp");
+                                        let num = Number(doRight) + Number(doLeft) + Number(doCenter) + Number(doUp);
+                                        let time = (1000/Number(localStorage.getItem("utilsFRate")))*num;
+                                        let life = 1000*Number(localStorage.getItem("utilsFLife"));
+                                        let nextTime = Date.now();
+                                        let startTime = Date.now();
+                                        d.flareData = {
+                                            doRight: doRight,
+                                            doLeft: doLeft,
+                                            doCenter: doCenter,
+                                            doUp: doUp,
+                                            num: num,
+                                            time: time,
+                                            life: life,
+                                            nextTime: nextTime,
+                                            startTime: startTime
+                                        }
+                                        //doFlare
+                                        if (Date.now() >= d.flareData.nextTime) {
+                                            d.flareData.doRight && window.createFlare(d.flareData.life, [25 + 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Right
+                                            d.flareData.doLeft && window.createFlare(d.flareData.life, [-25 - 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Left
+                                            let rand = Math.random();
+                                            d.flareData.doCenter && window.createFlare(d.flareData.life, [Math.random()*10 - 5, 0, -33], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Center
+                                            d.flareData.doUp && window.createFlare(d.flareData.life, [30, Math.random()*100, 100], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Up
+                                            d.flareData.nextTime = Date.now() + d.flareData.time/2 + (d.flareData.time*Math.random());
+                                        }
+                                    } else if (d.flareData && t1.flaresOn) { //Keep emitting flares
+                                        if (Date.now() >= d.flareData.nextTime) {
+                                            d.flareData.doRight && window.createFlare(d.flareData.life, [25 + 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Right
+                                            d.flareData.doLeft && window.createFlare(d.flareData.life, [-25 - 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Left
+                                            let rand = Math.random();
+                                            d.flareData.doCenter && window.createFlare(d.flareData.life, [Math.random()*10 - 5, 0, -33], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Center
+                                            d.flareData.doUp && window.createFlare(d.flareData.life, [30, Math.random()*100, 100], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Up
+                                            d.flareData.nextTime = Date.now() + d.flareData.time/2 + (d.flareData.time*Math.random());
+                                        }
+                                    } else if (d.flareData && !t1.flaresOn) { //Stop emitting flares
+                                        d.flareData = null;
+                                    }
+                                }
+                                d.model.setVisibility(true);
+                            }
+                        } else if (d.model && d.map) {
+                            d.model.setVisibility(false);
+                            d.map.update(0,0,0);
+                            if (d.smoke) {
+                                d.smoke._on = false;
+                            }
+                        }
+                        if (d.model && d.model._model && d.animations && d.animationParts && t1 && t1.anims) {
+                            try {
+                                for (let i in t1.anims) {
+                                    let m = d.model._model && d.model._model.ready && (d.model._model.getNode(i) || d.model._model.getNode(i.toLowerCase()));
+                                    m.matrix = t1.anims[i];
+                                }
+                            } catch (e) {
+                                console.warn(e);
+                            }
+                        } else if (d.model) {
+                            d.model.setVisibility(false);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        window.sd.stopPlayback = function() {
+            if (window.sd.isPlayback) {
+                for (let i in window.sd.data) {
+                    let d = window.sd.data[i];
+                    if (d.model) {
+                        d.model.removeFromWorld();
+                        d.model = null;
+                    }
+                    if (d.map) {
+                        d.map.destroy();
+                        d.map = null;
+                    }
+                    if (d.smoke) {
+                        d.smoke.destroy();
+                        d.smoke = null;
+                    }
+                    if (d.flareData) {
+                        d.flareData = null;
+                    }
+                }
+                window.sd.isPlayback = false;
+            }
+        };
+
+        //HTML FUNCTIONS//
+        window.sd.addListeners = function() {
+            if (window.sd.window && window.sd.window.document) {
+                window.sd.window.document.body.innerHTML = window.sd.html;
+                setTimeout(() => {
+                    window.sd.window.document.body.innerHTML = window.sd.html;
+                    window.sd.window.document.getElementById("rec").addEventListener('click', () => {
+                        if (window.sd.isRec) {
+                            window.sd.isRec = false;
+                            window.sd.window.document.getElementById("rec").innerHTML = `Start New Recording`;
+                            setTimeout(() => {
+                                window.sd.saved = false;
+                                window.sd.updateHTML();
+                            },250);
+                        } else {
+                            window.sd.recInit(window.sd.tickNum);
+                            window.sd.window.document.getElementById("rec").innerHTML = `Stop Recording`;
+                        }
+                    });
+                    window.sd.window.document.getElementById("pause").addEventListener('click', () => {
+                        window.sd.cam.modified = false;
+                        if (window.sd.paused) {
+                            window.sd.paused = false;
+                            window.sd.window.document.getElementById("pause").innerHTML = `Pause`;
+                        } else {
+                            window.sd.paused = true;
+                            window.sd.window.document.getElementById("pause").innerHTML = `Play`;
+                        }
+                    });
+                    window.sd.window.document.getElementById("playback").addEventListener('click', () => {
+                        if (window.sd.isPlayback) {
+                            window.sd.stopPlayback();
+                            window.sd.window.document.getElementById("playback").innerHTML = `Start Playback`;
+                        } else {
+                            window.sd.playbackInit();
+                            window.sd.window.document.getElementById("playback").innerHTML = `Stop Playback`;
+                        }
+                    });
+                    window.sd.window.document.getElementById("save").addEventListener('click', () => {
+                        if (!window.sd.isRec) {
+                            window.sd.sendToLS();
+                        }
+                    });
+                    window.sd.window.document.getElementById("timeSlider").addEventListener('input', (e) => {
+                        if (window.sd.paused) {
+                            window.sd.cam.modified = false;
+                        }
+                        window.sd.tickNum = Number(e.target.value);
+                        window.sd.nextTime = Date.now() + window.sd.uTime;
+                    });
+                    window.sd.window.document.getElementById("viz").addEventListener('click', () => {
+                        if (window.sd.viz.length) {
+                            console.warn("Visualization already created.");
+                        } else {
+                            const rainbow = [window.Cesium.Color.RED, window.Cesium.Color.ORANGE, window.Cesium.Color.YELLOW, window.Cesium.Color.GREEN, window.Cesium.Color.BLUE, window.Cesium.Color.INDIGO, window.Cesium.Color.VIOLET];
+                            for (let z in window.sd.data) {
+                                let i = window.sd.data[z];
+                                if (i.enabled && window.sd.getDistance(window.geofs.aircraft.instance.llaLocation, i[i.firstTick].lla) <= 0.5) {
+                                    let arr = [];
+                                    for (let j = i.firstTick; j <= Math.min(window.sd.tickNum, i.lastTick); j++) {
+                                        arr.push(i[j].lla[1], i[j].lla[0], i[j].lla[2]);
+                                    }
+                                    window.sd.viz[z.toString()] = window.geofs.api.viewer.entities.add({
+                                        name: `aircraftPath_${z}+${Math.random()*1E16}`,
+                                        polyline: {
+                                            positions: window.Cesium.Cartesian3.fromDegreesArrayHeights(arr),
+                                            width: 5,
+                                            material: new window.Cesium.PolylineOutlineMaterialProperty({
+                                                outlineWidth: 2,
+                                                outlineColor: window.Cesium.Color.BLACK,
+                                                color: rainbow[z % rainbow.length], //Cycle through rainbow colors
+                                            }),
+                                        },
+                                    });
+                                }
+                            }
+                            window.sd.vizI = setInterval(() => {
+                                if (window.sd.viz.length && window.sd.prevTick != window.sd.tickNum) {
+                                    for (let v in window.sd.viz) {
+                                        let i = window.sd.data[v];
+                                        if (window.sd.getDistance(window.geofs.aircraft.instance.llaLocation, i[i.firstTick].lla) <= 0.5) {
+                                            let arr = [];
+                                            for (let j = i.firstTick; j <= Math.min(window.sd.tickNum, i.lastTick); j++) {
+                                                arr.push(i[j].lla[1], i[j].lla[0], i[j].lla[2]);
+                                            }
+                                            window.sd.viz[v].polyline.positions.setValue(window.Cesium.Cartesian3.fromDegreesArrayHeights(arr));
+                                        }
+                                    }
+                                    window.sd.prevTick = window.sd.tickNum;
+                                }
+                            }, 3000);
+                        }
+                    });
+                    window.sd.window.document.getElementById("deviz").addEventListener('click', () => {
+                        if (!window.sd.viz.length) {
+                            console.warn("Visualization already removed.");
+                        } else {
+                            for (let i of window.sd.viz) {
+                                window.geofs.api.viewer.entities.remove(i);
+                            }
+                            window.sd.viz = [];
+                            if (window.sd.vizI) {
+                                clearInterval(window.sd.vizI);
+                            }
+                        }
+
+                    });
+                    window.sd.window.document.addEventListener('close', () => {
+                        window.sd.window = null;
+                        window.sd.html = null;
+                        window.sd.sendToLS();
+                    });
+                    window.sd.window.document.getElementById("camera").addEventListener('click', window.sd.camRecInit);
+                    console.log("Running for loop");
+                    for (let i in window.sd.data) {
+                        let d = window.sd.data[i];
+                        let el = window.sd.window.document.getElementById("cb" + i);
+                        let del = window.sd.window.document.getElementById("del" + i);
+                        let la = window.sd.window.document.getElementById("la" + i);
+                        if (el) {
+                            el.checked = d.enabled;
+                            el.addEventListener('click', () => {
+                                window.sd.data[i].enabled = el.checked;
+                                window.sd.saved = false;
+                            });
+                        }
+                        if (del) {
+                            del.addEventListener('click', () => {
+                                window.sd.saved = false;
+                                window.sd.data.splice(i, 1);
+                                window.sd.updateHTML();
+                            });
+                        }
+                        if (la) {
+                            la.addEventListener('click', () => {
+                                let lla = window.sd.data[i][window.sd.tickNum].lla;
+                                let camLLA = window.geofs.camera.lla;
+                                let from = window.Cesium.Cartesian3.fromDegrees(camLLA[1], camLLA[0], camLLA[2]);
+                                let to = window.Cesium.Cartesian3.fromDegrees(lla[1], lla[0], lla[2]);
+                                // Compute direction vector
+                                let dir = window.Cesium.Cartesian3.subtract(to, from, new window.Cesium.Cartesian3());
+                                window.Cesium.Cartesian3.normalize(dir, dir);
+
+                                // Compute a rotation matrix from local East-North-Up frame
+                                let transform = window.Cesium.Transforms.eastNorthUpToFixedFrame(from);
+                                let invTransform = window.Cesium.Matrix4.inverseTransformation(transform, new window.Cesium.Matrix4());
+                                let localDir = window.Cesium.Matrix4.multiplyByPointAsVector(invTransform, dir, new window.Cesium.Cartesian3());
+                                window.Cesium.Cartesian3.normalize(localDir, localDir);
+
+                                // Heading = rotation around Z (up), Pitch = rotation around Y (right)
+                                let heading = Math.atan2(localDir.x, localDir.y);
+                                let pitch = Math.asin(-localDir.z);
+                                let roll = 0; // usually 0 if no banking
+
+                                // Set the camera
+                                window.geofs.camera.cam.setView({
+                                    destination: from,
+                                    orientation: {
+                                        heading: heading,
+                                        pitch: -pitch,
+                                        roll: roll
+                                    }
+                                });
+                            });
+                        }
+                    }
+                    console.log("Done");
+                }, 500);
+                console.log("Added listeners");
+            } else {
+                setTimeout(window.sd.addListeners, 500);
+            }
+        };
+        window.sd.updateHTML = function() {
+            let tr = ``;
+            for (let i in window.sd.data) {
+                let d = window.sd.data[i];
+                tr += `<tr>
+            <td>${parseInt(i) + 1}</td>
+            <td class="model-path">${d.modelPath}</td>
+            <td>${d.date}</td>
+            <td>${d.time}</td>
+            <td>${window.sd.msToTime(d.firstTick * window.sd.uTime)}</td>
+            <td>${window.sd.msToTime((d.lastTick - d.firstTick) * window.sd.uTime)}</td>
+            <td class="checkbox-cell"><input type="checkbox" id="cb${i}" ${d.enabled ? "checked" : ""}></td>
+            <td><button id="la${i}">Look at aircraft</button></td>
+            <td class="delete-cell"><button class="delete-button" id="del${i}">Delete</button></td>
+        </tr>`;
+            }
+            window.sd.html = `
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.9rem;
+            color: #333;
+            margin: 0;
+            padding: 15px;
+            background-color: #f7f7f7;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .controls-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        .controls-container p {
+            margin-top: 0;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        #timeSlider {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #time {
+            display: block;
+            margin-bottom: 15px;
+            color: #777;
+            font-size: 0.85rem;
+        }
+
+        .controls-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .controls-container button:hover {
+            background-color: #0056b3;
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden; /* To contain the border-radius of header and footer if added */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #dataTable th, #dataTable td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        #dataTable th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #555;
+        }
+
+        #dataTable tr:last-child td {
+            border-bottom: none;
+        }
+
+        #dataTable tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .checkbox-cell {
+            text-align: center;
+        }
+
+        .delete-cell {
+            text-align: center;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .model-path {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .controls-container .unsaved {
+            background-color: #cea11a;
+        }
+        .controls-container .saved {
+            background-color: #add5ff;
+            cursor: default;
+        }
+    </style>
+    <h1>Sky Dolly</h1>
+    <div class="controls-container">
+        <p>Record &amp; Replay</p>
+        <input id="timeSlider" type="range" min="0" max="${window.sd.maxTick}" step="1">
+        <span id="time"></span>
+        <br>
+        <button id="rec">${(window.sd.isRec ? "Stop Recording" : "Start New Recording")}</button>
+        <button id="pause">${(window.sd.paused) ? "Play" : "Pause"}</button>
+        <button id="playback">${(window.sd.isPlayback) ? "Stop Playback" : "Start Playback"}</button>
+        <button id="camera">Initialize Camera</button>
+        <button id="viz">Visualize Flight Path(s)</button>
+        <button id="deviz">Remove Flight Path Visualization</button>
+        <button id="save" class="saved">Saved</button>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Aircraft Model Path</th>
+                <th>Date</th>
+                <th>IRL Start time (UTC)</th>
+                <th>Start time (in-game)</th>
+                <th>Duration</th>
+                <th>Show aircraft in playback</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            ${tr}
