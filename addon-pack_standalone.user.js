@@ -8398,3 +8398,703 @@ function turnLightsOff(_0x55d034) {
                         <h5>Multiplayer Models</h5>
                         <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/green.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model supported</span>
                         <br/>
+                        <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/addon.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model only supported via addon</span>
+                        <br/>
+                        <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/yellow.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model shows, but of another similar vehicle</span>
+                        <br/>
+                        <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/red.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model not supported</span>
+                        <br/>
+                        <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/ls_logo.png" style="width: 24px; height: auto; margin: 8px">Compatible with <a href="https://github.com/amfi-disable/GEOFS-LiverySelector-Forked" target="_blank">LiverySelector</a> (must be enabled, does not guarantee multiplayer liveries supported)</span>
+                        <p>If you have any questions or if you have an aircraft (must have a working aircraft.json) you would like to add, visit the JAaMDG Discord</p>
+                        <a href="https://discord.gg/fcFQH6Qhb7" target="_blank" rel="nofollow"><img src="https://www.geo-fs.com/images/discord.png" style="margin: 10px 10px 10px 0px;"/></a>
+                        <p>Copyright © AF267 - 2026</p>
+                    </ul>
+                </li>
+            `;
+        });
+
+})();
+
+
+// ============================================================
+// MODULE: volume.js
+// ============================================================
+const exemptAircraft = new Set([1023, 1021, 1025, 1018, 1014, 1013, 1022, 1015, 1005, 1004, 4402, 5409, 5431, 5486, 5499, 5516, 2864, 2418, 2420, 2426, 5316, 5314, 5193, 2750, 5347, 5229, 5038, 2752, 4409, 5405, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 23, 24, 25, 27, 28, 29, 31, 51, 102]);
+let savedVolume = null; 
+let wasCockpit = false;
+let volumeReduction = 0.5;
+let reductionCams = new Set (["cockpit", "jump seat", "pilot", "cabin", "door gunner", "docking controls", "mid-deck", "payload bay"])
+function matchesReduction(cameraMode) {
+    for (let keyword of reductionCams) {
+        if (cameraMode.toLowerCase().includes(keyword)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+setInterval(() => {
+    const currentId = Number(geofs.aircraft.instance.id);
+    const isExempt = exemptAircraft.has(currentId);
+    const currentVolume = geofs.preferences.volume;
+    const cameraMode = geofs.animation.values.cameraMode;
+    
+    if (isExempt) {
+        // reset the volume if we switch from cockpit view in a non-exempt aircraft to an exempt aircraft
+        if (wasCockpit && savedVolume !== null) {
+            geofs.preferences.volume = savedVolume;
+            console.log(`switched to exempt aircraft, volume restored to ${savedVolume}`);
+            wasCockpit = false;
+            savedVolume = null;
+        }
+        return;
+    }
+    let interior = matchesReduction(cameraMode);
+    if (cameraMode === 'cockpit' || cameraMode === 'cockpitless' || cameraMode === 'Jump Seat'|| cameraMode.toLowerCase().includes('pilot')) {
+        if (!wasCockpit) {
+            savedVolume = geofs.preferences.volume;
+            geofs.preferences.volume = savedVolume * volumeReduction;
+            console.log(`switched to cockpit cam, volume set to ${geofs.preferences.volume}`);
+            wasCockpit = true;
+        } else {
+            const targetVolume = savedVolume * volumeReduction;
+            const volumeTolerance = 0.01; // allow tiny float differences
+
+            if (Math.abs(currentVolume - targetVolume) > volumeTolerance) {
+                savedVolume = currentVolume / volumeReduction; //reverse-calculate what the exterior volume should be based on the new cockpit volume
+            }
+        }
+    } else {
+        if (wasCockpit && savedVolume !== null) {
+            geofs.preferences.volume = savedVolume;
+            console.log(`Exited cockpit view, volume restored to ${savedVolume}`);
+            wasCockpit = false;
+            savedVolume = null;
+        }
+    }
+}, 300);
+
+window.addEventListener("beforeunload", () => {
+    if (wasCockpit) {
+        geofs.preferences.volume = savedVolume || 1;
+    }
+});
+
+
+// ============================================================
+// MODULE: skydolly.js
+// ============================================================
+(function() {
+    //Addon menu code
+    if (!window.gmenu || !window.GMenu) {
+        fetch(
+            "https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js"
+        )
+            .then((response) => response.text())
+            .then((script) => {
+            eval(script);
+        })
+            .then(() => {
+            setTimeout(afterGMenu, 101);
+        });
+    } else afterGMenu()
+    //Code to be executed once the addon menu code is loaded
+    async function afterGMenu() {
+        window.sd = {};
+        const g = new window.GMenu("Sky Dolly", "sd");
+        g.addItem("Auto-save: ", "AutoSave", "checkbox", 0, "false");
+        g.addItem("Auto-save interval (minutes): ", "STime", "number", 0, "1");
+        g.addKBShortcut("Toggle GeoFS' UI Visibility: ", "UIVis", 0, "Enter&,false&,true&,false&,false", toggleUI); //Shortcut is Shift+Enter
+        function toggleUI() {
+            if (document.getElementById("geofs-ui-3dview").style.zIndex == '') {
+                document.getElementById("geofs-ui-3dview").style.zIndex = (1E10).toString();
+            } else {
+                document.getElementById("geofs-ui-3dview").style.zIndex = '';
+            }
+        }
+
+        //Update notification
+        async function checkForUpdates() {
+            // Disabled for full localization independence
+            return;
+        }
+        checkForUpdates();
+
+        //ANONYMOUS TRACKING DISABLED
+        async function track() {
+            return;
+        }
+        track();
+
+        //UTILITY FUNCTIONS//
+        window.sd.msToTime = function(ms) {
+            let sec = Math.floor((ms / 1000) % 60);
+            if (sec.toString().length < 2) {
+                sec = "0" + sec;
+            }
+            let min = Math.floor((ms / 60000)) % 60;
+            let hours = Math.floor((ms / 3600000));
+            let ret;
+            if (hours == 0) {
+                ret = `${min}:${sec}`;
+            } else {
+                ret = `${hours}:${min}:${sec}`;
+            }
+            return ret;
+        }
+        window.sd.getDistance = function(coord1, coord2) {
+            const [lat1, lon1] = coord1;
+            const [lat2, lon2] = coord2;
+
+            // Convert degrees to radians
+            const toRad = deg => deg * (Math.PI / 180);
+
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+
+            const radLat1 = toRad(lat1);
+            const radLat2 = toRad(lat2);
+
+            // Haversine formula to compute angular distance in radians
+            const a = Math.sin(dLat / 2) ** 2 +
+                  Math.cos(radLat1) * Math.cos(radLat2) *
+                  Math.sin(dLon / 2) ** 2;
+
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            // Convert angular distance from radians to degrees
+            const distanceInDegrees = c * (180 / Math.PI);
+            return distanceInDegrees;
+        }
+        window.sd.hexToRgb = function(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        //DATABASE FUNCTIONS//
+        window.sd.loadFromDB = function(callback) {
+            let request = indexedDB.open("SkyDollyDB", 1);
+
+            request.onupgradeneeded = function(event) {
+                let db = event.target.result;
+                if (!db.objectStoreNames.contains("sdData")) {
+                    db.createObjectStore("sdData", { keyPath: "id" }); // Define keyPath here as well, though autoIncrement might not be needed for reading
+                }
+            };
+
+            request.onsuccess = function(event) {
+                let db = event.target.result;
+                // Check if the object store exists before attempting a transaction
+                if (db.objectStoreNames.contains("sdData")) {
+                    let transaction = db.transaction("sdData", "readonly");
+                    let store = transaction.objectStore("sdData");
+                    let getRequest = store.get("data");
+
+                    getRequest.onsuccess = function() {
+                        callback(getRequest.result ? getRequest.result.value : []);
+                    };
+
+                    getRequest.onerror = function(event) {
+                        console.error("Error getting data from database:", event.target.error);
+                        callback(null); // Call the callback even on error to avoid blocking
+                    };
+
+                    transaction.onerror = function(event) {
+                        console.error("Transaction error (reading):", event.target.error);
+                        callback(null); // Call the callback even on error
+                    };
+                } else {
+                    console.warn("Object store 'sdData' not found. Returning empty data.");
+                    callback(null); // Call the callback with empty data if the store doesn't exist
+                }
+            };
+
+            request.onerror = function(event) {
+                console.error("Error opening database:", event.target.error);
+                callback([]); // Call the callback even if opening the database fails
+            };
+        };
+        window.sd.saveToDB = function(data) {
+            return new Promise((resolve, reject) => {
+                let request = indexedDB.open("SkyDollyDB", 1);
+
+                request.onupgradeneeded = function(event) {
+                    let db = event.target.result;
+                    if (!db.objectStoreNames.contains("sdData")) {
+                        db.createObjectStore("sdData", { keyPath: "id", autoIncrement: true });
+                    }
+                };
+
+                request.onsuccess = function(event) {
+                    let db = event.target.result;
+                    let transaction = db.transaction("sdData", "readwrite");
+                    let store = transaction.objectStore("sdData");
+                    const putRequest = store.put({ id: "data", value: data });
+
+                    putRequest.onsuccess = function() {
+                        window.sd.saved = true;
+                        window.sd.saving = false;
+                        resolve(); // Resolve the promise when the operation is successful
+                    };
+
+                    putRequest.onerror = function(event) {
+                        reject(event.target.error); // Reject the promise on error
+                    };
+                };
+
+                request.onerror = function(event) {
+                    reject(event.target.error); // Reject the promise if opening the database fails
+                };
+            });
+        }
+        window.sd.sendToLS = async function() {
+            window.sd.saved = true;
+            window.sd.saving = true;
+            console.log("Sending to database...");
+            let dataToStore = window.sd.data.map(item => {
+                let newItem = { ...item };
+                delete newItem.model;
+                delete newItem.map;
+                delete newItem.smoke;
+                return newItem;
+            });
+
+            try {
+                await window.sd.saveToDB(dataToStore);
+                console.log("Data saved to database.");
+            } catch (error) {
+                console.error("Error saving to database:", error);
+            }
+        }
+
+        //INIT FUNCTIONS//
+        window.sd.init = async function() {
+            console.log("Sky Dolly Initializing...");
+            window.sd.loadFromDB((data) => { window.sd.data = data; });
+            if (localStorage.getItem("sdSlowed") == "true") {
+                localStorage.setItem("sdSlowed", "false");
+                window.geofs.preferences.simulationSpeed = 1;
+            }
+            window.sd.uTime = 100;
+            window.sd.prevTick = 0;
+            window.sd.tickNum = 0;
+            window.sd.maxTick = window.sd.maxTick || 0;
+            window.sd.currTime = Date.now();
+            window.sd.nextTime = Date.now() + window.sd.uTime;
+            window.sd.fac = 0;
+            window.sd.paused = true;
+            window.sd.isRec = false;
+            window.sd.isPlayback = false;
+            window.sd.saved = true;
+            window.sd.lastSaved = Date.now();
+            window.sd.saving = false;
+            window.sd.viz = [];
+            window.sd.isSmoke = false;
+            window.sd.isFlare = false;
+            window.sd.cam = {
+                modified: false,
+                data: null,
+                last: NaN,
+                lastJump: NaN,
+                next: NaN,
+                fac: 0,
+                tick: function() { //Cubic interpolation generated by AI, based on my linear interpolation implementation
+                    if (window.sd.cam.data) {
+                        let keys = Object.keys(window.sd.cam.data).map(Number).sort((a, b) => a - b);
+                        let n = keys.length;
+                        let interpolate = function(points, tickNum = window.sd.tickNum, fac = window.sd.fac) {
+                            const currentTick = tickNum + fac;
+                            const keys = Object.keys(points).map(Number).sort((a, b) => a - b);
+                            const n = keys.length;
+
+                            if (n === 0) return 0;
+                            if (n === 1) return points[keys[0]];
+                            if (currentTick <= keys[0]) return points[keys[0]];
+                            if (currentTick >= keys[n - 1]) return points[keys[n - 1]];
+
+                            let i = 0;
+                            while (i < n - 1 && keys[i + 1] <= currentTick) { i++; }
+
+                            const T1 = keys[i], T2 = keys[i + 1];
+                            const P1 = points[T1], P2 = points[T2];
+                            const deltaT = T2 - T1;
+                            const deltaP = (P2 - P1) / deltaT; // The "Secant" (average speed)
+                            const t = (currentTick - T1) / deltaT;
+
+                            // Helper to compute Monotone slopes
+                            const getSlope = (idx) => {
+                                if (idx <= 0 || idx >= n - 1) {
+                                    // Use the secant of the only available neighbor
+                                    return (idx === 0) ? (points[keys[1]] - points[keys[0]]) / (keys[1] - keys[0])
+                                    : (points[keys[n-1]] - points[keys[n-2]]) / (keys[n-1] - keys[n-2]);
+                                }
+
+                                const d0 = (points[keys[idx]] - points[keys[idx - 1]]) / (keys[idx] - keys[idx - 1]);
+                                const d1 = (points[keys[idx + 1]] - points[keys[idx]]) / (keys[idx + 1] - keys[idx]);
+
+                                // 1. If direction changes or either side is flat, slope MUST be 0
+                                if (Math.sign(d0) !== Math.sign(d1) || d0 === 0 || d1 === 0) return 0;
+
+                                // 2. Fritsch-Butland Weighted Harmonic Mean
+                                // This is much "stiffer" and prevents the backward-swing
+                                const w1 = 2 * (keys[idx+1] - keys[idx]);
+                                const w2 = (keys[idx] - keys[idx-1]);
+                                return (w1 + w2) / (w1 / d0 + w2 / d1);
+                            };
+
+                            let m1 = getSlope(i);
+                            let m2 = getSlope(i + 1);
+
+                            // 3. Final Monotonic Constraint (The "No-Backward" Rule)
+                            // If the segment is flat, slopes are 0.
+                            // Otherwise, ensure slopes don't exceed 3x the average velocity.
+                            if (deltaP === 0) {
+                                m1 = 0; m2 = 0;
+                            } else {
+                                const r1 = m1 / deltaP;
+                                const r2 = m2 / deltaP;
+                                const common = Math.sqrt(r1*r1 + r2*r2);
+                                if (common > 3) {
+                                    const scale = 3 / common;
+                                    m1 *= scale;
+                                    m2 *= scale;
+                                }
+                            }
+
+                            const sq = t * t;
+                            const cu = sq * t;
+
+                            return (2 * cu - 3 * sq + 1) * P1 +
+                                (cu - 2 * sq + t) * (m1 * deltaT) +
+                                (-2 * cu + 3 * sq) * P2 +
+                                (cu - sq) * (m2 * deltaT);
+                        };
+
+                        let currentIndex = keys.findIndex(key => key >= window.sd.tickNum);
+                        let p0Index, p1Index, p2Index, p3Index;
+                        let last = -1;
+                        let next = Infinity;
+                        for (let k in window.sd.cam.data) {
+                            let i = Number(k);
+                            if (i < window.sd.tickNum && i > last) {
+                                last = i;
+                            }
+                            if (i > window.sd.tickNum && i < next) {
+                                next = i;
+                            }
+                        }
+                        let a = document.getElementById("sdKeyframes");
+                        if (a) {
+                            for (let i = 0; i < a.children.length; i++) {
+                                let tn = Number(a.children[i].getAttribute("ticknum"));
+                                a.children[i].style.left = `${(tn/window.sd.maxTick)*99.5-1}%`;
+                            }
+                        }
+                        window.sd.cam.lastJump = (last == -1) ? NaN : last;
+                        window.sd.cam.next = (next == Infinity) ? NaN : next;
+                        if (n < 2 || currentIndex === -1) { //Not enough points for interpolation || no currentIndex
+                            return;
+                        }
+
+                        if (currentIndex === 0) {
+                            p0Index = 0; // Extrapolate backward
+                            p1Index = 0;
+                            p2Index = 1;
+                            p3Index = Math.min(2, n - 1); // Extrapolate forward or use last
+                        } else {
+                            p1Index = currentIndex - 1;
+                            p2Index = currentIndex;
+                            p0Index = Math.max(0, currentIndex - 2);
+                            p3Index = Math.min(n - 1, currentIndex + 1);
+                        }
+
+                        let t0 = keys[p0Index];
+                        let t1 = keys[p1Index];
+                        let t2 = keys[p2Index];
+                        let t3 = keys[p3Index];
+
+                        let v0 = window.sd.cam.data[t0];
+                        let v1 = window.sd.cam.data[t1];
+                        let v2 = window.sd.cam.data[t2];
+                        let v3 = window.sd.cam.data[t3];
+                        let xObj = {};
+                        let yObj = {};
+                        let zObj = {};
+                        let hdgObj = {};
+                        let pitchObj = {};
+                        let rollObj = {};
+                        let fovObj = {};
+                        for (let a = 0; a < Object.keys(window.sd.cam.data).length; a++) {
+                            let t = Object.keys(window.sd.cam.data)[a];
+                            let d = window.sd.cam.data[Object.keys(window.sd.cam.data)[a]];
+                            xObj[t] = d.pos.x;
+                            yObj[t] = d.pos.y;
+                            zObj[t] = d.pos.z;
+                            hdgObj[t] = d.hdg;
+                            pitchObj[t] = d.pitch;
+                            rollObj[t] = d.roll;
+                            fovObj[t] = d.fov;
+                        }
+                        function mathAll(obj, doCosine) {
+                            let ret = {};
+                            for (let v in obj) {
+                                ret[v] = doCosine ? Math.cos(obj[v]) : Math.sin(obj[v]);
+                            }
+                            return ret;
+                        }
+
+                        let t = (window.sd.tickNum+window.sd.fac - t1) / (t2 - t1);
+
+                        if (!window.sd.cam.modified) {
+                            let posX = interpolate(xObj);
+                            let posY = interpolate(yObj);
+                            let posZ = interpolate(zObj);
+                            let pos = new window.Cesium.Cartesian3(posX, posY, posZ);
+                            var cartographic = window.Cesium.Cartographic.fromCartesian(pos);
+
+                            var lon = window.Cesium.Math.toDegrees(cartographic.longitude);
+                            var lat = window.Cesium.Math.toDegrees(cartographic.latitude);
+                            var alt = cartographic.height;
+                            let groundAlt = window.geofs.api.getGroundAltitude([lat, lon, alt]) + 1;
+                            if (alt < groundAlt) {
+                                pos = window.Cesium.Cartesian3.fromDegrees(lon, lat, groundAlt);
+                            }
+
+                            let hdgC = interpolate(mathAll(hdgObj, true)); //Heading Cosine
+                            let hdgS = interpolate(mathAll(hdgObj, false)); //Heading Sine
+                            let hdg = Math.atan2(hdgS, hdgC); //Avoid the 0/2Pi boundary
+                            let pitchC = interpolate(mathAll(pitchObj, true));
+                            let pitchS = interpolate(mathAll(pitchObj, false));
+                            let pitch = Math.atan2(pitchS, pitchC);
+                            let rollC = interpolate(mathAll(rollObj, true));
+                            let rollS = interpolate(mathAll(rollObj, false));
+                            let roll = Math.atan2(rollS, rollC);
+                            let dir = [hdg, pitch, roll];
+
+                            let fov = interpolate(fovObj);
+
+                            window.geofs.camera.cam.flyTo({
+                                destination: pos,
+                                orientation: {
+                                    heading: dir[0],
+                                    pitch: dir[1],
+                                    roll: dir[2]
+                                },
+                                duration: 0
+                            });
+                            window.geofs.camera.setFOV(fov);
+                        }
+                    }
+                }
+            }
+            if (window.sd.data) {
+                for (let i in window.sd.data) {
+                    window.sd.maxTick = Math.max(window.sd.data[i].lastTick, window.sd.maxTick);
+                }
+            } else {
+                window.sd.data = [];
+            }
+        }
+        window.sd.recInit = function(cT) {
+            let date = new Date();
+            var animations = {};
+            var animationParts = [];
+            for (let i in window.geofs.aircraft.instance.definition.parts) {
+                let p = window.geofs.aircraft.instance.definition.parts[i].animations;
+                let newAnim = [];
+                for (let j in p) {
+                    if (p && p[j]) {
+                        let newAnimB = {};
+                        for (let k in p[j]) {
+                            if (k !== 'rotationMethod' || typeof k.rotationMethod === 'string') {
+                                newAnimB[k] = p[j][k];
+                            }
+                        }
+                        newAnim.push(newAnimB);
+                    }
+                }//end let j in p
+                animationParts.push([newAnim, window.geofs.aircraft.instance.definition.parts[i].name]);
+            }
+            window.sd.data.push({
+                enabled: true, //New in V0.2
+                model: null,
+                smoke: null,
+                flareData: null,
+                map: null,
+                name: window.geofs.aircraft.instance.aircraftRecord.name,
+                modelPath: window.geofs.aircraft.instance.object3d.model._model._resource.url,
+                firstTick: (window.sd.tickNum),
+                date: (date.getUTCDate().toString() + "." + date.getUTCMonth().toString() + "." + date.getUTCFullYear()),
+                time: (date.getUTCHours() + ":" + date.getUTCMinutes()),
+                lastTick: -1,
+                animations: animations,
+                animationParts: animationParts,
+            });
+            window.sd.isRec = true;
+            window.sd.paused = false;
+            window.sd.recTick(window.sd.tickNum);
+            console.log("recInit");
+            console.log(window.sd.isRec);
+        };
+        window.sd.camRecInit = function() {
+            if (!window.sd.cam.data && !document.getElementById("sdScrn")) {
+                window.sd.cam.data = {};
+                window.geofs.camera.set(4);
+                window.geofs.camera.minFOV = 0.1;
+                window.sd.cam.path = null;
+                window.sd.cam.pathKeyframes = [];
+                //Time & keyframe slider
+                let html0 = `<div style="background: black;width: 80%;height: 8%;position: fixed;left: 10%;padding-left: 1%;padding-right: 1%;border: 1px solid darkgray;border-radius: 25px; z-index: 5000;" id="sdTContainer">
+                        <div style="width: 98.5%;position: absolute;top: 25%;height: 20%;background: gray;border-radius: 20px;left: 1%;margin: auto;"></div>
+                        <input type="range" style="-webkit-appearance: none;appearance: none;background: transparent;width: 99.5%;position: absolute;top: 24%;height: 15%;left: 2px;" id="sdTime" min="0" max="${window.sd.maxTick}" step="1">
+                        <div style="width: 98.5%;position: absolute;top: 50%;height: 20%;background: rgba(255,255,255,0.2);border-radius: 20px;left: 1%;margin: auto;" id="sdKeyframes"></div>
+                    </div>`;
+                //Button menu
+                let html1 = `<div id="sdScrn" style="position: fixed;left: 33%;top: 8%;width: 33%;height: 10%;z-index: 100;">
+                <button id="sdRec">Record Keyframe</button><button id="sdNext">Next Keyframe</button><button id="sdPrev">Previous Keyframe</button><br>
+                <button id="sdPlay">Play</button><button id="sdDelete">Delete Keyframe</button><button id="sdClear">Clear All Keyframes</button><button id="sdMod">Toggle Modify</button><button id="sdPath">Show/Hide Camera Path</button><button id="sdSpeed">Set Sim Speed to 1/4</button><button id="sdStartRec">Start Recording</button>`;
+                //FOV slider
+                //let html2 = `<div id="sdFOVContainer"><input id="sdSlider" type="range" min="0.1" step="0.05" max="2.5" style="position: fixed;left: 1%;writing-mode: vertical-lr;direction: ltr;height: 80%;top: 10%;z-index: 100;">
+                //<label for="sdSlider" style="position: fixed;left: 0.5%;top: 7%;backdrop-filter: brightness(0.8);color: white;padding: 3px;">FOV</label></div>`;
+                //Add the HTML to the screen
+                let a = document.createElement('div');
+                //let b = document.createElement('div');
+                let c = document.createElement('div');
+                document.body.appendChild(a);
+                //document.body.appendChild(b);
+                document.body.appendChild(c);
+                a.innerHTML = html1;
+                //b.innerHTML = html2;
+                c.innerHTML = html0;
+                setTimeout(() => {
+                    document.getElementById("sdRec").addEventListener('click', () => {
+                        window.sd.cam.data[window.sd.tickNum] = {
+                            pos: window.clone(window.geofs.camera.cam.position),
+                            hdg: window.geofs.camera.cam.heading,
+                            pitch: window.geofs.camera.cam.pitch,
+                            roll: window.geofs.camera.cam.roll,
+                            fov: window.geofs.camera.currentFOV
+                        };
+                        document.getElementById("sdKeyframes").innerHTML += `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gold" style="position: absolute;left: ${(window.sd.tickNum/window.sd.maxTick)*99.5-1}%;top: -50%;" ticknum="${window.sd.tickNum}"><path d="M480-80 240-480l240-400 240 400L480-80Z"></path></svg>`;
+                        if (window.sd.cam.path) {
+                            let arr = [];
+                            for (let j = 0; j < Object.keys(window.sd.cam.data).length; j++) {
+                                arr.push(window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos);
+                            }
+                            window.sd.cam.path.polyline.positions.setValue(arr);
+                            window.sd.cam.pathKeyframes.push(window.geofs.api.viewer.entities.add({
+                                position: window.clone(window.geofs.camera.cam.position),
+                                billboard: {
+                                    image: "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/keyframe.png",
+                                    scale: 0.2
+                                },
+                            }));
+                        }
+                    });
+                    document.getElementById("sdNext").addEventListener('click', () => {
+                        if (!isNaN(window.sd.cam.next)) {
+                            window.sd.modified = false;
+                            window.sd.tickNum = window.sd.cam.next;
+                            window.sd.currTime = Date.now();
+                            window.sd.nextTime = Date.now() + window.sd.uTime;
+                        } else {
+                            console.warn("There are no keyframes to jump to in this direction.");
+                        }
+                    });
+                    document.getElementById("sdPrev").addEventListener('click', () => {
+                        if (!isNaN(window.sd.cam.lastJump)) {
+                            window.sd.modified = false;
+                            window.sd.tickNum = window.sd.cam.lastJump;
+                            window.sd.currTime = Date.now();
+                            window.sd.nextTime = Date.now() + window.sd.uTime;
+                        } else {
+                            console.warn("There are no keyframes to jump to in this direction.");
+                        }
+                    });
+                    document.getElementById("sdPlay").addEventListener('click', () => {
+                        window.sd.paused = !window.sd.paused;
+                        window.sd.cam.modified = false;
+                    });
+                    document.getElementById("sdDelete").addEventListener('click', () => {
+                        if (window.sd.cam.data[window.sd.tickNum]) {
+                            delete window.sd.cam.data[window.sd.tickNum];
+                            document.querySelector(`[ticknum="${window.sd.tickNum}"]`).remove();
+                            if (window.sd.cam.path) {
+                                window.geofs.api.viewer.entities.remove(window.sd.cam.path);
+                                for (let a in window.sd.cam.pathKeyframes) {
+                                    window.geofs.api.viewer.entities.remove(window.sd.cam.pathKeyframes[a]);
+                                }
+                                window.sd.cam.pathKeyframes = [];
+                                window.sd.cam.path = null;
+
+                                let d = window.sd.cam.data[c];
+                                let arr = [];
+                                for (let j = 0; j < Object.keys(window.sd.cam.data).length; j++) {
+                                    arr.push(window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos);
+                                    window.sd.cam.pathKeyframes.push(window.geofs.api.viewer.entities.add({
+                                        position: window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos,
+                                        billboard: {
+                                            image: "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/keyframe.png",
+                                            scale: 0.2
+                                        },
+                                    }));
+                                }
+
+                                window.sd.cam.path = window.geofs.api.viewer.entities.add({
+                                    name: `cameraPath+${Math.random()*1E16}`,
+                                    polyline: {
+                                        positions: arr,
+                                        width: 3,
+                                        material: new window.Cesium.PolylineOutlineMaterialProperty({
+                                            outlineWidth: 1,
+                                            outlineColor: window.Cesium.Color.BLACK,
+                                            color: window.Cesium.Color.YELLOW, //Cycle through rainbow colors
+                                        }),
+                                    },
+                                });
+                            }
+                        } else {
+                            alert('No keyframe at current position. Press "Previous Keyframe" or "Next Keyframe" to jump to the keyframe you wish to delete, and try again.');
+                        }
+                    });
+                    document.getElementById("sdClear").addEventListener('click', () => {
+                        window.sd.cam.last = NaN;
+                        window.sd.cam.lastJump = NaN;
+                        window.sd.cam.next = NaN;
+                        window.sd.cam.data = {};
+                        window.sd.cam.fac = 0;
+                        document.getElementById("sdKeyframes").innerHTML = ``;
+                    });
+                    document.getElementById("sdMod").addEventListener('click', () => {
+                        window.sd.paused = true;
+                        window.sd.cam.modified = !window.sd.cam.modified;
+                    });
+                    document.getElementById("sdSpeed").addEventListener('click', () => {
+                        if (window.geofs.preferences.simulationSpeed !== 0.25) {
+                            window.geofs.preferences.simulationSpeed = 0.25;
+                            localStorage.setItem("sdSlowed", "true");
+                            document.getElementById("sdSpeed").disabled = true;
+                        }
+                    });
+                    document.getElementById("sdStartRec").addEventListener('click', async () => {
+                        window.sd.paused = false;
+                        window.sd.cam.modified = false;
+                        window.instruments.hide(); //Hide the instruments
+                        document.getElementById("geofs-ui-3dview").style.zIndex = "1000000";
+                        let type = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 'video/webm';
+                        const options = { mimeType: type, videoBitsPerSecond: 8000000 }; // 8 Mbps MP4
+                        const stream = await navigator.mediaDevices.getDisplayMedia();
+                        const recoder = new MediaRecorder(stream, options);
+                        recoder.start();
+                        const [video] = stream.getVideoTracks();
+                        video.addEventListener("ended", () => {
+                            recoder.stop();
+                            document.getElementById("geofs-ui-3dview").style.zIndex = null;
+                            window.sd.paused = true;
+                            window.instruments.show();
+                            window.sd.cam.modified = !window.sd.cam.modified;
+                        });
