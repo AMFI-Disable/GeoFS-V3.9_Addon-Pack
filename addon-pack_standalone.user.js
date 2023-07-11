@@ -7698,3 +7698,703 @@ function classifyPoint(_0x50d148, _0x5974ed) {
                 if (_0x244e63 === _0x1de2c9) {
                     var _0x40b0c1 = Math[_0x2a09bc(0x125)](_0x49b7c0[0x0], _0x4c9231[0x0]),
                         _0xae5f26 = Math[_0x2a09bc(0xf2)](_0x49b7c0[0x0], _0x4c9231[0x0]);
+                    if (_0x47a35b === 0x0) {
+                        while (_0x456c41 > 0x0) {
+                            var _0x616a39 = (_0x456c41 + _0x24889f - 0x1) % _0x24889f,
+                                _0x339e9f = _0x50d148[_0x616a39];
+                            if (_0x339e9f[0x1] !== _0x244e63) break;
+                            var _0x431afc = _0x339e9f[0x0];
+                            _0x40b0c1 = Math[_0x2a09bc(0x125)](_0x40b0c1, _0x431afc), _0xae5f26 = Math[_0x2a09bc(0xf2)](_0xae5f26, _0x431afc), _0x456c41 = _0x616a39;
+                        }
+                        if (_0x456c41 === 0x0) {
+                            if (_0x40b0c1 <= _0x9f626e && _0x9f626e <= _0xae5f26) return 0x0;
+                            return 0x1;
+                        }
+                        _0x5ad482 = _0x456c41 + 0x1;
+                    }
+                    var _0xcf42c9 = _0x50d148[(_0x456c41 + _0x24889f - 0x1) % _0x24889f][0x1];
+                    while (_0x47a35b + 0x1 < _0x5ad482) {
+                        var _0x339e9f = _0x50d148[_0x47a35b + 0x1];
+                        if (_0x339e9f[0x1] !== _0x244e63) break;
+                        var _0x431afc = _0x339e9f[0x0];
+                        _0x40b0c1 = Math[_0x2a09bc(0x125)](_0x40b0c1, _0x431afc), _0xae5f26 = Math['max'](_0xae5f26, _0x431afc), _0x47a35b += 0x1;
+                    }
+                    if (_0x40b0c1 <= _0x9f626e && _0x9f626e <= _0xae5f26) return 0x0;
+                    var _0xcd95ee = _0x50d148[(_0x47a35b + 0x1) % _0x24889f][0x1];
+                    _0x9f626e < _0x40b0c1 && _0xcf42c9 < _0x244e63 !== _0xcd95ee < _0x244e63 && (_0x575ee3 ^= 0x1);
+                }
+            }
+        }
+    }
+    return 0x2 * _0x575ee3 - 0x1;
+}
+
+function orientation3(_0xa9891b, _0x2487c9, _0xc8c74c) {
+    var _0x4f8049 = (_0xa9891b[0x1] - _0xc8c74c[0x1]) * (_0x2487c9[0x0] - _0xc8c74c[0x0]),
+        _0x1f52cd = (_0xa9891b[0x0] - _0xc8c74c[0x0]) * (_0x2487c9[0x1] - _0xc8c74c[0x1]),
+        _0x52e6d3 = _0x4f8049 - _0x1f52cd,
+        _0x484213;
+    if (_0x4f8049 > 0x0) {
+        if (_0x1f52cd <= 0x0) return _0x52e6d3;
+        else _0x484213 = _0x4f8049 + _0x1f52cd;
+    } else {
+        if (_0x4f8049 < 0x0) {
+            if (_0x1f52cd >= 0x0) return _0x52e6d3;
+            else _0x484213 = -(_0x4f8049 + _0x1f52cd);
+        } else return _0x52e6d3;
+    }
+    var _0x3329df = ERRBOUND3 * _0x484213;
+    if (_0x52e6d3 >= _0x3329df || _0x52e6d3 <= -_0x3329df) return _0x52e6d3;
+}
+
+function initInstruments() {
+    const _0x8d8d33 = _0x4ddc51;
+    instruments[_0x8d8d33(0x143)][_0x8d8d33(0x110)] = {
+        'overlay': {
+            'url': _0x8d8d33(0x12b),
+            'alignment': {
+                'x': 'right',
+                'y': 'bottom'
+            },
+            'size': {
+                'x': 0x64,
+                'y': 0x15
+            },
+            'position': {
+                'x': 0x64,
+                'y': 0xff
+            },
+            'anchor': {
+                'x': 0x64,
+                'y': 0x0
+            },
+            'rescale': !0x0,
+            'rescalePosition': !0x0,
+            'animations': [{
+                'type': _0x8d8d33(0x155),
+                'value': _0x8d8d33(0x110)
+            }]
+        }
+    }, instruments['definitions']['readyToLaunch'] = {
+        'overlay': {
+            'url': _0x8d8d33(0x152),
+            'alignment': {
+                'x': 'right',
+                'y': _0x8d8d33(0x103)
+            },
+            'size': {
+                'x': 0x64,
+                'y': 0x15
+            },
+            'position': {
+                'x': 0x64,
+                'y': 0xeb
+            },
+            'anchor': {
+                'x': 0x64,
+                'y': 0x0
+            },
+            'rescale': !0x0,
+            'rescalePosition': !0x0,
+            'animations': [{
+                'type': _0x8d8d33(0x155),
+                'value': _0x8d8d33(0x13f)
+            }]
+        }
+    };
+    var _0x5ad14d = instruments['init'];
+    instruments['init'] = function(_0x54e35f) {
+        const _0x5dc739 = _0x8d8d33;
+        let _0x390975 = ['7', _0x5dc739(0x161), _0x5dc739(0xf7)];
+        void 0x0 !== _0x54e35f['gear'] || _0x390975[_0x5dc739(0x19e)](geofs[_0x5dc739(0x15a)][_0x5dc739(0xef)][_0x5dc739(0x114)]['id']) ? (enabled = !0x0, _0x54e35f[_0x5dc739(0x110)] = _0x54e35f[_0x5dc739(0x157)]) : enabled = void 0x0, _0x5ad14d(_0x54e35f), _0x390975 = ['7', _0x5dc739(0x161), _0x5dc739(0xf7)], (void 0x0 !== _0x54e35f[_0x5dc739(0x157)] || _0x390975[_0x5dc739(0x19e)](geofs[_0x5dc739(0x15a)]['instance'][_0x5dc739(0x114)]['id']) ? (enabled = !0x0, _0x54e35f[_0x5dc739(0x13f)] = _0x54e35f[_0x5dc739(0x157)]) : enabled = void 0x0, _0x5ad14d(_0x54e35f));
+    }, instruments[_0x8d8d33(0x14e)](geofs['aircraft'][_0x8d8d33(0xef)]['setup'][_0x8d8d33(0x147)]);
+}
+let catapult = {};
+catapult[_0x4ddc51(0x14f)] = catapultData[_0x4ddc51(0x14f)], catapult['angle'] = catapultData['angle'], catapult[_0x4ddc51(0x122)] = catapult[_0x4ddc51(0x14f)], catapult[_0x4ddc51(0x168)] = ['7', _0x4ddc51(0x161), '3460'], catapult['barDown'] = ![], catapult['barLocked'] = ![], catapult[_0x4ddc51(0x198)] = 'q', catapult[_0x4ddc51(0x19d)] = 'l', catapult[_0x4ddc51(0x11e)] = '/', catapult[_0x4ddc51(0x14d)], catapult[_0x4ddc51(0x1a3)] = ![], catapult[_0x4ddc51(0xfc)];
+
+function gearBarPosLock() {
+    const _0x3a65b7 = _0x4ddc51;
+    catapult[_0x3a65b7(0x119)] && (geofs['aircraft'][_0x3a65b7(0xef)][_0x3a65b7(0x112)][_0x3a65b7(0x166)]([0x0, 0x0, 0x0]), geofs[_0x3a65b7(0x15a)][_0x3a65b7(0xef)]['rigidBody'][_0x3a65b7(0x136)]([0x0, 0x0, 0x0]));
+}
+
+function resolveForceVector(_0x2a6d58, _0x5a399b) {
+    const _0x4698c2 = _0x4ddc51;
+    let _0x520825 = _0x2a6d58 * Math[_0x4698c2(0x108)](_0x5a399b * (Math['PI'] / 0xb4)),
+        _0x17a5e9 = _0x2a6d58 * Math['sin'](_0x5a399b * (Math['PI'] / 0xb4));
+    return [_0x520825, _0x17a5e9, 0x0];
+}
+
+function distance(_0x375762, _0x1d4eb3) {
+    const _0x410adf = _0x4ddc51;
+    var _0x4dbd93 = _0x1d4eb3[0x0] - _0x375762[0x0],
+        _0x354846 = _0x1d4eb3[0x1] - _0x375762[0x1];
+    return Math[_0x410adf(0x17e)](_0x4dbd93 * _0x4dbd93 + _0x354846 * _0x354846) * 0x186a0;
+}
+
+function checkCarrier() {
+    const _0x1e3b68 = _0x4ddc51;
+    catapult[_0x1e3b68(0x168)][_0x1e3b68(0x19e)](geofs[_0x1e3b68(0x15a)][_0x1e3b68(0xef)]['id']) ? (catapult[_0x1e3b68(0x1a3)] = !![], catapult[_0x1e3b68(0xfc)] = geofs[_0x1e3b68(0x15a)][_0x1e3b68(0xef)]['id']) : catapult['inCarrierPlane'] = ![];
+}
+window[_0x4ddc51(0x171)] = ![];
+async function buttonHasBeenPressed() {
+    buttonPressed = !![], await sleep(0xfa), buttonPressed = ![];
+}
+
+function catapultMain() {
+    const _0x35e1b0 = _0x4ddc51;
+    document['addEventListener'](_0x35e1b0(0xee), async function _0x4e18d7(_0x5c675b) {
+        const _0x2606be = _0x35e1b0;
+        if (catapult[_0x2606be(0x1a3)] == !![] && buttonPressed == ![]) {
+            buttonHasBeenPressed();
+            _0x5c675b[_0x2606be(0x199)] === catapult['barKey'] && (catapult[_0x2606be(0x116)] ? (catapult['barDown'] = ![], geofs[_0x2606be(0x183)][_0x2606be(0xed)][_0x2606be(0x110)] = 0x0) : geofs[_0x2606be(0x183)][_0x2606be(0xed)]['groundContact'] == 0x1 && (catapult[_0x2606be(0x116)] = !![], geofs[_0x2606be(0x183)][_0x2606be(0xed)]['launchBarDown'] = 0x1), await sleep(0xfa));
+            if (_0x5c675b[_0x2606be(0x199)] === catapult[_0x2606be(0x11e)]) {
+                if (catapult['barLocked']) catapult[_0x2606be(0x119)] = ![], geofs[_0x2606be(0x183)][_0x2606be(0xed)]['readyToLaunch'] = 0x0, clearInterval(catapult[_0x2606be(0x14d)]);
+                else {
+                    let _0x33953c;
+                    catapult[_0x2606be(0x14f)][catapult[_0x2606be(0xfc)]][_0x2606be(0x192)](async function(_0x4d3c84, _0x54b413) {
+                        const _0x1a0842 = _0x2606be;
+                        distance(geofs[_0x1a0842(0x15a)][_0x1a0842(0xef)][_0x1a0842(0x115)], _0x4d3c84) < 0x3 && geofs[_0x1a0842(0x183)]['values']['heading360'] < catapult['angle'][_0x54b413] + 0x5 && geofs['animation']['values'][_0x1a0842(0x165)] > catapult[_0x1a0842(0x178)][_0x54b413] - 0x5 && catapult[_0x1a0842(0x116)] == !![] && (geofs[_0x1a0842(0x106)]([catapult[_0x1a0842(0x14f)][catapult[_0x1a0842(0xfc)]][_0x54b413][0x0], catapult['catLlas'][catapult[_0x1a0842(0xfc)]][_0x54b413][0x1], 0x0, catapult[_0x1a0842(0x178)][_0x54b413]]), await sleep(0xfa), geofs[_0x1a0842(0x16a)][_0x1a0842(0x1a2)](), catapult[_0x1a0842(0x119)] = !![], geofs['animation']['values'][_0x1a0842(0x13f)] = 0x1, catapult[_0x1a0842(0x14d)] = setInterval(function() {
+                            gearBarPosLock();
+                        }));
+                    });
+                }
+            }
+            if (_0x5c675b[_0x2606be(0x199)] === catapult['launchKey']) {
+                if (catapult[_0x2606be(0x119)] && geofs[_0x2606be(0x183)]['values']['throttle'] == 0x1) {
+                    clearInterval(catapult['lockInt']), catapult['barLocked'] = ![], catapult[_0x2606be(0x116)] = ![], geofs[_0x2606be(0x183)][_0x2606be(0xed)][_0x2606be(0x110)] = 0x0, geofs['animation'][_0x2606be(0xed)]['readyToLaunch'] = 0x0, geofs['aircraft'][_0x2606be(0xef)][_0x2606be(0x112)]['reset']();
+                    var _0x4403ec = geofs[_0x2606be(0x15a)]['instance'][_0x2606be(0x112)][_0x2606be(0x124)] * 0xa;
+                    let _0x1a8f97 = new geofs['fx']['ParticleEmitter']({
+                            'anchor': {
+                                'worldPosition': [0x0, 0x0, -0x1]
+                            },
+                            'duration': 0x186a0,
+                            'rate': 0.05,
+                            'life': 0x9c40,
+                            'easing': _0x2606be(0x169),
+                            'startScale': 0.0005,
+                            'endScale': 0.0005,
+                            'randomizeStartScale': 0.05,
+                            'randomizeEndScale': 0.15,
+                            'startOpacity': 0.9,
+                            'endOpacity': 0.00001,
+                            'startRotation': _0x2606be(0x101),
+                            'texture': _0x2606be(0x172)
+                        }),
+                        _0x483cf6 = setInterval(function() {
+                            const _0xfef7cb = _0x2606be;
+                            geofs[_0xfef7cb(0x183)][_0xfef7cb(0xed)]['groundContact'] == 0x1 ? geofs[_0xfef7cb(0x15a)]['instance'][_0xfef7cb(0x112)][_0xfef7cb(0x195)]([resolveForceVector(_0x4403ec, geofs[_0xfef7cb(0x183)]['values'][_0xfef7cb(0x165)])[0x1], resolveForceVector(_0x4403ec, geofs['animation'][_0xfef7cb(0xed)][_0xfef7cb(0x165)])[0x0], resolveForceVector(_0x4403ec, geofs[_0xfef7cb(0x183)][_0xfef7cb(0xed)][_0xfef7cb(0x165)])[0x2]]) : (clearInterval(_0x483cf6), _0x1a8f97[_0xfef7cb(0x163)]());
+                        }, 0xc8);
+                }
+            }
+        }
+    });
+}
+
+function remainGroundContact() {
+    const _0xcd3919 = _0x4ddc51;
+    while (geofs['animation']['values']['groundContact'] == 0x1) {
+        geofs[_0xcd3919(0x15a)][_0xcd3919(0xef)]['rigidBody'][_0xcd3919(0x107)][0x1] = -0x1;
+    }
+}
+
+function inverseMercator(_0x569297, _0x26726a) {
+    const _0x1e0f0a = _0x4ddc51;
+    let _0x4b6745 = _0x569297 / 20037508.34 * 0xb4,
+        _0xcc23bf = _0x26726a / 20037508.34 * 0xb4;
+    return _0xcc23bf = 0xb4 / Math['PI'] * (0x2 * Math[_0x1e0f0a(0x181)](Math['exp'](_0xcc23bf * Math['PI'] / 0xb4)) - Math['PI'] / 0x2), {
+        'lat': _0xcc23bf,
+        'lon': _0x4b6745
+    };
+}
+
+function getGeoCoords(_0x1e25aa, _0x301e45, _0x4f5324, _0x5ea169) {
+    let _0x1d1cff = _0x301e45 * 20037508.34 / 0xb4,
+        _0x1dd5b6 = Math['log'](Math['tan']((0x5a + _0x1e25aa) * Math['PI'] / 0x168)) / (Math['PI'] / 0xb4);
+    _0x1dd5b6 = _0x1dd5b6 * 20037508.34 / 0xb4;
+    let _0x5be6dc = _0x4f5324 - _0x1d1cff,
+        _0x30a00a = _0x5ea169 - _0x1dd5b6,
+        {
+            lat: _0xf6cd79,
+            lon: _0x6a1ea1
+        } = inverseMercator(_0x5be6dc, _0x30a00a);
+    return {
+        'lat': _0xf6cd79,
+        'lon': _0x6a1ea1
+    };
+}
+
+function startLights() {}
+let lightName;
+window['lightAlt'];
+
+function checkForLights() {
+    const _0x10811 = _0x4ddc51;
+    for (let _0x4c5248 = 0x0; _0x4c5248 < geofs[_0x10811(0x146)][_0x10811(0x16c)][_0x10811(0x12a)]; _0x4c5248++) {
+        geofs[_0x10811(0x146)][_0x10811(0x16c)][_0x4c5248][_0x10811(0x11f)] && spawnLights(geofs[_0x10811(0x146)][_0x10811(0x16c)][_0x4c5248][_0x10811(0x11f)]);
+    }
+}
+
+function spawnLights(_0x1c6ce8) {
+    const _0x564988 = _0x4ddc51;
+    if (_0x1c6ce8 in lightData) {
+        if (_0x1c6ce8 !== lightName) {
+            despawnLights();
+            for (let _0x22afee = 0x0; _0x22afee < colors['length']; _0x22afee++) {
+                for (let _0x1e15b5 = 0x0; _0x1e15b5 < lightData[_0x1c6ce8][colors[_0x22afee]][_0x564988(0x12a)]; _0x1e15b5++) {
+                    let _0x55b3d4 = [];
+                    _0x55b3d4 = rotatePoint(0x0, 0x0, lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x0], lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x1], lightData[_0x1c6ce8][_0x564988(0x178)]), _0x55b3d4[0x2] = lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x2];
+                    let _0x39bc83 = getBuildingPosition(_0x1c6ce8),
+                        _0x156e0a = buildings[_0x39bc83][_0x564988(0x151)];
+                    var _0x1ba0ec = V3['add'](_0x156e0a, xyz2lla(_0x55b3d4, _0x156e0a));
+                    lights[_0x564988(0x121)](new geofs['fx'][(_0x564988(0x134))](_0x1ba0ec, colors[_0x22afee], lightSettings)), lightAlt = lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x2];
+                }
+            }
+            lightName = _0x1c6ce8, hideLights(), adjustLightAlt();
+        }
+    }
+}
+
+function adjustLightAlt() {
+    const _0x20e613 = _0x4ddc51;
+    for (let _0x42d346 = 0x0; _0x42d346 < lights[_0x20e613(0x12a)]; _0x42d346++) {
+        lights[_0x42d346][_0x20e613(0x133)]([lights[_0x42d346][_0x20e613(0x194)][_0x20e613(0x186)][0x0], lights[_0x42d346][_0x20e613(0x194)]['_lla'][0x1], lightAlt]);
+    }
+}
+
+function despawnLights() {
+    const _0x2f39ff = _0x4ddc51;
+    for (let _0x117803 = 0x0; _0x117803 < lights[_0x2f39ff(0x12a)]; _0x117803++) {
+        lights[_0x117803][_0x2f39ff(0x163)]();
+    }
+    lights = [];
+}
+
+function hideLights() {
+    const _0x15b3c8 = _0x4ddc51;
+    for (let _0x2bc293 = 0x0; _0x2bc293 < lights[_0x15b3c8(0x12a)]; _0x2bc293++) {
+        lights[_0x2bc293][_0x15b3c8(0x14b)](![]);
+    }
+}
+
+function showLights() {
+    const _0x302e31 = _0x4ddc51;
+    for (let _0x2c6c8e = 0x0; _0x2c6c8e < lights[_0x302e31(0x12a)]; _0x2c6c8e++) {
+        lights[_0x2c6c8e][_0x302e31(0x14b)](!![]);
+    }
+}
+
+function checkIfNight() {
+    geofs['isNight'] == !![] ? showLights() : hideLights();
+}
+
+function getBuildingPosition(_0x404c82) {
+    const _0x16147f = _0x4ddc51;
+    for (let _0x360786 = 0x0; _0x360786 < buildings[_0x16147f(0x12a)]; _0x360786++) {
+        if (buildings[_0x360786]['name'] === _0x404c82) return _0x360786;
+    }
+}
+
+function rotatePoint(_0x214597, _0x57840a, _0x4f341e, _0x4e60dd, _0x1190d4) {
+    const _0xa60ab9 = _0x4ddc51;
+    let _0x16b1b2 = (_0x4f341e - _0x214597) * Math[_0xa60ab9(0x108)](toRadians(_0x1190d4)) - (_0x4e60dd - _0x57840a) * Math['sin'](toRadians(_0x1190d4)) + _0x214597,
+        _0x284569 = (_0x4f341e - _0x214597) * Math[_0xa60ab9(0x14a)](toRadians(_0x1190d4)) + (_0x4e60dd - _0x57840a) * Math[_0xa60ab9(0x108)](toRadians(_0x1190d4)) + _0x57840a;
+    return [_0x16b1b2, _0x284569];
+}
+
+function toRadians(_0x5bceeb) {
+    return _0x5bceeb * Math['PI'] / 0xb4;
+}
+let itv = setInterval(function() {
+        try {
+            window['ui'] && window['flight'] && (main(), spawnHTML(), secondMain(), startLights(), clearInterval(itv));
+        } catch (_0x2349ed) {}
+    }, 0x1f4),
+    itv5 = setInterval(function() {
+        const _0x31c762 = _0x4ddc51;
+        try {
+            geofs[_0x31c762(0x15a)][_0x31c762(0xef)][_0x31c762(0xf1)]['instruments'] && (initInstruments(), clearInterval(itv5));
+        } catch (_0x38bbd2) {}
+    }, 0x1f4);
+window[_0x4ddc51(0x1a9)] = {};
+
+function getHTMLForWindow() {
+    const _0x44cf86 = _0x4ddc51;
+    let _0x2d9178 = document[_0x44cf86(0x1a8)](_0x44cf86(0xfd))['value'];
+    if (_0x2d9178 != 0x0 && _0x2d9178 != 0x7 && _0x2d9178 != 0xa) {
+        _0x2d9178 = listData[_0x2d9178][_0x44cf86(0x11f)];
+        let _0x48a38a = '';
+        _0x2d9178 in lightData ? _0x48a38a += _0x44cf86(0x1a7) + _0x2d9178 + _0x44cf86(0x1a1) : _0x48a38a += '';
+        if (collData['carriers']['includes'](_0x2d9178)) {
+            for (let _0x256458 = 0x0; _0x256458 < collData[_0x2d9178]['actualNodes'][_0x44cf86(0x12a)]; _0x256458++) {
+                _0x48a38a += _0x44cf86(0x138) + _0x256458 + ',\x27' + _0x2d9178 + _0x44cf86(0x184) + collData[_0x2d9178][_0x44cf86(0x15b)][_0x256458] + '</button>';
+            }
+            _0x48a38a += _0x44cf86(0x18d);
+            for (let _0x21df80 = 0x0; _0x21df80 < collData[_0x2d9178][_0x44cf86(0x10f)][_0x44cf86(0x12a)]; _0x21df80++) {
+                _0x48a38a += '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22jbd(' + _0x21df80 + ',\x20\x27' + _0x2d9178 + _0x44cf86(0x184) + collData[_0x2d9178][_0x44cf86(0x153)][_0x21df80] + '</button>';
+            }
+        }
+        return _0x48a38a;
+    }
+}
+let winObject;
+window[_0x4ddc51(0x144)] = function() {
+    const _0x349381 = _0x4ddc51;
+    console[_0x349381(0x113)]('window');
+    winObject != void 0x0 && winObject[_0x349381(0x18c)]();
+    let _0x48dc5f = getHTMLForWindow();
+    winObject = window['open']('', 'Title', _0x349381(0x17d) + (screen[_0x349381(0x16e)] - 0x190) + _0x349381(0x15c) + (screen[_0x349381(0x12e)] - 0x348)), winObject[_0x349381(0x16b)]['body'][_0x349381(0x137)] = _0x349381(0xf3) + _0x48dc5f + _0x349381(0x174), winObject[_0x349381(0x117)] = function(_0x43276a) {
+        lightHandler(_0x43276a);
+    }, winObject['elevator'] = function(_0x2de52d, _0x549daf) {
+        elevator(_0x2de52d, _0x549daf);
+    }, winObject[_0x349381(0x123)] = function(_0x1bcc2b, _0x2e2387) {
+        jbd(_0x1bcc2b, _0x2e2387);
+    };
+}, window[_0x4ddc51(0x129)] = ![], window['lightHandler'] = function(_0x441cc5) {
+    lightsPosition ? turnLightsOff(_0x441cc5) : turnLightsOn(_0x441cc5);
+}, window['elevator'] = function(_0x4bf36b, _0x3b7cf3) {
+    const _0x4d5869 = _0x4ddc51;
+    let _0xdf52dd = collData[_0x3b7cf3][_0x4d5869(0x127)][_0x4bf36b];
+    console['log'](_0xdf52dd), clickedNodeHandler(_0xdf52dd);
+}, window['jbd'] = function(_0x574e5, _0xe00f59) {
+    const _0x2e497e = _0x4ddc51;
+    let _0x25fd2e = collData[_0xe00f59][_0x2e497e(0x10f)][_0x574e5];
+    console['log'](_0x25fd2e), clickedNodeHandler(_0x25fd2e);
+};
+
+function turnLightsOn(_0x4b2e11) {
+    const _0x467d5f = _0x4ddc51;
+    despawnLights();
+    for (let _0x55bb75 = 0x0; _0x55bb75 < colors[_0x467d5f(0x12a)]; _0x55bb75++) {
+        for (let _0x546bc7 = 0x0; _0x546bc7 < lightData[_0x4b2e11][colors[_0x55bb75]][_0x467d5f(0x12a)]; _0x546bc7++) {
+            let _0x1f4447 = [];
+            _0x1f4447 = rotatePoint(0x0, 0x0, lightData[_0x4b2e11][colors[_0x55bb75]][_0x546bc7][0x0], lightData[_0x4b2e11][colors[_0x55bb75]][_0x546bc7][0x1], lightData[_0x4b2e11]['angle']), _0x1f4447[0x2] = lightData[_0x4b2e11][colors[_0x55bb75]][_0x546bc7][0x2];
+            let _0x3844e1 = getBuildingPosition(_0x4b2e11),
+                _0x4b8eeb = buildings[_0x3844e1][_0x467d5f(0x151)];
+            var _0x4d3485 = V3[_0x467d5f(0x128)](_0x4b8eeb, xyz2lla(_0x1f4447, _0x4b8eeb));
+            lights[_0x467d5f(0x121)](new geofs['fx'][(_0x467d5f(0x134))](_0x4d3485, colors[_0x55bb75], lightSettings));
+        }
+    }
+    lightsPosition = !![];
+}
+
+function turnLightsOff(_0x55d034) {
+    despawnLights(), lightsPosition = ![];
+}
+
+
+// ============================================================
+// MODULE: vehicles.js
+// ============================================================
+(function () {
+    'use strict';
+    console.log("Extras script running...");
+
+    // reload from error
+    const savedState = localStorage.getItem("geofs_extras_last_state");
+    const url = window.location.href;
+    const jsonUrl = localStorage.getItem("json_url");
+
+    if ((!url.startsWith("https://www.geo-fs.com/fly?a=") && !url.startsWith("https://www.geo-fs.com/geofs.php?a=")) && savedState) {
+
+        const data = JSON.parse(savedState);
+        if(data.aircraftUrl == jsonUrl){
+            setTimeout(() => {
+                loadAircraftFromUrl(data.aircraftUrl, data.aircraftId, data.aircraftName);
+                setTimeout(() => {
+                    geofs.flyTo([data.lat, data.lon, data.alt, data.heading, true]);
+                }, 1000);
+            }, 2000);
+        }
+
+    }
+
+    // ALWAYS CHANGE BACK TO THIS:
+    // https://raw.githubusercontent.com/af267/GeoFS-Extra-Vehicles/refs/heads/main/vehicles.json
+    const DATA_URL = "https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/vehicles.json";
+
+    const aircraftButton = document.querySelector('button[data-toggle-panel=".geofs-aircraft-list"]');
+    if (!aircraftButton) {
+        console.warn("Aircraft button not found.");
+        return;
+    }
+
+    const extrasButton = aircraftButton.cloneNode(true);
+    extrasButton.textContent = "Extras";
+    extrasButton.removeAttribute("data-toggle-panel");
+    extrasButton.setAttribute("data-toggle-panel", ".geofs-extras-list");
+    extrasButton.id = "extras-button";
+    aircraftButton.parentNode.insertBefore(extrasButton, aircraftButton);
+
+    const extrasPanel = document.createElement("ul");
+    extrasPanel.className = "geofs-list geofs-extras-list geofs-toggle-panel";
+
+    // create div, temporary header only
+    extrasPanel.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px; padding-left: 20px;">
+            <img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/logo.png" style="width: 100px; height: auto;" />
+            <h4 style="margin: 0;">GeoFS Extra Vehicles</h4>
+        </div>
+    `;
+
+    const aircraftPanel = document.querySelector(".geofs-aircraft-list");
+    if (aircraftPanel && aircraftPanel.parentNode) {
+        aircraftPanel.parentNode.insertBefore(extrasPanel, aircraftPanel.nextSibling);
+    }
+
+    function createCategorySection(title, items) {
+        const category = document.createElement("li");
+        category.className = "geofs-list-collapsible-item";
+        category.textContent = title;
+
+        const sublist = document.createElement("ul");
+        sublist.className = "geofs-collapsible";
+
+        items.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })); // alphabetical sorting
+
+        items.forEach(item => {
+            const li = document.createElement("li");
+            li.setAttribute("data-url", item.url);
+            li.setAttribute("data-mpid", item.id);
+
+            const itemContent = document.createElement("span");
+            const nameText = document.createTextNode(item.name);
+            itemContent.appendChild(nameText);
+            if (item.mp) {
+                const mpIcon = document.createElement("img");
+                mpIcon.style.width = "20px";
+                mpIcon.style.height = "20px";
+                mpIcon.style.marginLeft = "8px";
+
+                if (item.mp === "green") {
+                    mpIcon.src = "https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/green.png";
+                } else if (item.mp === "yellow") {
+                    mpIcon.src = "https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/yellow.png";
+                } else if (item.mp === "red") {
+                    mpIcon.src = "https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/red.png";
+                }
+                // this part is new, comment out if needed
+                else if (item.mp === "addon") {
+                    mpIcon.src = "https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/addon.png";
+                    geofs.aircraftList[item.id] = {
+                        id: item.id,
+                        community: 1,
+                        multiplayerFiles: "",
+                        name: item.name,
+                        path: item.url
+                    }
+                }
+                // end new part
+
+                itemContent.appendChild(mpIcon);
+            }
+            if (item.ls) {
+                const lsIcon = document.createElement("img");
+                lsIcon.style.width = "20px";
+                lsIcon.style.height = "20px";
+                lsIcon.style.marginLeft = "8px";
+
+                if (item.ls === 1) {
+                    lsIcon.src = "https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/ls_logo.png";
+                }
+
+                itemContent.appendChild(lsIcon);
+            }
+
+            if (item.author) {
+                const authorLine = document.createElement("small");
+                authorLine.style.display = "block";
+                authorLine.style.lineHeight = "10px";
+                authorLine.style.marginBottom = "15px";
+                authorLine.style.color = "gray";
+                authorLine.textContent = item.author;
+                itemContent.appendChild(authorLine);
+            }
+
+            li.appendChild(itemContent);
+
+            sublist.appendChild(li);
+        });
+
+        category.appendChild(sublist);
+        return category;
+    }
+
+    // add about section to the end
+    function appendAboutSection() {
+        const aboutSection = document.createElement("li");
+        aboutSection.className = "geofs-list-collapsible-item";
+        aboutSection.textContent = "About";
+
+        const aboutContent = document.createElement("ul");
+        aboutContent.className = "geofs-collapsible";
+        aboutContent.innerHTML = `
+            <a href="https://github.com/af267/GeoFS-Extra-Vehicles" target="_blank" rel="nofollow"><h4>Current Version: 1.5</h4></a>
+            <p>GeoFS Extra Vehicles is a privately maintained addon not associated with GeoFS.</p>
+            <p>GeoFS Extra Vehicles is an addon developed by AF267 that adds external vehicles from JAaMDG's JXT Group as well as unreleased projects into the simulator.</p>
+            <h5>Multiplayer Models</h5>
+            <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/green.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model supported</span>
+            <br/>
+            <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/addon.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model only supported via addon</span>
+            <br/>
+            <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/yellow.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model shows, but of another similar vehicle</span>
+            <br/>
+            <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/red.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model not supported</span>
+            <br/>
+            <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/ls_logo.png" style="width: 24px; height: auto; margin: 8px">Compatible with <a href="https://github.com/amfi-disable/GEOFS-LiverySelector-Forked" target="_blank">LiverySelector</a> (not guaranteed liveries present)</span>
+            <p>If you have any questions or if you have an aircraft (must have a working aircraft.json) you would like to add, visit the JAaMDG Discord</p>
+            <a href="https://discord.gg/fcFQH6Qhb7" target="_blank" rel="nofollow"><img src="https://www.geo-fs.com/images/discord.png" style="margin: 10px 10px 10px 0px;"/></a>
+            <p>Copyright © AF267 - 2026</p>
+        `;
+        aboutSection.appendChild(aboutContent);
+        extrasPanel.appendChild(aboutSection);
+    }
+
+    function loadAircraftFromUrl(baseUrl, mpID, name) {
+        $.ajax(baseUrl + "aircraft.json", {
+            dataType: "text",
+            success: function (jsonText) {
+                var customRecord = {
+                    id: "custom_" + Date.now(),
+                    name: name,
+                    fullPath: baseUrl,
+                    isPremium: false,
+                    isCommunity: false,
+                    definition: btoa(jsonText),
+                    multiplayerFiles: [
+                        baseUrl + "multiplayer.glb",
+                        baseUrl + "multiplayer-low.glb"
+                    ]
+                };
+
+                var parsedDefinition = geofs.aircraft.instance.parseRecord(JSON.stringify(customRecord));
+
+                if (parsedDefinition) {
+                    geofs.aircraft.instance.unloadAircraft();
+                    customRecord.id = mpID;
+                    geofs.aircraft.instance.id = mpID;
+                    geofs.aircraft.instance.fullPath = customRecord.fullPath;
+                    geofs.aircraft.instance.aircraftRecord = customRecord;
+                    geofs.aircraft.instance.init(parsedDefinition, geofs.aircraft.instance.getCurrentCoordinates());
+
+                } else {
+                    ui.notification.show("Failed to parse aircraft.json");
+                }
+            },
+            error: function () {
+                ui.notification.show("Could not load aircraft.json");
+            }
+        });
+    }
+
+    extrasPanel.addEventListener("click", function (e) {
+        const li = e.target.closest("li[data-url]");
+        if (li) {
+            const url = li.getAttribute("data-url");
+            const mpID = li.getAttribute("data-mpid");
+            const name = li.textContent || li.innerText;
+            localStorage.setItem("json_url", url);
+            loadAircraftFromUrl(url, mpID, name);
+        }
+    });
+
+    // save aircraft and location
+    window.addEventListener("beforeunload", function () {
+        if (geofs && geofs.aircraft && geofs.aircraft.instance) {
+            // gear down?
+            const groundAlt = geofs.api.getGroundAltitude(geofs.aircraft.instance.llaLocation);
+            const correctedAlt = geofs.aircraft.instance.llaLocation[2] - geofs.aircraft.instance.definition.startAltitude;
+            let altToSave = geofs.aircraft.instance.llaLocation[2];
+            if (Math.abs(correctedAlt - groundAlt) <= 5) {
+                altToSave = 0;
+            }
+            const saveData = {
+                lat: geofs.aircraft.instance.llaLocation[0],
+                lon: geofs.aircraft.instance.llaLocation[1],
+                alt: altToSave,
+                heading: geofs.aircraft.instance.htr[0],
+
+                aircraftUrl: geofs.aircraft.instance.fullPath,
+                aircraftId: geofs.aircraft.instance.id,
+                aircraftName: geofs.aircraft.instance.aircraftRecord.name
+            };
+            localStorage.setItem("geofs_extras_last_state", JSON.stringify(saveData));
+        }
+    });
+
+    fetch(DATA_URL)
+        .then(response => response.json())
+        .then(data => {
+            for (const [category, items] of Object.entries(data)) {
+                const section = createCategorySection(category, items);
+                extrasPanel.appendChild(section);
+            }
+            appendAboutSection();
+        })
+        .catch(error => {
+            console.error("Error loading vehicle data:", error);
+
+            // emergency purposes backup
+            extrasPanel.innerHTML += `
+                <div style="display: flex; align-items: center; gap: 10px; padding-left: 20px;">
+                    <img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/logo.png" style="width: 100px; height: auto;" />
+                    <h4 style="margin: 0;">GeoFS Extra Vehicles</h4>
+                    <p>Error: Too many requests to GitHub. Could not load latest JSON data. Incomplete list of vehicles.
+                </div>
+                <li class="geofs-list-collapsible-item">
+                    Aircraft
+                    <ul class="geofs-collapsible">
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/md11_380019_5369/" data-mpid="1023">McDonnell Douglas MD-11 (ADSB)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/c25a_380019_5367/" data-mpid="1021">Cessna Citation CJ2 (ADSB)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/heli_380019_5371/" data-mpid="1025">Eurocopter AS365 Dauphin (ADSB)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/e190_380019_5372/" data-mpid="1018">Embraer E190 (ADSB)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/crj900_380019_5389/" data-mpid="1016">Bombardier CRJ900 (ADSB)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/A160_267286_3007/" data-mpid="50">Paramotor (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/P180Y_267286_3557/" data-mpid="2000">Starship SN5 (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/NK-V_267286_2525/" data-mpid="1014">Ilyushin Il-76TD (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Piper%20XCub_380019_3226/" data-mpid="1">Piper PA-18 Super Cub (GeoFS)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Cessna%20Skymaster%20(Nightheart/Kitten-cat)_380019_4792/" data-mpID="2">Cessna 337 Super Skymaster (by Nightheart)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Hang%20Glider%20Belgium_380019_3111/" data-mpid="50">Hang Glider Belgium (by Johani)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Sikorsky UH-60 Black Hawk_380019_3068/" data-mpid="2806">Sikorsky UH-60 Black Hawk (by Spice_9)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/c650_380019_5390/" data-mpid="2706">Bombardier Challenger 650 (by Ryan Xu)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/72e_380019_5519/" data-mpid="1005">Boeing 777-200ER (by MirageModels)</li>
+                    </ul>
+                </li>
+                <li class="geofs-list-collapsible-item">
+                    Ground Vehicles
+                    <ul class="geofs-collapsible">
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/truck_380019_5368/" data-mpid="1027">Food Service Truck (ADSB)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/NeoAD XTerra_267286_4894/" data-mpid="1027">XTerra SUV (2024 APRIL FOOLS) (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Steelbird Sagittarius Pulsar_267286_5155/" data-mpid="102">Sagittarius Hypercar (2025 APRIL FOOLS) (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/miata2_380019_5509/" data-mpid="102">Mazda MX-5 Miata (by MirageModels)</li>
+                    </ul>
+                </li>
+                <li class="geofs-list-collapsible-item">
+                    Miscellaneous
+                    <ul class="geofs-collapsible">
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/CMV Probability_267286_5009/" data-mpid="2000">CMV Probability Megayacht (2025 APRIL FOOLS) (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/X2000BWB_267286_2329/" data-mpid="2000">Northtech RADIO (2025 APRIL FOOLS) (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Northtech UTOPIA_267286_4136/" data-mpid="2000">Northtech UTOPIA (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/ARCHANGEL_267286_3974/" data-mpid="2000">Northtech ARCHANGEL (2023 APRIL FOOLS) (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Proximus Hovercraft_267286_4644/" data-mpid="2000">Proximus Hovercraft (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/WK2 testbed_267286_2783/" data-mpid="5193">Boeing 747x (2025 APRIL FOOLS) (by AF267)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/type055_380019_5388/" data-mpid="2000">Type 055 Destroyer (by MirageModels)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/Jetpack_380019_5385/" data-mpid="103">Jetpack Wingsuit (by GeoFS & Nightheart)</li>
+                    </ul>
+                </li>
+                <li class="geofs-list-collapsible-item">
+                    Archived
+                    <ul class="geofs-collapsible">
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/alphajet_380019_5403/" data-mpid="3">Dassault-Dornier Alpha Jet (by GeoFS)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/dc3_380019_5401/" data-mpid="16">Douglas DC-3 (by GeoFS)</li>
+                        <li data-url="https://www.geo-fs.com/backend/aircraft/repository/a380_380019_5402/" data-mpid="1012">Airbus A380 (by GeoFS)</li>
+                    </ul>
+                </li>
+                <li class="geofs-list-collapsible-item">
+                    About
+                    <ul class="geofs-collapsible">
+                        <a href="https://github.com/af267/GeoFS-Extra-Vehicles" target="_blank" rel="nofollow"><h4>Current Version: 1.5</h4></a>
+                        <p>GeoFS Extra Vehicles is a privately maintained addon not associated with GeoFS.</p>
+                        <p>GeoFS Extra Vehicles is an addon developed by AF267 that adds external vehicles from JAaMDG's JXT Group as well as unreleased projects into the simulator.</p>
+                        <h5>Multiplayer Models</h5>
+                        <span><img src="https://geofs-assets.evengao6688.workers.dev/addons/vehicles_addon/green.png" style="width: 24px; height: auto; margin: 8px">Multiplayer model supported</span>
+                        <br/>
