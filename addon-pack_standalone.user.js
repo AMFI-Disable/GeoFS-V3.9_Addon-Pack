@@ -9798,3 +9798,51 @@ window.addEventListener("beforeunload", () => {
         </thead>
         <tbody>
             ${tr}
+        </tbody>
+    </table>
+    `;
+            window.sd.addListeners();
+        }
+        window.sd.windowInit = function() {
+            window.sd.updateHTML();
+            window.sd.window = window.open("about:blank", "_blank", "width=1160,height=400");
+            window.sd.window.document.title = 'Sky Dolly';
+            const head = window.sd.window.document.head;
+            let closeScript = window.sd.window.document.createElement('script');
+            closeScript.innerHTML = `
+                // Start checking periodically
+                const interval = setInterval(() => {
+                    // Check if the opener is gone or closed
+                    if (!window.opener || window.opener.closed) {
+                        clearInterval(interval); // Stop the checks
+                        window.close(); // Close this window
+                    }
+                }, 1000); // Check every 1 second
+                `;
+            head.appendChild(closeScript);
+        }
+        g.addButton("Open GUI", window.sd.windowInit, "onclick='window.sd.windowInit()'");
+        window.sd.init();
+        waitForEntities();
+    }
+})();
+function waitForEntities() {
+    try {
+        if (window.geofs.cautiousWithTerrain == false && window.geofs.api && window.geofs.api.addFrameCallback) {
+            // Entities are already defined, no need to wait
+            window.DEGREES_TO_RAD = window.DEGREES_TO_RAD || 0.017453292519943295769236907684886127134428718885417254560971914401710091146034494436822415696345094822123044925073790592483854692275281012398474218934047117319168245015010769561697553581238605305168789;
+            window.RAD_TO_DEGREES = window.RAD_TO_DEGREES || 57.295779513082320876798154814105170332405472466564321549160243861202847148321552632440968995851110944186223381632864893281448264601248315036068267863411942122526388097467267926307988702893110767938261;
+            window.METERS_TO_FEET = window.METERS_TO_FEET || 3.280839895;
+            requestAnimationFrame(window.sd.tick);
+            return;
+        }
+    } catch (error) {
+        // Handle any errors (e.g., log them)
+        console.log('Error in waitForEntities:', error);
+    }
+    // Retry after 1000 milliseconds
+    setTimeout(() => {waitForEntities();}, 1000);
+}
+waitForEntities();
+
+})();
