@@ -9846,4 +9846,4 @@ function waitForEntities() {
 waitForEntities();
 
 })();
-// build: 0671
+// build: 0672
