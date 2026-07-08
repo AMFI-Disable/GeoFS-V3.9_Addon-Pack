@@ -1558,7 +1558,7 @@ clearInterval(blackoutLoadInt)
         runTurbAccel();
     }, 100);
     var scriptC = document.createElement("script");
-    scriptC.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/Advanced-2d-CloudsD.js";
+    scriptC.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/advanced-2d-cloudsd.js";
     document.body.appendChild(scriptC);
     scriptC.onload = function () {
         fixCloudsDensity();
@@ -1566,7 +1566,7 @@ clearInterval(blackoutLoadInt)
     //kludge fix
     geofs.cons = true;
     var scriptCCP = document.createElement("script");
-    scriptCCP.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/ClickableCockpits.js";
+    scriptCCP.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/clickablecockpits.js";
     document.body.appendChild(scriptCCP);
     scriptCCP.onload = function () {
         runClickableCockpits();
@@ -1689,7 +1689,7 @@ shaLoaded = 0
 loadInterval = setInterval(function(){
 	if (shaLoaded == 0 && geofs.fx.overg.shader) {
     var scriptSHA = document.createElement("script");
-    scriptSHA.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SSR.js";
+    scriptSHA.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/ssr.js";
     document.body.appendChild(scriptSHA);
     shaLoaded = 1
 	}
@@ -1770,13 +1770,13 @@ setInterval(
 500)
 
     var scriptKCAS = document.createElement("script");
-    scriptKCAS.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/RealisticKIAS.js";
+    scriptKCAS.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/realistickias.js";
     document.body.appendChild(scriptKCAS);
     scriptKCAS.onload = function () {
         runTrueKias();
     };
     var scriptML = document.createElement("script");
-    scriptML.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/LiverySelector.js";
+    scriptML.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/liveryselector.js";
     document.body.appendChild(scriptML);
     localStorage.favorites = "";
 
@@ -1818,7 +1818,7 @@ setInterval(
     //         clearInterval(flexInterval);
     // //running the script
     // var script737 = document.createElement('script'); 
-    // script737.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SFX_737.js";
+    // script737.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_737.js";
     // document.body.appendChild(script737);
     // script737.onload = function(){clearInterval(tcasIntervalAnnounce)};
     
@@ -1856,7 +1856,7 @@ setInterval(
     // if (b777sounds == 0){
     
     // var script777 = document.createElement('script'); 
-    // script777.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SFX_777.js";
+    // script777.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_777.js";
     // document.body.appendChild(script777);
     // script777.onload = function (){change777s()}
     
@@ -1889,7 +1889,7 @@ setInterval(
     //             clearInterval(flexInterval);
     //     //running the script
     //     var a320script = document.createElement('script'); 
-    //     a320script.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/SFX_a320.js";
+    //     a320script.src="https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_a320.js";
     //     document.body.appendChild(a320script);
     
     //     //script has run now, so we change scriptHasRun to avoid having the script execute multiple times per aircraft instance
@@ -2113,15 +2113,15 @@ setInterval(
     var machCone = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/shockcone.glb"
     var parachute = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/parachute.glb"
     var rainEffect = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/rain.gltf"
-    var f18Afterburner = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18Afterburner.glb"
-    var f18GearUp = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18GearUp.glb"
-    var f18GearDown = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18GearDown.glb"
-    var f18Cockpit = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18Cockpit.glb"
-    var f18Airbrake = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18Airbrake.glb"
-    var mig17GearUp = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17GearUp.glb"
-    var mig17GearDown = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17GearDown.glb"
+    var f18Afterburner = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18afterburner.glb"
+    var f18GearUp = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18gearup.glb"
+    var f18GearDown = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18geardown.glb"
+    var f18Cockpit = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18cockpit.glb"
+    var f18Airbrake = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f18airbrake.glb"
+    var mig17GearUp = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17gearup.glb"
+    var mig17GearDown = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17geardown.glb"
     var mig17speedbrake = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17speedbrake.glb"
-    var mig17Afterburner = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17Afterburner.glb"
+    var mig17Afterburner = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/mig17afterburner.glb"
     var truckModel = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/truck.glb"
     var su27airbrake = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/su27airbrake.glb"
     var f14airbrake = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/models/f14airbrake.glb"
@@ -4589,7 +4589,7 @@ setInterval(() => {
     window.apDisconnect = new Audio(`${audioBase}ap-disconnect.wav`);
     window.minimumBaro = new Audio(`${audioBase}minimum.wav`);
     window.dontSink = new Audio(`${audioBase}dont-sink.wav`);
-    window.masterA = new Audio(`${audioBase}masterAlarm.wav`);
+    window.masterA = new Audio(`${audioBase}masteralarm.wav`);
     window.bankAngle = new Audio(`${audioBase}bank-angle.wav`);
     window.overspeed = new Audio(`${audioBase}overspeed.wav`);
     window.justPaused = false;
@@ -4687,7 +4687,7 @@ if (flight.recorder.playing) {
                 window.apDisconnect = new Audio(`${audioBase}bap-disconnect.wav`);
                 window.minimumBaro = new Audio(`${audioBase}ominimums.wav`);
                 window.dontSink = new Audio(`${audioBase}odont-sink.wav`);
-                window.masterA = new Audio(`${audioBase}bmasterAlarm.wav`);
+                window.masterA = new Audio(`${audioBase}bmasteralarm.wav`);
                 window.bankAngle = new Audio(`${audioBase}obank-angle.wav`);
                 window.overspeed = new Audio(`${audioBase}boverspeed.wav`);
                 window.masterA.loop = true;
@@ -4715,7 +4715,7 @@ if (flight.recorder.playing) {
                 window.apDisconnect = new Audio(`${audioBase}bap-disconnect.wav`);
                 window.minimumBaro = new Audio(`${audioBase}bminimums.wav`);
                 window.dontSink = new Audio(`${audioBase}bdont-sink.wav`);
-                window.masterA = new Audio(`${audioBase}bmasterAlarm.wav`);
+                window.masterA = new Audio(`${audioBase}bmasteralarm.wav`);
                 window.bankAngle = new Audio(`${audioBase}bbank-angle.wav`);
                 window.overspeed = new Audio(`${audioBase}boverspeed.wav`);
                 window.masterA.loop = true;
@@ -4743,7 +4743,7 @@ if (flight.recorder.playing) {
                 window.apDisconnect = new Audio(`${audioBase}ap-disconnect.wav`);
                 window.minimumBaro = new Audio(`${audioBase}minimum.wav`);
                 window.dontSink = new Audio(`${audioBase}dont-sink.wav`);
-                window.masterA = new Audio(`${audioBase}masterAlarm.wav`);
+                window.masterA = new Audio(`${audioBase}masteralarm.wav`);
                 window.bankAngle = new Audio(`${audioBase}bank-angle.wav`);
                 window.overspeed = new Audio(`${audioBase}overspeed.wav`);
                 window.masterA.loop = true;
@@ -7589,7 +7589,7 @@ function animationHandler(_0x140de4, _0x5ef7eb) {
 }
 
 function _0x80ea() {
-    const _0x4654af = ['preProcessObjects', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=780,height=300,top=', 'sqrt', 'actualNodes', 'atan2', 'atan', 'indexOf', 'animation', '\x27)\x22>', 'insertBefore', '_lla', 'div', 'JBD', '2767956DGLzGd', 'tan', 'maritime', 'close', '</p>', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/addonHandler.js', 'loadOnMap', 'movingCollision', 'loadModels', 'forEach', 'geofs-ui-left', '_billboard', 'applyCentralImpulse', 'createElement', 'blue', 'barKey', 'key', 'then', 'internalNodeHandlerMaritime', 'JBDAnglesPos', 'launchKey', 'includes', 'unloadModels', '8559698pCKFzG', '\x27)\x22>Toggle\x20Lights</button></p>', 'reset', 'inCarrierPlane', 'resetCollisions', 'apporachSpawn', 'splice', '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22turnLightOn(\x27', 'getElementById', 'winButtons', 'values', 'keypress', 'instance', 'toRadians', 'setup', 'max', '<style>\x0a\x20\x20\x20\x20\x20\x20\x20\x20.mdl-button{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x200\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x202px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#000;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20height:\x2036px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20min-width:\x2064px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200\x2016px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:\x20inline-block;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20\x22Roboto\x22,\x22Helvetica\x22,\x22Arial\x22,sans-serif;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2014px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-weight:\x20500;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-transform:\x20uppercase;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20letter-spacing:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow:\x20hidden;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20will-change:\x20box-shadow;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transition:\x20box-shadow\x20.2s\x20cubic-bezier(.4,0,1,1),background-color\x20.2s\x20cubic-bezier(.4,0,.2,1),color\x20.2s\x20cubic-bezier(.4,0,.2,1);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20outline:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20cursor:\x20pointer;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-decoration:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20line-height:\x2036px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20vertical-align:\x20middle;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20.center\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20verdana;\x0a\x20\x20\x20\x20\x20\x20\x20\x20display:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20</style>\x0a\x20\x20\x20\x20\x20\x20\x20\x20', 'refAlt', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/collisionSettings.json', 'collState', '3460', '</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22loadOnMap()\x22\x20data-upgraded=\x22,MaterialButton\x22>Get\x20direction\x20to\x20structure</button>\x0a\x20\x20</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22runwaySpawn()\x22\x20data-upgraded=\x22,MaterialButton\x22>Spawn\x20on\x20location</button>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22apporachSpawn()\x22\x20data-upgraded=\x22,MaterialButton\x22>Spawn\x20on\x20approach</button>\x0a\x20\x20\x20\x20\x20\x20</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22openWindow()\x22\x20data-upgraded=\x22,MaterialButton\x22>Open\x20Object\x20Settings</button>\x0a\x20\x20</ul>', 'down', 'whitepapi', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/buildingsLoc.json', 'planeID', 'structureSelect', 'modelLocs', '<label\x20for=\x22parkourSelect\x22>Choose\x20a\x20structure:</label><select\x20name=\x22structureSelect\x22\x20id=\x22structureSelect\x22>', 'parse', 'random', 'lights', 'bottom', '38096kNbTeG', 'collisionTriangles', 'flyTo', 'v_angularVelocity', 'cos', '<button\x20class=\x22mdl-button\x20mdl-js-button\x20geofs-f-standard-ui\x20geofs-mediumScreenOnly\x22\x20data-toggle-panel=\x22.geofs-carriers-list\x22\x20data-tooltip-classname=\x22mdl-tooltip--top\x22\x20id=\x22landButton\x22\x20tabindex=\x220\x22\x20data-upgraded=\x22,MaterialButton\x22>MARITIME</button>', 'stopCreatePath', 'carriers', 'getElementsByClassName', 'ressetting\x20wires\x20', 'rotation', 'JBDTouch', 'launchBarDown', '61209LCPDeV', 'rigidBody', 'log', 'aircraftRecord', 'llaLocation', 'barDown', 'turnLightOn', 'runwaySpawn', 'barLocked', 'cg57', '2032075MJBKXx', '3960tMonev', 'getNode', 'lockKey', 'name', '1102381ODSJzG', 'push', 'actualCatPos', 'jbd', 'mass', 'min', 'json', 'touchNodes', 'add', 'lightsPosition', 'length', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/launch_bar_down.png', 'Failed\x20to\x20load\x20handling\x20script,\x20please\x20try\x20again\x20or\x20reload.\x20If\x20this\x20problem\x20persists,\x20contact\x20Elon.', 'undefined', 'width', 'reverse', 'mainData', 'locationIndex', 'api', 'setLocation', 'light', 'model', 'setAngularVelocity', 'innerHTML', '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22elevator(', 'positionTarget', 'animatable', 'null', 'addons', 'positions', 'collision', 'readyToLaunch', 'time', 'orange', 'longitude', 'definitions', 'openWindow', 'square', 'objects', 'instruments', '<ul\x20class=\x22geofs-list\x20geofs-toggle-panel\x20geofs-carriers-list\x20geofs-preferences\x22\x20data-noblur=\x22true\x22\x20data-onshow=\x22{geofs.initializePreferencesPanel()}\x22\x20data-onhide=\x22{geofs.savePreferencesPanel()}\x22>\x0a\x20\x20\x20\x20<style>\x0a\x20\x20\x20\x20\x20\x20#MainDIV\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20\x20\x20\x20\x20left:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20top:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20#fff;\x0a\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20left;\x0a\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200\x200\x200\x2010px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20margin-top:\x202px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20margin-bottom:\x202px\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20table,\x0a\x20\x20\x20\x20\x20\x20td,\x0a\x20\x20\x20\x20\x20\x20th\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20#000\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20#DIVtitle\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#000;\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20Helvetica,\x20Arial,\x20sans-serif;\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2020px\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20</style>\x0a\x20\x20\x20\x20<div\x20id=\x22MainDIV\x22>\x0a\x20\x20\x20\x20\x20\x20<p\x20id=\x22DIVtitle\x22>Geo-FS\x20Extra\x20Maritime\x20structures</p>\x0a\x20\x20\x20\x20\x20\x20</p>', 'map', 'sin', 'setVisibility', 'landButton', 'lockInt', 'init', 'catLlas', 'intervals', 'location', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/ready_to_launch.png', 'JBDName', 'updateCollidables', 'show', 'value', 'gear', 'alt', 'delta', 'aircraft', 'position', ',left=', 'vinson', 'truman', '48QpXZqF', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/lights.json', '2581', 'collisionsMove', 'destroy', 'entries', 'heading360', 'setLinearVelocity', 'elevatorSquares', 'carrierPlaneIds', 'easeOutQuart', 'camera', 'document', 'objectList', 'collAlt', 'height', 'carrierIndex', 'moving', 'buttonPressed', 'whitesmoke', 'geofs-ui-bottom', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/buildings.json', 'latitude', 'positionReadable', 'angle', 'animateMain', '1251516VQvfLS', 'redpapi'];
+    const _0x4654af = ['preProcessObjects', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=780,height=300,top=', 'sqrt', 'actualNodes', 'atan2', 'atan', 'indexOf', 'animation', '\x27)\x22>', 'insertBefore', '_lla', 'div', 'JBD', '2767956DGLzGd', 'tan', 'maritime', 'close', '</p>', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/addonhandler.js', 'loadOnMap', 'movingCollision', 'loadModels', 'forEach', 'geofs-ui-left', '_billboard', 'applyCentralImpulse', 'createElement', 'blue', 'barKey', 'key', 'then', 'internalNodeHandlerMaritime', 'JBDAnglesPos', 'launchKey', 'includes', 'unloadModels', '8559698pCKFzG', '\x27)\x22>Toggle\x20Lights</button></p>', 'reset', 'inCarrierPlane', 'resetCollisions', 'apporachSpawn', 'splice', '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22turnLightOn(\x27', 'getElementById', 'winButtons', 'values', 'keypress', 'instance', 'toRadians', 'setup', 'max', '<style>\x0a\x20\x20\x20\x20\x20\x20\x20\x20.mdl-button{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x200\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x202px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#000;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20height:\x2036px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20min-width:\x2064px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200\x2016px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:\x20inline-block;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20\x22Roboto\x22,\x22Helvetica\x22,\x22Arial\x22,sans-serif;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2014px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-weight:\x20500;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-transform:\x20uppercase;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20letter-spacing:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow:\x20hidden;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20will-change:\x20box-shadow;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transition:\x20box-shadow\x20.2s\x20cubic-bezier(.4,0,1,1),background-color\x20.2s\x20cubic-bezier(.4,0,.2,1),color\x20.2s\x20cubic-bezier(.4,0,.2,1);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20outline:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20cursor:\x20pointer;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-decoration:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20line-height:\x2036px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20vertical-align:\x20middle;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20.center\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20verdana;\x0a\x20\x20\x20\x20\x20\x20\x20\x20display:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20</style>\x0a\x20\x20\x20\x20\x20\x20\x20\x20', 'refAlt', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/collisionsettings.json', 'collState', '3460', '</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22loadOnMap()\x22\x20data-upgraded=\x22,MaterialButton\x22>Get\x20direction\x20to\x20structure</button>\x0a\x20\x20</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22runwaySpawn()\x22\x20data-upgraded=\x22,MaterialButton\x22>Spawn\x20on\x20location</button>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22apporachSpawn()\x22\x20data-upgraded=\x22,MaterialButton\x22>Spawn\x20on\x20approach</button>\x0a\x20\x20\x20\x20\x20\x20</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22openWindow()\x22\x20data-upgraded=\x22,MaterialButton\x22>Open\x20Object\x20Settings</button>\x0a\x20\x20</ul>', 'down', 'whitepapi', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/buildingsloc.json', 'planeID', 'structureSelect', 'modelLocs', '<label\x20for=\x22parkourSelect\x22>Choose\x20a\x20structure:</label><select\x20name=\x22structureSelect\x22\x20id=\x22structureSelect\x22>', 'parse', 'random', 'lights', 'bottom', '38096kNbTeG', 'collisionTriangles', 'flyTo', 'v_angularVelocity', 'cos', '<button\x20class=\x22mdl-button\x20mdl-js-button\x20geofs-f-standard-ui\x20geofs-mediumScreenOnly\x22\x20data-toggle-panel=\x22.geofs-carriers-list\x22\x20data-tooltip-classname=\x22mdl-tooltip--top\x22\x20id=\x22landButton\x22\x20tabindex=\x220\x22\x20data-upgraded=\x22,MaterialButton\x22>MARITIME</button>', 'stopCreatePath', 'carriers', 'getElementsByClassName', 'ressetting\x20wires\x20', 'rotation', 'JBDTouch', 'launchBarDown', '61209LCPDeV', 'rigidBody', 'log', 'aircraftRecord', 'llaLocation', 'barDown', 'turnLightOn', 'runwaySpawn', 'barLocked', 'cg57', '2032075MJBKXx', '3960tMonev', 'getNode', 'lockKey', 'name', '1102381ODSJzG', 'push', 'actualCatPos', 'jbd', 'mass', 'min', 'json', 'touchNodes', 'add', 'lightsPosition', 'length', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/launch_bar_down.png', 'Failed\x20to\x20load\x20handling\x20script,\x20please\x20try\x20again\x20or\x20reload.\x20If\x20this\x20problem\x20persists,\x20contact\x20Elon.', 'undefined', 'width', 'reverse', 'mainData', 'locationIndex', 'api', 'setLocation', 'light', 'model', 'setAngularVelocity', 'innerHTML', '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22elevator(', 'positionTarget', 'animatable', 'null', 'addons', 'positions', 'collision', 'readyToLaunch', 'time', 'orange', 'longitude', 'definitions', 'openWindow', 'square', 'objects', 'instruments', '<ul\x20class=\x22geofs-list\x20geofs-toggle-panel\x20geofs-carriers-list\x20geofs-preferences\x22\x20data-noblur=\x22true\x22\x20data-onshow=\x22{geofs.initializePreferencesPanel()}\x22\x20data-onhide=\x22{geofs.savePreferencesPanel()}\x22>\x0a\x20\x20\x20\x20<style>\x0a\x20\x20\x20\x20\x20\x20#MainDIV\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20\x20\x20\x20\x20left:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20top:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20#fff;\x0a\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20left;\x0a\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200\x200\x200\x2010px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20margin-top:\x202px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20margin-bottom:\x202px\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20table,\x0a\x20\x20\x20\x20\x20\x20td,\x0a\x20\x20\x20\x20\x20\x20th\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20#000\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20#DIVtitle\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#000;\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20Helvetica,\x20Arial,\x20sans-serif;\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2020px\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20</style>\x0a\x20\x20\x20\x20<div\x20id=\x22MainDIV\x22>\x0a\x20\x20\x20\x20\x20\x20<p\x20id=\x22DIVtitle\x22>Geo-FS\x20Extra\x20Maritime\x20structures</p>\x0a\x20\x20\x20\x20\x20\x20</p>', 'map', 'sin', 'setVisibility', 'landButton', 'lockInt', 'init', 'catLlas', 'intervals', 'location', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/ready_to_launch.png', 'JBDName', 'updateCollidables', 'show', 'value', 'gear', 'alt', 'delta', 'aircraft', 'position', ',left=', 'vinson', 'truman', '48QpXZqF', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/lights.json', '2581', 'collisionsMove', 'destroy', 'entries', 'heading360', 'setLinearVelocity', 'elevatorSquares', 'carrierPlaneIds', 'easeOutQuart', 'camera', 'document', 'objectList', 'collAlt', 'height', 'carrierIndex', 'moving', 'buttonPressed', 'whitesmoke', 'geofs-ui-bottom', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/buildings.json', 'latitude', 'positionReadable', 'angle', 'animateMain', '1251516VQvfLS', 'redpapi'];
     _0x80ea = function() {
         return _0x4654af;
     };
