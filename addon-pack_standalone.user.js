@@ -207,7 +207,7 @@ function aoaLookup(id) {
 }
 (function() {
     if (!window.gmenu || !window.GMenu) {
-        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
             .then(script => {eval(script);})
             .then(() => {setTimeout(afterGMenu, 100);});
@@ -867,7 +867,7 @@ function aoaLookup(id) {
 
 
 // ============================================================
-// MODULE: addonMenu.js
+// MODULE: addonmenu.js
 // ============================================================
 (function() {
     'use strict';
@@ -5609,7 +5609,7 @@ function listPanel() {
 (function() {
     'use strict';
     if (!window.gmenu || !window.GMenu) {
-        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
             .then(script => {eval(script);})
             .then(() => {setTimeout(afterGMenu, 100);});
@@ -6127,7 +6127,7 @@ out body;
     });
     if (!window.gmenu || !window.GMenu) {
         console.log("Streetlights getting GMenu");
-        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
             .then(script => {eval(script);})
             .then(() => {setTimeout(afterGMenu, 100);});
@@ -6364,7 +6364,7 @@ window.removeCloseStreetlights = async function() {
     };
     if (!window.gmenu || !window.GMenu) {
         console.log("Taxiway Lights getting GMenu");
-        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
             .then(script => {eval(script);})
             .then(() => {setTimeout(afterGMenu, 100);});
@@ -6923,7 +6923,7 @@ const workerScript = () => {
         }
     });
     if (!window.gmenu || !window.GMenu) {
-        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js')
+        fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
             .then(script => {eval(script);})
             .then(() => {setTimeout(afterGMenu, 100);});
@@ -8488,7 +8488,7 @@ window.addEventListener("beforeunload", () => {
     //Addon menu code
     if (!window.gmenu || !window.GMenu) {
         fetch(
-            "https://geofs-assets.evengao6688.workers.dev/scripts/addonMenu.js"
+            "https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js"
         )
             .then((response) => response.text())
             .then((script) => {
