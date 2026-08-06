@@ -123,8 +123,8 @@
 // @compatible          opera
 // ==/UserScript==
 
-(function() {
-    'use strict';
+(() => {
+    
     console.info('[GeoFS-V3.9_Addon-Pack] >> V3.0.1 Loaded.');
 
 
@@ -205,7 +205,7 @@ function aoaLookup(id) {
             return 6;
     }
 }
-(function() {
+(() => {
     if (!window.gmenu || !window.GMenu) {
         fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
@@ -301,10 +301,10 @@ function aoaLookup(id) {
             b: parseInt(result[3], 16)
         } : null;
     }
-    window.createFlare = function(life = 5000, vel = [(Math.random() > 0.5) ? 35: -35, Math.random()*10, -25], gravity = -9.8, position = [Math.sin(window.geofs.animation.values.heading360*window.DEGREES_TO_RAD), Math.cos(window.geofs.animation.values.heading360*window.DEGREES_TO_RAD), 0], origLLA = window.geofs.aircraft.instance.llaLocation, htr = window.geofs.aircraft.instance.object3d.htr, v = window.geofs.aircraft.instance.velocity) {
-        let endTime = Date.now() + life + Math.random()*1000;
-        let startTime = Date.now();
-        let flare = new window.geofs.api.billboard(
+    window.createFlare = (life = 5000, vel = [(Math.random() > 0.5) ? 35: -35, Math.random()*10, -25], gravity = -9.8, position = [Math.sin(window.geofs.animation.values.heading360*window.DEGREES_TO_RAD), Math.cos(window.geofs.animation.values.heading360*window.DEGREES_TO_RAD), 0], origLLA = window.geofs.aircraft.instance.llaLocation, htr = window.geofs.aircraft.instance.object3d.htr, v = window.geofs.aircraft.instance.velocity) => {
+        const endTime = Date.now() + life + Math.random()*1000;
+        const startTime = Date.now();
+        const flare = new window.geofs.api.billboard(
             [...origLLA],
             "images/lights/yellowflare.png",
             {
@@ -312,9 +312,9 @@ function aoaLookup(id) {
                 opacity: 1
             }
         );
-        let c = hexToRgb(localStorage.getItem("utilsFColor")); //c for Color
+        const c = hexToRgb(localStorage.getItem("utilsFColor")); //c for Color
         flare._billboard.color = new window.Cesium.Color(c.r/255, c.g/255, c.b/255, 1);
-        let smoke = new window.geofs.fx.ParticleEmitter({
+        const smoke = new window.geofs.fx.ParticleEmitter({
             off: 0,
             location: origLLA,
             duration: 1E10,
@@ -351,20 +351,20 @@ function aoaLookup(id) {
     function emitFlares(speed = 1) {
         if (!window.emittingFlares && localStorage.getItem("utilsEnabled") == 'true') {
             window.emittingFlares = true;
-            let doRight = window.gmenu.get("utils", "FRight");
-            let doLeft = window.gmenu.get("utils", "FLeft");
-            let doCenter = window.gmenu.get("utils", "FCenter");
-            let doUp = window.gmenu.get("utils", "FUp");
-            let num = Number(doRight) + Number(doLeft) + Number(doCenter) + Number(doUp);
-            let time = (1000/Number(localStorage.getItem("utilsFRate")))*num;
-            let life = 1000*Number(localStorage.getItem("utilsFLife"));
+            const doRight = window.gmenu.get("utils", "FRight");
+            const doLeft = window.gmenu.get("utils", "FLeft");
+            const doCenter = window.gmenu.get("utils", "FCenter");
+            const doUp = window.gmenu.get("utils", "FUp");
+            const num = Number(doRight) + Number(doLeft) + Number(doCenter) + Number(doUp);
+            const time = (1000/Number(localStorage.getItem("utilsFRate")))*num;
+            const life = 1000*Number(localStorage.getItem("utilsFLife"));
             let nextTime = Date.now();
-            let startTime = Date.now();
+            const startTime = Date.now();
             function doFlare() {
                 if (window.emittingFlares && Date.now() >= nextTime) {
                     doRight && window.createFlare(life/speed, scale([25 + 25*Math.random(), /*(Math.random()*80)*/0, 0], speed)); //Right
                     doLeft && window.createFlare(life/speed, scale([-25 - 25*Math.random(), /*(Math.random()*80)*/0, 0], speed)); //Left
-                    let rand = Math.random();
+                    const rand = Math.random();
                     doCenter && window.createFlare(life/speed, scale([Math.random()*10 - 5, 0, -33], speed)); //Center
                     doUp && window.createFlare(life/speed, scale([30, Math.random()*100, 100], speed)); //Up
                     nextTime = Date.now() + time/2 + (time*Math.random());
@@ -379,7 +379,7 @@ function aoaLookup(id) {
     function stopFlares() {
         window.emittingFlares = false;
     }
-    window.fLoadAC130 = function() {
+    window.fLoadAC130 = () => {
         window.gmenu.toggleMenu();
         localStorage.setItem("utilsFColor", "#ffda8a");
         localStorage.setItem("utilsFLife", "3");
@@ -394,7 +394,7 @@ function aoaLookup(id) {
         localStorage.setItem("utilsFSmokeOpacity", "0.1");
         window.gmenu.toggleMenu();
     }
-    window.fLoadF22 = function() {
+    window.fLoadF22 = () => {
         window.gmenu.toggleMenu();
         localStorage.setItem("utilsFColor", "#ffda8a");
         localStorage.setItem("utilsFLife", "3");
@@ -487,17 +487,17 @@ function aoaLookup(id) {
                     startRotation: "random",
                     texture: "whitesmoke"
                 });
-                let c = hexToRgb(localStorage.getItem("utilsColor")); //c for Color
+                const c = hexToRgb(localStorage.getItem("utilsColor")); //c for Color
                 window.smokeParticles.push([window.smoke, new window.Cesium.Color(c.r/255, c.g/255, c.b/255, 1), 0]);
                 if (window.smokeColor) {
                     clearInterval(window.smokeColor);
                 }
                 window.smokeColor = setInterval(() => {
                     // window.geofs.fx.setParticlesColor(new window.Cesium.Color(r,g,b,1)); // Legacy particle system reference.
-                    for (let p in window.smokeParticles) {
-                        let id = window.smokeParticles[p][0]._id; //Get the id of the particleEmitter
+                    for (const p in window.smokeParticles) {
+                        const id = window.smokeParticles[p][0]._id; //Get the id of the particleEmitter
                         let stillExists = false;
-                        for (let i in window.geofs.fx.particles) { //Compare the id to all of the particles' emitter ids
+                        for (const i in window.geofs.fx.particles) { //Compare the id to all of the particles' emitter ids
                             if (window.geofs.fx.particles[i]._emitter._id == id) {
                                 window.geofs.fx.particles[i].setColor(window.smokeParticles[p][1]);
                                 stillExists = true;
@@ -518,12 +518,12 @@ function aoaLookup(id) {
         }
     }
 
-    window.utilsCameraTick = function() {
+    window.utilsCameraTick = () => {
         if (window.geofs.camera.currentMode != 5) {
             window.mouselessTimeout = null;
             window.utilsCameraTicking = true;
-            let time = Number(localStorage.getItem("utilsCamResetTime"))*1000;
-            let fTime = Date.now()+time;
+            const time = Number(localStorage.getItem("utilsCamResetTime"))*1000;
+            const fTime = Date.now()+time;
             let fac = Math.min(1-(fTime-Date.now())/time, 1);
             let f;
             let cO;
@@ -532,7 +532,7 @@ function aoaLookup(id) {
             let nP;
             function theTick() {
                 fac = Math.min(1-(fTime-Date.now())/time, 1);
-                f = Math.pow(Math.sin((Math.PI/2)*fac), 2); //Sin(Pi/2*fac)^2 makes transition smooth
+                f = Math.sin((Math.PI/2)*fac) ** 2; //Sin(Pi/2*fac)^2 makes transition smooth
                 cO = window.geofs.camera.currentDefinition.orientations.current;
                 nO = window.geofs.camera.currentDefinition.orientations.neutral;
                 cP = window.geofs.camera.currentDefinition.offsets.current;
@@ -553,7 +553,7 @@ function aoaLookup(id) {
             theTick();
         }
     }
-    window.utilsMouseless = function() { //Called every time the mouse is moved
+    window.utilsMouseless = () => { //Called every time the mouse is moved
         if (window.mouselessTimeout) {
             window.controls.mouse.down = 1;
             clearTimeout(window.mouselessTimeout);
@@ -571,8 +571,8 @@ function aoaLookup(id) {
         const visibleWidthMeters = 2 * distanceMeters * Math.tan(fovRadians / 2);
         return visibleWidthMeters / screenWidthPixels;
     }
-    window.mainUtilFn = function() {
-        'use strict';
+    window.mainUtilFn = () => {
+        
         window.isLightOn = false;
         window.isLight = false;
         window.offI = 0.0;
@@ -584,30 +584,30 @@ function aoaLookup(id) {
         window.mouselessTimeout = null;
         window.mouselessListener = false;
         let lastTime = Date.now();
-        let flareInterval = function() {
+        const flareInterval = () => {
             for (let f = window.flares.length - 1; f >= 0; f--) {
-                let flr = window.flares[f];
+                const flr = window.flares[f];
                 if (Date.now() > flr.endTime) {
                     flr.flare.destroy();
                     flr.smoke.destroy();
                     window.flares.splice(f, 1);
                 } else {
-                    let fac = (Date.now() - flr.startTime) / (flr.endTime - flr.startTime);
-                    let dt = (Date.now() - lastTime)/1000;
-                    let speed = Math.sqrt(flr.vel[0]**2 + flr.vel[1]**2 + flr.vel[2]**2);
-                    let dragFactor = 0.5 * 1.225 * (flr.dragRdm[0] + Number(localStorage.getItem("utilsFlrDrg")));
-                    let dragForce = speed * speed * dragFactor;
+                    const fac = (Date.now() - flr.startTime) / (flr.endTime - flr.startTime);
+                    const dt = (Date.now() - lastTime)/1000;
+                    const speed = Math.sqrt(flr.vel[0]**2 + flr.vel[1]**2 + flr.vel[2]**2);
+                    const dragFactor = 0.5 * 1.225 * (flr.dragRdm[0] + Number(localStorage.getItem("utilsFlrDrg")));
+                    const dragForce = speed * speed * dragFactor;
                     flr.vel[0] -= (flr.vel[0] / speed) * dragForce * dt;
                     flr.vel[1] -= (flr.vel[1] / speed) * dragForce * dt;
                     flr.vel[2] -= ((flr.vel[2] / speed) * dragForce * dt) - (flr.gravity * dt);
-                    let dPos = scale(flr.vel, dt); //Calculate position delta
+                    const dPos = scale(flr.vel, dt); //Calculate position delta
                     flr.position = add(flr.position, [dPos[0], dPos[1], dPos[2]]);
-                    let loc = add(flr.origLLA, window.geofs.api.xyz2lla(flr.position, flr.origLLA));
+                    const loc = add(flr.origLLA, window.geofs.api.xyz2lla(flr.position, flr.origLLA));
                     flr.smoke._options.location = loc;
                     flr.flare.setLocation(loc);
-                    flr.flare._billboard.color.alpha = 1-Math.pow(fac, 4);
+                    flr.flare._billboard.color.alpha = 1-fac ** 4;
                     flr.boundingSphere.center = window.Cesium.Cartesian3.fromDegrees(loc[1], loc[0], loc[2]);
-                    flr.flare._billboard.scale = Number(localStorage.getItem("utilsFSize"))*(1/Math.max(0.01,window.geofs.camera.cam.getPixelSize(flr.boundingSphere, window.geofs.api.viewer.canvas.width, window.geofs.api.viewer.canvas.height)))*(1-Math.pow(fac, 4))/10;
+                    flr.flare._billboard.scale = Number(localStorage.getItem("utilsFSize"))*(1/Math.max(0.01,window.geofs.camera.cam.getPixelSize(flr.boundingSphere, window.geofs.api.viewer.canvas.width, window.geofs.api.viewer.canvas.height)))*(1-fac ** 4)/10;
                 }
             }
             lastTime = Date.now();
@@ -713,9 +713,9 @@ function aoaLookup(id) {
     border-radius: 100px;
 "></div><div style="position: absolute;left: 51%;width: 5%;height: 5px;background: blue;border-radius: 0px 20px 20px 0px;border-top: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-image: initial;border-left: none;" id="AoABlueRange"></div>`;
                     const c = document.getElementById("aoa-container");
-                    document.getElementById("aoa-dragger").addEventListener('mousedown', function(e) {
-                        let offsetX = e.clientX - c.getBoundingClientRect().left;
-                        let offsetY = e.clientY - c.getBoundingClientRect().top;
+                    document.getElementById("aoa-dragger").addEventListener('mousedown', (e) => {
+                        const offsetX = e.clientX - c.getBoundingClientRect().left;
+                        const offsetY = e.clientY - c.getBoundingClientRect().top;
 
                         function mouseMoveHandler(e) {
                             c.style.left = `${e.clientX - offsetX}px`;
@@ -768,9 +768,9 @@ function aoaLookup(id) {
                         c.style.display = (window.instruments.visible) ? 'block' : 'none';
                         window.uAoA = -window.geofs.animation.values.atilt-(Math.atan((window.geofs.animation.values.verticalSpeed*0.00987473)/window.geofs.animation.values.groundSpeedKnt)*window.RAD_TO_DEGREES);
                         document.getElementById("AoA-Div").innerHTML = "AoA: " + Math.round(window.uAoA*10)/10;
-                        let i = document.getElementById("aoa-img");
-                        let blue = aoaLookup(Number(window.geofs.aircraft.instance.id));
-                        let crit = (window.geofs.aircraft.instance.airfoils[2] && window.geofs.aircraft.instance.airfoils[2].stallIncidence);
+                        const i = document.getElementById("aoa-img");
+                        const blue = aoaLookup(Number(window.geofs.aircraft.instance.id));
+                        const crit = (window.geofs.aircraft.instance.airfoils[2] && window.geofs.aircraft.instance.airfoils[2].stallIncidence);
                         if (!window.geofs.aircraft.instance.engine.on) {
                             i.src = "https://geofs-assets.evengao6688.workers.dev/audio/tylerbmusic/aoa0.png";
                         } else if (inRange(window.uAoA, 0, blue/2)) {
@@ -788,9 +788,9 @@ function aoaLookup(id) {
                         }
                     }, 50);
 
-                    document.getElementById("aoa-dragger").addEventListener('mousedown', function(e) {
-                        let offsetX = e.clientX - c.getBoundingClientRect().left;
-                        let offsetY = e.clientY - c.getBoundingClientRect().top;
+                    document.getElementById("aoa-dragger").addEventListener('mousedown', (e) => {
+                        const offsetX = e.clientX - c.getBoundingClientRect().left;
+                        const offsetY = e.clientY - c.getBoundingClientRect().top;
 
                         function mouseMoveHandler(e) {
                             c.style.left = `${e.clientX - offsetX}px`;
@@ -869,8 +869,8 @@ function aoaLookup(id) {
 // ============================================================
 // MODULE: addonmenu.js
 // ============================================================
-(function() {
-    'use strict';
+(() => {
+    
     if (!window.gmenu) {
         window.gmenu = {};
     }
@@ -968,8 +968,7 @@ function aoaLookup(id) {
  * @param {string} selector - The query selector 
  * @returns {Element} The element from the query selector.
  */
-window.gmenu.waitForElm = function(selector) {
-    return new Promise(resolve => {
+window.gmenu.waitForElm = (selector) => new Promise(resolve => {
         if (document.querySelector(selector)) {
             return resolve(document.querySelector(selector));
         }
@@ -987,12 +986,11 @@ window.gmenu.waitForElm = function(selector) {
             subtree: true
         });
     });
-};
 
 /**
  * Toggles the menu (closes if it's opened, opens if it's closed)
  */
-window.gmenu.toggleMenu = function() {
+window.gmenu.toggleMenu = () => {
     if (window.gmenu.isOpen) {
         window.gmenu.isOpen = false;
         window.gmenu.menuDiv.style.display = "none";
@@ -1000,7 +998,7 @@ window.gmenu.toggleMenu = function() {
         window.gmenu.isOpen = true;
         window.gmenu.menuDiv.style.display = "block";
         for (let i = 0; i < window.gmenu.allLS.length; i++) {
-            let currLS = window.gmenu.allLS[i];
+            const currLS = window.gmenu.allLS[i];
             currLS[1] ? document.getElementById(currLS[0]).checked = (localStorage.getItem(currLS[0]) == 'true') : document.getElementById(currLS[0]).value = localStorage.getItem(currLS[0]);
         }
     }
@@ -1009,11 +1007,11 @@ window.gmenu.toggleMenu = function() {
 /**
  * Compiles all the HTML in `window.gmenu.allHTML` and sorts them alphabetically.
  */
-window.gmenu.compileAllHTML = function() {
-    let keys = Object.keys(window.gmenu.allHTML).sort();
+window.gmenu.compileAllHTML = () => {
+    const keys = Object.keys(window.gmenu.allHTML).sort();
     window.gmenu.menuDiv.innerHTML = ``; //Clear the HTML to refresh it
-    for (let i of keys) {
-        let h = window.gmenu.allHTML[i]; //Current block of HTML
+    for (const i of keys) {
+        const h = window.gmenu.allHTML[i]; //Current block of HTML
         window.gmenu.menuDiv.innerHTML += `<div>`; //Inner div
         window.gmenu.menuDiv.innerHTML += h;
         window.gmenu.menuDiv.innerHTML += `<div class="gmenu-hr"></div></div>`; //Horizontal rule and div end (I would use the <hr> element but I think this is a little nicer and more visible)
@@ -1024,14 +1022,14 @@ window.gmenu.compileAllHTML = function() {
  * In a nutshell, this function handles shortcut changes when the user presses a shortcut button.
  * @param {string} id - The id of the element to be changed, which should also be the localStorage id.
  */
-window.gmenu.changeShortcut = function(id) {
+window.gmenu.changeShortcut = (id) => {
     console.log(id);
-    let btn = document.getElementById(id);
+    const btn = document.getElementById(id);
     if (btn.innerHTML !== 'Press any key...') {
         btn.innerHTML = 'Press any key...';
         btn.classList.add("gmenu-edit");
         function listen(e) {
-            let ovrrd = [e.code.toLowerCase().includes("control"), e.code.toLowerCase().includes("shift"), e.code.toLowerCase().includes("alt"), e.code.toLowerCase().includes("meta")];
+            const ovrrd = [e.code.toLowerCase().includes("control"), e.code.toLowerCase().includes("shift"), e.code.toLowerCase().includes("alt"), e.code.toLowerCase().includes("meta")];
             localStorage.setItem(id, `${e.code}&,${ovrrd[0] ? "true" : e.ctrlKey.toString()}&,${ovrrd[1] ? "true" : e.shiftKey.toString()}&,${ovrrd[2] ? "true" : e.altKey.toString()}&,${ovrrd[3] ? "true" : e.metaKey.toString()}`);
             btn.classList.remove("gmenu-edit");
             btn.innerHTML = `${(e.ctrlKey && !ovrrd[0]) ? "Ctrl+" : ""}${(e.shiftKey && !ovrrd[1]) ? "Shift+" : ""}${(e.altKey && !ovrrd[2]) ? "Alt+" : ""}${(e.metaKey && !ovrrd[3]) ? "Meta+" : ""}${e.code}`;
@@ -1047,8 +1045,8 @@ window.gmenu.changeShortcut = function(id) {
  * @param {string} name - The setting's identifier
  * @returns The value as requested
  */
-window.gmenu.get = function(id, name) {
-    let type = window.gmenu.lookupTable[id + name];
+window.gmenu.get = (id, name) => {
+    const type = window.gmenu.lookupTable[id + name];
     if (type == "boolean") {
         return (localStorage.getItem(id + name) == "true");
     }
@@ -1133,7 +1131,7 @@ window.GMenu = class { //The 'G' stands for GeoFS. I put the class in the window
                         console.log(this.prefix + " reset"); //debugging
                         console.log(this.defaults);          //More debugging
                         for (let i = 0; i < this.defaults.length; i++) {
-                            let currD = this.defaults[i]; //currD[0] = idName, currD[1] = defaultValue, currD[2] = isCheckbox
+                            const currD = this.defaults[i]; //currD[0] = idName, currD[1] = defaultValue, currD[2] = isCheckbox
                             localStorage.setItem(currD[0], currD[1]);
                             if (currD[2]) { //if it's a checkbox or radio
                                 document.getElementById(currD[0]).checked = currD[1];
@@ -1163,7 +1161,7 @@ window.GMenu = class { //The 'G' stands for GeoFS. I put the class in the window
      * @param {string} options - Optional HTML attributes for the input
      */
     addItem(description, lsName, type = "text", level = 0, defaultValue, options = "") {
-        let idName = this.prefix + lsName;
+        const idName = this.prefix + lsName;
         this.defaults.push([idName, defaultValue, (type == "checkbox" || type == "radio")]); //Checkboxes and radios are... "special." (elem.value doesn't work on them, they require elem.checked)
         if (localStorage.getItem(idName) == null) {
             localStorage.setItem(idName, defaultValue);
@@ -1198,23 +1196,23 @@ window.GMenu = class { //The 'G' stands for GeoFS. I put the class in the window
      * @param {function} upFn - The function to be executed when the shortcut is released
      */
     addKBShortcut(description, lsName, level = 0, defaultValue, fn, upFn = null) {
-        let idName = this.prefix + lsName;
+        const idName = this.prefix + lsName;
         this.defaults.push([idName, defaultValue, false]);
         if (localStorage.getItem(idName) == null) {
             console.log(idName + " is null, setting to " + defaultValue);
             localStorage.setItem(idName, defaultValue);
         }
         window.gmenu.allLS.push([idName, false]);
-        let tester = localStorage.getItem(idName).split('&,');
-        let oldSave = (tester.length == 1);
-        let e = (oldSave) ? {code: tester[0], ctrlKey: false, shiftKey: false, altKey: false, metaKey: false} : {code: tester[0], ctrlKey: (tester[1] == "true"), shiftKey: (tester[2] == "true"), altKey: (tester[3] == "true"), metaKey: (tester[4] == "true")};
+        const tester = localStorage.getItem(idName).split('&,');
+        const oldSave = (tester.length == 1);
+        const e = (oldSave) ? {code: tester[0], ctrlKey: false, shiftKey: false, altKey: false, metaKey: false} : {code: tester[0], ctrlKey: (tester[1] == "true"), shiftKey: (tester[2] == "true"), altKey: (tester[3] == "true"), metaKey: (tester[4] == "true")};
         this.html += `<span style="padding-left: ${level}rem">${description}</span>
         <button id="${this.prefix + lsName}" class="gmenu-sc" onclick="window.gmenu.changeShortcut('${this.prefix + lsName}')">${e.ctrlKey ? "Ctrl+" : ""}${e.shiftKey ? "Shift+" : ""}${e.altKey ? "Alt+" : ""}${e.metaKey ? "Meta+" : ""}${e.code}</button><br>`;
         this.updateHTML();
         let wasPressed = false;
         function t(event) { //I used 't' for the function name for no particular reason
-            let tester = localStorage.getItem(idName).split('&,');
-            let oldSave = (tester.length == 1);
+            const tester = localStorage.getItem(idName).split('&,');
+            const oldSave = (tester.length == 1);
             if ((event.key == tester[0] || event.code == tester[0]) && (oldSave || (event.ctrlKey.toString() == tester[1] && event.shiftKey.toString() == tester[2] && event.altKey.toString() == tester[3] && event.metaKey.toString() == tester[4]))) {
                 wasPressed = true;
                 console.log(event.key + " pressed");
@@ -1223,8 +1221,8 @@ window.GMenu = class { //The 'G' stands for GeoFS. I put the class in the window
         };
         if (upFn) {
             function u(event) {
-                let tester = localStorage.getItem(idName).split('&,');
-                let oldSave = (tester.length == 1);
+                const tester = localStorage.getItem(idName).split('&,');
+                const oldSave = (tester.length == 1);
                 if (wasPressed && ((event.key == tester[0] || event.code == tester[0]) && (oldSave || (event.ctrlKey.toString() == tester[1] && event.shiftKey.toString() == tester[2] && event.altKey.toString() == tester[3] && event.metaKey.toString() == tester[4])))) {
                     wasPressed = false;
                     console.log(event.key + " unpressed");
@@ -1300,8 +1298,8 @@ function flankerStall() {
 audio.impl.html5.playFile("https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/audio/flankerstall.m4a")
 	}
 }
-gBreathInt = setInterval(function(){gBreath()},3500)
-flankerStallInt = setInterval(function(){flankerStall()},3000)
+gBreathInt = setInterval(()=> {gBreath()},3500)
+flankerStallInt = setInterval(()=> {flankerStall()},3000)
 
 /* The chat website used for this is broken at this time :(
     let addonChat = document.createElement("li");
@@ -1310,7 +1308,7 @@ flankerStallInt = setInterval(function(){flankerStall()},3000)
 */
     //this breaks things if its run before terrain has loaded
     //geofs.api.waterDetection.create();
-    lagReductionInterval = setInterval(function () {
+    lagReductionInterval = setInterval(() => {
         //geofs.savePreferencesPanel();
         geofs.api.renderingSettings.degradedCollisions = true;
         geofs.api.renderingSettings.lowResRunways = true;
@@ -1323,13 +1321,13 @@ flankerStallInt = setInterval(function(){flankerStall()},3000)
       getShake() 
       if (geofs.animation.values.aoa >= 10 && geofs.aircraft.instance.id != 4 && !geofs.pause) {
       geofs.camera.translate(0.0001 * geofs.animation.values.shake,0.0001 * geofs.animation.values.shake,0.0001 * geofs.animation.values.shake)
-      setTimeout(function(){
+      setTimeout(()=> {
         geofs.camera.translate(-0.0001 * geofs.animation.values.shake,-0.0001 * geofs.animation.values.shake,-0.0001 * geofs.animation.values.shake)
       },1)
       }
     }
-    shakeInterval = setInterval(function(){doShake()},10)
-    gSoundInt = setInterval(function(){
+    shakeInterval = setInterval(()=> {doShake()},10)
+    gSoundInt = setInterval(()=> {
        if (geofs.animation.values.accZ >= 50 && geofs.animation.values.view == "cockpit" && !geofs.pause) {
     audio.impl.html5.playFile("https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/audio/wind.mp3")
         }
@@ -1339,12 +1337,12 @@ flankerStallInt = setInterval(function(){flankerStall()},3000)
     },1000)
 
     const PWAircraft= new Set ([1022, 1026, 1069, 14, 16, 28, 1014, 1019, 2395, 3289, 3436, 4398, 4401, 5486, 21, 2, 2808, 1, 8, 12, 13, 40, 1069, 2750, 4251, 2786, 2976, 4390, 5061, 4341, 3211, 4596, 4409, 22, 23, 31, 11]);
-    propwashInt = setInterval(function(){
-        let checkNumber = Number(geofs.aircraft.instance.id);
+    propwashInt = setInterval(()=> {
+        const checkNumber = Number(geofs.aircraft.instance.id);
         window.hasPW = PWAircraft.has(checkNumber);
         if (hasPW)  {
     if (geofsAddonAircraft.isTruck != 1) {
-    geofs.aircraft.instance.airfoils.forEach(function(e){
+    geofs.aircraft.instance.airfoils.forEach((e)=> {
     if (e.forceDirection == 2) {
        e.propwash = 0.005
     } else {
@@ -1355,7 +1353,7 @@ flankerStallInt = setInterval(function(){flankerStall()},3000)
        }
         }
     }, 10)
-blackoutLoadInt = setInterval(function(){
+blackoutLoadInt = setInterval(()=> {
    if (geofs.fx.atmosphere.atmospherePostProcessStage._ready == true) {
 geofs["overlayG.glsl"] = "" + `
 uniform sampler2D colorTexture;
@@ -1405,7 +1403,7 @@ let boInit = false;
 
 function getStrength() {
   if (timer >= 0.6) {
-    if (!timerCheck) timerCheck = setInterval(function(){
+    if (!timerCheck) timerCheck = setInterval(()=> {
       if (timer < 0.6) {
       clearInterval(timerCheck);
       timerCheck = null;
@@ -1434,7 +1432,7 @@ function getStrength() {
 }
 
 geofs.fx.overg = {
-  create: function() {
+  create: () => {
     geofs.fx.overg.shader = new Cesium.PostProcessStage({
       fragmentShader : geofs["overlayG.glsl"],
       uniforms: {
@@ -1443,7 +1441,7 @@ geofs.fx.overg = {
     })
     geofs.api.viewer.scene.postProcessStages.add(geofs.fx.overg.shader);
   },
-  update: function() {
+  update: () => {
     geofs.fx.overg.shader.uniforms.strength = getStrength();
   }
 };
@@ -1451,7 +1449,7 @@ geofs.fx.overg = {
 //make this only execute if the advanced atmosphere is done loading
 //geofs.fx.atmosphere.atmospherePostProcessStage._ready
 geofs.fx.overg.create()
-blackoutEffectInterval = setInterval(function(){geofs.fx.overg.update();}, 10)
+blackoutEffectInterval = setInterval(()=> {geofs.fx.overg.update();}, 10)
 clearInterval(blackoutLoadInt)
    }
 }, 1000)
@@ -1499,7 +1497,7 @@ clearInterval(blackoutLoadInt)
             }, 500);
         }
     }
-    fixyFixy = setInterval(function () {
+    fixyFixy = setInterval(() => {
         fixSpin();
     }, 1000);
     geofs.aircraftList["1000"].dir = "|models|aircraft|generics|c182|";
@@ -1507,7 +1505,7 @@ clearInterval(blackoutLoadInt)
     var script2 = document.createElement("script");
     script2.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/realismify.js";
     document.body.appendChild(script2);
-    script2.onload = function () {
+    script2.onload = () => {
         realismify();
     };
 /* //Removed for now because it's buggy at certain times of day (flickering stars at dawn/dusk)
@@ -1527,7 +1525,7 @@ clearInterval(blackoutLoadInt)
     const BCAircraft= new Set ([9, 52, 2840, 4090, 1025, 2806, 4197, 2806]);
 
     function runBladeCollisions() {
-        let checkNumber = Number(geofs.aircraft.instance.id);
+        const checkNumber = Number(geofs.aircraft.instance.id);
         window.hasBC = BCAircraft.has(checkNumber);
         if (window.hasBC) {
             console.log(hasBC)
@@ -1538,7 +1536,7 @@ clearInterval(blackoutLoadInt)
             }
         }
     }
-    bladeCollisionInterval = setInterval(function () {
+    bladeCollisionInterval = setInterval(() => {
         runBladeCollisions();
     }, 1000);
     function runTurbAccel() {
@@ -1554,13 +1552,13 @@ clearInterval(blackoutLoadInt)
             }
         }
     }
-    turbAccelInt = setInterval(function () {
+    turbAccelInt = setInterval(() => {
         runTurbAccel();
     }, 100);
     var scriptC = document.createElement("script");
     scriptC.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/advanced-2d-cloudsd.js";
     document.body.appendChild(scriptC);
-    scriptC.onload = function () {
+    scriptC.onload = () => {
         fixCloudsDensity();
     };
     //kludge fix
@@ -1568,18 +1566,18 @@ clearInterval(blackoutLoadInt)
     var scriptCCP = document.createElement("script");
     scriptCCP.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/clickablecockpits.js";
     document.body.appendChild(scriptCCP);
-    scriptCCP.onload = function () {
+    scriptCCP.onload = () => {
         runClickableCockpits();
     };
     var scriptVC = document.createElement("script");
     scriptVC.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/vcon.js";
     document.body.appendChild(scriptVC);
-    scriptVC.onload = function () {
+    scriptVC.onload = () => {
         runVortexCons();
     }; 
 function addFBW() {
     geofs.animation.values.cobraMode = 0;
-    document.addEventListener("keydown", function(e) {
+    document.addEventListener("keydown", (e) => {
         if (e.keyCode == 222) {
     geofs.animation.values.cobraMode == 0 ? geofs.animation.values.cobraMode = 1 : geofs.animation.values.cobraMode = 0
     }
@@ -1589,12 +1587,12 @@ function addFBW() {
     //Fighter jet FBW
     //Average pull rate: (geofs.animation.values.pitchrate + geofs.animation.values.turnrate) / 2
     //clearInterval(FBWint)
-    let tiltToHold = 0;
-    let deadZone = 0.005;
-    let rollTohold = 0;
-    let pitchStage1 = 0;
-    let computingPitch = 0;
-    let pullRate = 0;
+    const tiltToHold = 0;
+    const deadZone = 0.005;
+    const rollTohold = 0;
+    const pitchStage1 = 0;
+    const computingPitch = 0;
+    const pullRate = 0;
     let normalizedG = 0;
     let normalizedAoA = 0;
     let input = 0;
@@ -1602,7 +1600,7 @@ function addFBW() {
     geofs.animation.values.computedPitch = 0;
     geofs.animation.values.computedRoll = 0;
     geofs.animation.values.cobraMode = 0;
-    computePitch = function() {
+    computePitch = () => {
         normalizedG = (geofs.animation.values.loadFactor / 9)
         normalizedAoA = (geofs.animation.values.aoa / 17)
         input = geofs.animation.values.pitch
@@ -1623,23 +1621,23 @@ function addFBW() {
     }
     }
     }
-    computeRoll = function() {
+    computeRoll = () => {
     inputR = geofs.animation.values.roll
     if (geofs.pause == 0) {
     geofs.animation.values.computedRoll = inputR
     }
     }
-    let rollInputs = [0, 0, 0, 0, 0, 0, 0];
-    let pitchInputs = [0, 0, 0, 0, 0, 0, 0];
+    const rollInputs = [0, 0, 0, 0, 0, 0, 0];
+    const pitchInputs = [0, 0, 0, 0, 0, 0, 0];
     geofs.animation.values.averagePitch = null;
     geofs.animation.values.outerAveragePitch = null;
     geofs.animation.values.averageRoll = null;
     geofs.animation.values.outerAverageRoll = null;
-    pushInputs = function() {
+    pushInputs = () => {
     pitchInputs.push(geofs.animation.values.computedPitch);
     rollInputs.push(geofs.animation.values.computedRoll)
     }
-    computeOutputs = function() {
+    computeOutputs = () => {
     var pitchcheck = movingAvg(pitchInputs, 2, 2);
     var rollcheck = movingAvg(rollInputs, 2, 2)
     geofs.animation.values.averagePitch = pitchcheck[pitchcheck.length - 3]
@@ -1647,7 +1645,7 @@ function addFBW() {
     geofs.animation.values.outerAverageRoll = clamp(geofs.animation.values.averageRoll, -1, 1);
     geofs.animation.values.outerAveragePitch = clamp(geofs.animation.values.averagePitch / 1, -1, 1);
     }
-    movingAvg = function (array, countBefore, countAfter) {
+    movingAvg = (array, countBefore, countAfter) => {
     if (countAfter == undefined) countAfter = 0;
     const result = [];
     for (let i = 0; i < array.length; i++) {
@@ -1657,7 +1655,7 @@ function addFBW() {
     }
     return result;
     }
-    assignControls = function () {
+    assignControls = () => {
     if (geofs.aircraft.instance.id == 7 && geofs.addonAircraft.isMiG21 != 1) {
     geofs.aircraft.instance.definition.parts.elevatorLeft.animations[0].value = "outerAveragePitch";
     geofs.aircraft.instance.definition.parts.elevatorRight.animations[0].value = "outerAveragePitch";
@@ -1677,7 +1675,7 @@ function addFBW() {
     geofs.aircraft.instance.definition.parts[15].animations[1].value = "outerAverageRoll"
         }
     }
-    FBWint = setInterval(function(){
+    FBWint = setInterval(()=> {
     computePitch();
     pushInputs();
     computeOutputs();
@@ -1686,7 +1684,7 @@ function addFBW() {
 }
 
 shaLoaded = 0
-loadInterval = setInterval(function(){
+loadInterval = setInterval(()=> {
 	if (shaLoaded == 0 && geofs.fx.overg.shader) {
     var scriptSHA = document.createElement("script");
     scriptSHA.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/ssr.js";
@@ -1697,13 +1695,13 @@ loadInterval = setInterval(function(){
     var scriptSB = document.createElement("script");
     scriptSB.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sound-changes.js";
     document.body.appendChild(scriptSB);
-    scriptSB.onload = function () {
+    scriptSB.onload = () => {
         addEffects();
     };
     var scriptCCI = document.createElement("script");
     scriptCCI.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/fix.js";
     document.body.appendChild(scriptCCI);
-    scriptCCI.onload = function () {
+    scriptCCI.onload = () => {
         redoPFDSHUDS();
     };
     
@@ -1761,7 +1759,7 @@ setInterval(
 
 //add spoiler indicator for those planes that do not have it by themselves
 setInterval(
-    function(){
+    ()=> {
         if(["3292", "3054"].includes(geofs.aircraft.instance.id) && geofs.aircraft.instance.setup.instruments["spoilers"] === undefined){
             geofs.aircraft.instance.setup.instruments["spoilers"] = "";
             instruments.init(geofs.aircraft.instance.setup.instruments);
@@ -1772,7 +1770,7 @@ setInterval(
     var scriptKCAS = document.createElement("script");
     scriptKCAS.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/realistickias.js";
     document.body.appendChild(scriptKCAS);
-    scriptKCAS.onload = function () {
+    scriptKCAS.onload = () => {
         runTrueKias();
     };
     var scriptML = document.createElement("script");
@@ -1785,7 +1783,7 @@ setInterval(
             geofs.camera.currentDefinition.position[0] = geofs.aircraft.instance.definition.cameras.cockpit.position[0] + geofs.camera.definitions["cockpit"].orientations.current[0] / 1000;
         }
     }
-    lookBackInterval = setInterval(function () {
+    lookBackInterval = setInterval(() => {
         lookBack();
     }, 100);
     
@@ -1795,7 +1793,7 @@ setInterval(
     } else {
     geofs.runways.setRunwayModelVisibility(0)
     }
-    };checkOverlayInt = setInterval(function(){checkOverlays()},1000)
+    };checkOverlayInt = setInterval(()=> {checkOverlays()},1000)
     
     // console.log("Original immersion SFX scripts copyright Ariakim Taiyo");
     // console.log("Modified by NVB9 and Kolos26");
@@ -1932,10 +1930,10 @@ setInterval(
         var originalAOA = geofs.animation.values.aoa
         geofs.calculatedAOA = pitchControl//for now
     }
-    aoaInterval = setInterval(function(){verifyAoA()},10)
+    aoaInterval = setInterval(()=> {verifyAoA()},10)
     
     //now includes machmeter!
-    instruments.renderers.genericHUD = function (a) {
+    instruments.renderers.genericHUD = (a) => {
             var b = exponentialSmoothing("smoothKias", geofs.animation.getValue("kias"), 0.1),
                 c = [256, 256],
                 d = a.canvasAPI.context;
@@ -1964,18 +1962,14 @@ setInterval(
                             offset: { x: -50, y: 0 },
                             legend: !0,
                             legendOffset: { x: -80, y: 5 },
-                            process: function (e) {
-                                return Math.round(e);
-                            },
+                            process: (e) => Math.round(e),
                         },
                         {
                             length: 40,
                             offset: { x: 10, y: 0 },
                             legend: !0,
                             legendOffset: { x: 60, y: 5 },
-                            process: function (e) {
-                                return Math.round(e);
-                            },
+                            process: (e) => Math.round(e),
                         },
                     ],
                 ],
@@ -2045,9 +2039,7 @@ setInterval(
                             length: 10,
                             legend: !0,
                             legendOffset: { x: 47, y: 7 },
-                            process: function (e) {
-                                return Math.round(e / 100);
-                            },
+                            process: (e) => Math.round(e / 100),
                         },
                     ],
                     [{ length: 7 }],
@@ -2081,9 +2073,7 @@ setInterval(
                             length: 10,
                             legend: !0,
                             legendOffset: { x: 0, y: 30 },
-                            process: function (e) {
-                                return Math.round(fixAngle360(e) / 10);
-                            },
+                            process: (e) => Math.round(fixAngle360(e) / 10),
                         },
                     ],
                     [{ length: 5 }],
@@ -2163,11 +2153,11 @@ setInterval(
     geofsAddonAircraft.isF117 = 0
     geofsAddonAircraft.isMiG25 = 0
 
-    geofs.debug.createMiG25GearDown = function() {
+    geofs.debug.createMiG25GearDown = () => {
        geofs.debug.MiG25GearDown = {};
        geofs.debug.MiG25GearDown.model = new geofs.api.Model(mig25geardown)
     }
-    geofs.debug.loadMiG25GearDown = function() {
+    geofs.debug.loadMiG25GearDown = () => {
        geofs.debug.MiG25GearDown || geofs.debug.createMiG25GearDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2178,11 +2168,11 @@ setInterval(
         }
     }
 
-    geofs.debug.createMiG25GearUp = function() {
+    geofs.debug.createMiG25GearUp = () => {
        geofs.debug.MiG25GearUp = {};
        geofs.debug.MiG25GearUp.model = new geofs.api.Model(mig25gearup)
     }
-    geofs.debug.loadMiG25GearUp = function() {
+    geofs.debug.loadMiG25GearUp = () => {
        geofs.debug.MiG25GearUp || geofs.debug.createMiG25GearUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2193,11 +2183,11 @@ setInterval(
         }
     }
 
-    geofs.debug.createMiG25FlapsUp = function() {
+    geofs.debug.createMiG25FlapsUp = () => {
        geofs.debug.MiG25FlapsUp = {};
        geofs.debug.MiG25FlapsUp.model = new geofs.api.Model(mig25flapsup)
     }
-    geofs.debug.loadMiG25FlapsUp = function() {
+    geofs.debug.loadMiG25FlapsUp = () => {
        geofs.debug.MiG25FlapsUp || geofs.debug.createMiG25FlapsUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2208,11 +2198,11 @@ setInterval(
         }
     }
 
-    geofs.debug.createMiG25FlapsDown = function() {
+    geofs.debug.createMiG25FlapsDown = () => {
        geofs.debug.MiG25FlapsDown = {};
        geofs.debug.MiG25FlapsDown.model = new geofs.api.Model(mig25flapsdown)
     }
-    geofs.debug.loadMiG25FlapsDown = function() {
+    geofs.debug.loadMiG25FlapsDown = () => {
        geofs.debug.MiG25FlapsDown || geofs.debug.createMiG25FlapsDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2223,11 +2213,11 @@ setInterval(
         }
     }
 
-    geofs.debug.createMiG25AB = function() {
+    geofs.debug.createMiG25AB = () => {
        geofs.debug.MiG25AB = {};
        geofs.debug.MiG25AB.model = new geofs.api.Model(mig25ab)
     }
-    geofs.debug.loadMiG25AB = function() {
+    geofs.debug.loadMiG25AB = () => {
        geofs.debug.MiG25AB || geofs.debug.createMiG25AB()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2238,11 +2228,11 @@ setInterval(
         }
     }
 
-    geofs.debug.createF117GearUp = function() {
+    geofs.debug.createF117GearUp = () => {
        geofs.debug.F117GearUp = {};
        geofs.debug.F117GearUp.model = new geofs.api.Model(f117GearUp)
     }
-    geofs.debug.loadF117GearUp = function() {
+    geofs.debug.loadF117GearUp = () => {
        geofs.debug.F117GearUp || geofs.debug.createF117GearUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2252,11 +2242,11 @@ setInterval(
             throw("F-117 Nighthawk Gear Up loading error. " + e)
         }
     }
-    geofs.debug.createF117Cockpit = function() {
+    geofs.debug.createF117Cockpit = () => {
        geofs.debug.F117Cockpit = {};
        geofs.debug.F117Cockpit.model = new geofs.api.Model(f117cockpit)
     }
-    geofs.debug.loadF117Cockpit = function() {
+    geofs.debug.loadF117Cockpit = () => {
        geofs.debug.F117Cockpit || geofs.debug.createF117Cockpit()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2266,11 +2256,11 @@ setInterval(
             throw("F-117 Nighthawk Cockpit loading error. " + e)
         }
     }
-    geofs.debug.createF117GearDown = function() {
+    geofs.debug.createF117GearDown = () => {
        geofs.debug.F117GearDown = {};
        geofs.debug.F117GearDown.model = new geofs.api.Model(f117GearDown)
     }
-    geofs.debug.loadF117GearDown = function() {
+    geofs.debug.loadF117GearDown = () => {
        geofs.debug.F117GearDown || geofs.debug.createF117GearDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2281,11 +2271,11 @@ setInterval(
         }
     }
     
-    geofs.debug.createMsG = function() {
+    geofs.debug.createMsG = () => {
        geofs.debug.MsG = {};
         geofs.debug.MsG.model = new geofs.api.Model(MsG)
     }
-    geofs.debug.loadMSG = function() {
+    geofs.debug.loadMSG = () => {
        geofs.debug.MsG || geofs.debug.createMsG()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2295,11 +2285,11 @@ setInterval(
             throw("Morane-Saulnier G loading error. " + e)
         }
     };
-    geofs.debug.createMsGcockpit = function() {
+    geofs.debug.createMsGcockpit = () => {
        geofs.debug.MsGcockpit = {};
         geofs.debug.MsGcockpit.model = new geofs.api.Model(MsGcockpit)
     }
-    geofs.debug.loadMSGcockpit = function() {
+    geofs.debug.loadMSGcockpit = () => {
        geofs.debug.MsGcockpit || geofs.debug.createMsGcockpit()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2309,11 +2299,11 @@ setInterval(
             throw("Morane-Saulnier G cockpit loading error. " + e)
         }
     };
-    geofs.debug.createMsGprop = function() {
+    geofs.debug.createMsGprop = () => {
        geofs.debug.MsGprop = {};
         geofs.debug.MsGprop.model = new geofs.api.Model(MsGprop)
     }
-    geofs.debug.loadMSGprop = function() {
+    geofs.debug.loadMSGprop = () => {
        geofs.debug.MsGprop || geofs.debug.createMsGprop()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2324,11 +2314,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createMig21Nozzle = function() {
+    geofs.debug.createMig21Nozzle = () => {
        geofs.debug.Mig21Nozzle = {};
         geofs.debug.Mig21Nozzle.model = new geofs.api.Model(mig21nozzle)
     }
-    geofs.debug.loadMig21Nozzle = function() {
+    geofs.debug.loadMig21Nozzle = () => {
        geofs.debug.Mig21Nozzle || geofs.debug.createMig21Nozzle()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2338,11 +2328,11 @@ setInterval(
             throw("Mig-21 Nozzle loading error. " + e)
         }
     };
-    geofs.debug.createMig21Cockpit = function() {
+    geofs.debug.createMig21Cockpit = () => {
        geofs.debug.Mig21Cockpit = {};
         geofs.debug.Mig21Cockpit.model = new geofs.api.Model(mig21cockpit)
     }
-    geofs.debug.loadMig21Cockpit = function() {
+    geofs.debug.loadMig21Cockpit = () => {
        geofs.debug.Mig21Cockpit || geofs.debug.createMig21Cockpit()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2352,11 +2342,11 @@ setInterval(
             throw("Mig-21 Cockpit loading error. " + e)
         }
     };
-    geofs.debug.createMig21GearUp = function() {
+    geofs.debug.createMig21GearUp = () => {
        geofs.debug.Mig21GearUp = {};
         geofs.debug.Mig21GearUp.model = new geofs.api.Model(mig21gearup)
     }
-    geofs.debug.loadMig21GearUp = function() {
+    geofs.debug.loadMig21GearUp = () => {
        geofs.debug.Mig21GearUp || geofs.debug.createMig21GearUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2366,11 +2356,11 @@ setInterval(
             throw("Mig-21 Gear Up loading error. " + e)
         }
     };
-    geofs.debug.createMig21GearDown = function() {
+    geofs.debug.createMig21GearDown = () => {
        geofs.debug.Mig21GearDown = {};
         geofs.debug.Mig21GearDown.model = new geofs.api.Model(mig21geardown)
     }
-    geofs.debug.loadMig21GearDown = function() {
+    geofs.debug.loadMig21GearDown = () => {
        geofs.debug.Mig21GearDown || geofs.debug.createMig21GearDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2380,11 +2370,11 @@ setInterval(
             throw("Mig-21 Gear Down loading error. " + e)
         }
     };
-    geofs.debug.createMig21AB = function() {
+    geofs.debug.createMig21AB = () => {
        geofs.debug.Mig21AB = {};
         geofs.debug.Mig21AB.model = new geofs.api.Model(mig21afterburner)
     }
-    geofs.debug.loadMig21AB = function() {
+    geofs.debug.loadMig21AB = () => {
        geofs.debug.Mig21AB || geofs.debug.createMig21AB()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2394,11 +2384,11 @@ setInterval(
             throw("Mig-21 Afterburner loading error. " + e)
         }
     };
-    geofs.debug.createMig21Tank = function() {
+    geofs.debug.createMig21Tank = () => {
        geofs.debug.Mig21Tank = {};
         geofs.debug.Mig21Tank.model = new geofs.api.Model(mig21droptank)
     }
-    geofs.debug.loadMig21Tank = function() {
+    geofs.debug.loadMig21Tank = () => {
        geofs.debug.Mig21Tank || geofs.debug.createMig21Tank()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2409,11 +2399,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createF14AGearUp = function() {
+    geofs.debug.createF14AGearUp = () => {
        geofs.debug.F14AGearUp = {};
         geofs.debug.F14AGearUp.model = new geofs.api.Model(f14gearup)
     }
-    geofs.debug.loadF14AGearUp = function() {
+    geofs.debug.loadF14AGearUp = () => {
        geofs.debug.F14AGearUp || geofs.debug.createF14AGearUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2423,11 +2413,11 @@ setInterval(
             throw("F-14A Gear Up loading error. " + e)
         }
     };
-    geofs.debug.createF14AGearDown = function() {
+    geofs.debug.createF14AGearDown = () => {
        geofs.debug.F14AGearDown = {};
         geofs.debug.F14AGearDown.model = new geofs.api.Model(f14geardown)
     }
-    geofs.debug.loadF14AGearDown = function() {
+    geofs.debug.loadF14AGearDown = () => {
        geofs.debug.F14AGearDown || geofs.debug.createF14AGearDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2437,11 +2427,11 @@ setInterval(
             throw("F-14A Gear Down loading error. " + e)
         }
     };
-    geofs.debug.createF14AWingStraight = function() {
+    geofs.debug.createF14AWingStraight = () => {
        geofs.debug.F14AWingStraight = {};
         geofs.debug.F14AWingStraight.model = new geofs.api.Model(f14wingstraight)
     }
-    geofs.debug.loadF14AWingStraight = function() {
+    geofs.debug.loadF14AWingStraight = () => {
        geofs.debug.F14AWingStraight || geofs.debug.createF14AWingStraight()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2451,11 +2441,11 @@ setInterval(
             throw("F-14A Straight Wings loading error. " + e)
         }
     };
-    geofs.debug.createF14AWingSwept = function() {
+    geofs.debug.createF14AWingSwept = () => {
        geofs.debug.F14AWingSwept = {};
         geofs.debug.F14AWingSwept.model = new geofs.api.Model(f14wingswept)
     }
-    geofs.debug.loadF14AWingSwept = function() {
+    geofs.debug.loadF14AWingSwept = () => {
        geofs.debug.F14AWingSwept || geofs.debug.createF14AWingSwept()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2465,11 +2455,11 @@ setInterval(
             throw("F-14A Swept Wings loading error. " + e)
         }
     };
-    geofs.debug.createF14ASpeedbrake = function() {
+    geofs.debug.createF14ASpeedbrake = () => {
        geofs.debug.F14ASpeedbrake = {};
         geofs.debug.F14ASpeedbrake.model = new geofs.api.Model(f14airbrake)
     }
-    geofs.debug.loadF14ASpeedbrake = function() {
+    geofs.debug.loadF14ASpeedbrake = () => {
        geofs.debug.F14ASpeedbrake || geofs.debug.createF14ASpeedbrake()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2479,11 +2469,11 @@ setInterval(
             throw("F-14A speedbrake loading error. " + e)
         }
     };
-    geofs.debug.createF14ACockpit = function() {
+    geofs.debug.createF14ACockpit = () => {
        geofs.debug.F14ACockpit = {};
         geofs.debug.F14ACockpit.model = new geofs.api.Model(f14cockpit)
     }
-    geofs.debug.loadF14ACockpit = function() {
+    geofs.debug.loadF14ACockpit = () => {
        geofs.debug.F14ACockpit || geofs.debug.createF14ACockpit()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2493,11 +2483,11 @@ setInterval(
             throw("F-14A cockpit loading error. " + e)
         }
     };
-    geofs.debug.createF14ABurner = function() {
+    geofs.debug.createF14ABurner = () => {
        geofs.debug.F14ABurner = {};
         geofs.debug.F14ABurner.model = new geofs.api.Model(f14burner)
     }
-    geofs.debug.loadF14ABurner = function() {
+    geofs.debug.loadF14ABurner = () => {
        geofs.debug.F14ABurner || geofs.debug.createF14ABurner()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2508,11 +2498,11 @@ setInterval(
         }
     };
     
-    geofs.debug.createTruck = function() {
+    geofs.debug.createTruck = () => {
        geofs.debug.truck = {};
         geofs.debug.truck.model = new geofs.api.Model(truckModel)
     }
-    geofs.debug.loadTruck = function() {
+    geofs.debug.loadTruck = () => {
        geofs.debug.truck || geofs.debug.createTruck()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2523,11 +2513,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createSu27Airbrake = function() {
+    geofs.debug.createSu27Airbrake = () => {
        geofs.debug.su27airbrake = {};
         geofs.debug.su27airbrake.model = new geofs.api.Model(su27airbrake)
     }
-    geofs.debug.loadSu27Airbrake = function() {
+    geofs.debug.loadSu27Airbrake = () => {
        geofs.debug.su27airbrake || geofs.debug.createSu27Airbrake()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2538,11 +2528,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createF18GearUp = function() {
+    geofs.debug.createF18GearUp = () => {
        geofs.debug.F18GearUp = {};
         geofs.debug.F18GearUp.model = new geofs.api.Model(f18GearUp)
     }
-    geofs.debug.loadF18GearUp = function() {
+    geofs.debug.loadF18GearUp = () => {
        geofs.debug.F18GearUp || geofs.debug.createF18GearUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2552,11 +2542,11 @@ setInterval(
             throw("F18 Gear Up loading error. " + e)
         }
     };
-    geofs.debug.createF18GearDown = function() {
+    geofs.debug.createF18GearDown = () => {
        geofs.debug.F18GearDown = {};
         geofs.debug.F18GearDown.model = new geofs.api.Model(f18GearDown)
     }
-    geofs.debug.loadF18GearDown = function() {
+    geofs.debug.loadF18GearDown = () => {
        geofs.debug.F18GearDown || geofs.debug.createF18GearDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2566,11 +2556,11 @@ setInterval(
             throw("F18 Gear Down loading error. " + e)
         }
     };
-    geofs.debug.createF18AB = function() {
+    geofs.debug.createF18AB = () => {
        geofs.debug.F18AB = {};
         geofs.debug.F18AB.model = new geofs.api.Model(f18Afterburner)
     }
-    geofs.debug.loadF18AB = function() {
+    geofs.debug.loadF18AB = () => {
        geofs.debug.F18AB || geofs.debug.createF18AB()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2580,11 +2570,11 @@ setInterval(
             throw("F18 AB loading error. " + e)
         }
     };
-    geofs.debug.createF18Cockpit = function() {
+    geofs.debug.createF18Cockpit = () => {
        geofs.debug.F18Cockpit = {};
         geofs.debug.F18Cockpit.model = new geofs.api.Model(f18Cockpit)
     }
-    geofs.debug.loadF18Cockpit = function() {
+    geofs.debug.loadF18Cockpit = () => {
        geofs.debug.F18Cockpit || geofs.debug.createF18Cockpit()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2594,11 +2584,11 @@ setInterval(
             throw("F18 cockpit loading error. " + e)
         }
     };
-    geofs.debug.createF18Airbrake = function() {
+    geofs.debug.createF18Airbrake = () => {
        geofs.debug.F18Airbrake = {};
         geofs.debug.F18Airbrake.model = new geofs.api.Model(f18Airbrake)
     }
-    geofs.debug.loadF18Airbrake = function() {
+    geofs.debug.loadF18Airbrake = () => {
        geofs.debug.F18Airbrake || geofs.debug.createF18Airbrake()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2609,11 +2599,11 @@ setInterval(
         }
     };
         
-    geofs.debug.createMiG17GearUp = function() {
+    geofs.debug.createMiG17GearUp = () => {
        geofs.debug.MiG17GearUp = {};
         geofs.debug.MiG17GearUp.model = new geofs.api.Model(mig17GearUp)
     }
-    geofs.debug.loadMiG17GearUp = function() {
+    geofs.debug.loadMiG17GearUp = () => {
        geofs.debug.MiG17GearUp || geofs.debug.createMiG17GearUp()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2623,11 +2613,11 @@ setInterval(
             throw("MiG-17 Gear Up loading error. " + e)
         }
     };
-    geofs.debug.createMiG17GearDown = function() {
+    geofs.debug.createMiG17GearDown = () => {
        geofs.debug.MiG17GearDown = {};
         geofs.debug.MiG17GearDown.model = new geofs.api.Model(mig17GearDown)
     }
-    geofs.debug.loadMiG17GearDown = function() {
+    geofs.debug.loadMiG17GearDown = () => {
        geofs.debug.MiG17GearDown || geofs.debug.createMiG17GearDown()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2637,11 +2627,11 @@ setInterval(
             throw("MiG-17 Gear Down loading error. " + e)
         }
     };
-    geofs.debug.createMiG17AB = function() {
+    geofs.debug.createMiG17AB = () => {
        geofs.debug.MiG17AB = {};
         geofs.debug.MiG17AB.model = new geofs.api.Model(mig17Afterburner)
     }
-    geofs.debug.loadMiG17AB = function() {
+    geofs.debug.loadMiG17AB = () => {
        geofs.debug.MiG17AB || geofs.debug.createMiG17AB()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2651,11 +2641,11 @@ setInterval(
             throw("MiG-17 AB loading error. " + e)
         }
     };
-    geofs.debug.createMiG17Speedbrake = function() {
+    geofs.debug.createMiG17Speedbrake = () => {
        geofs.debug.MiG17Speedbrake = {};
         geofs.debug.MiG17Speedbrake.model = new geofs.api.Model(mig17speedbrake)
     }
-    geofs.debug.loadMiG17Speedbrake = function() {
+    geofs.debug.loadMiG17Speedbrake = () => {
        geofs.debug.MiG17Speedbrake || geofs.debug.createMiG17Speedbrake()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2666,7 +2656,7 @@ setInterval(
         }
     };
         
-    geofs.debug.loadF16Tank = function() {
+    geofs.debug.loadF16Tank = () => {
        geofs.debug.F16Tank || geofs.debug.createF16Tank()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2677,11 +2667,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createMachCone = function() {
+    geofs.debug.createMachCone = () => {
        geofs.debug.machCone = {};
         geofs.debug.machCone.model = new geofs.api.Model(machCone)
     }
-    geofs.debug.loadMachCone = function() {
+    geofs.debug.loadMachCone = () => {
        geofs.debug.machCone || geofs.debug.createMachCone()
         try {
              geofs.debug.machCone.model._model.color.alpha = 0.9
@@ -2693,11 +2683,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createParachute = function() {
+    geofs.debug.createParachute = () => {
        geofs.debug.parachute = {};
         geofs.debug.parachute.model = new geofs.api.Model(parachute)
     }
-    geofs.debug.loadParachute = function() {
+    geofs.debug.loadParachute = () => {
        geofs.debug.parachute || geofs.debug.createParachute()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2708,11 +2698,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createConConesLarge = function() {
+    geofs.debug.createConConesLarge = () => {
        geofs.debug.conConeLarge = {};
         geofs.debug.conConeLarge.model = new geofs.api.Model(condensationConesLarge)
     }
-    geofs.debug.loadConConesLarge = function() {
+    geofs.debug.loadConConesLarge = () => {
        geofs.debug.conConeLarge || geofs.debug.createConConesLarge()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([Math.floor(Math.random() * 2) * 0.05, Math.floor(Math.random() * 2) * 0.05, Math.floor(Math.random() * 2) * 0.05], geofs.aircraft.instance.llaLocation)),
@@ -2723,11 +2713,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createConConesSmall = function() {
+    geofs.debug.createConConesSmall = () => {
        geofs.debug.conConeSmall = {};
         geofs.debug.conConeSmall.model = new geofs.api.Model(condensationConesSmall)
     }
-    geofs.debug.loadConConesSmall = function() {
+    geofs.debug.loadConConesSmall = () => {
        geofs.debug.conConeSmall || geofs.debug.createConConesSmall()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([Math.floor(Math.random() * 2) * 0.05, Math.floor(Math.random() * 2) * 0.05, Math.floor(Math.random() * 2) * 0.05], geofs.aircraft.instance.llaLocation)),
@@ -2738,11 +2728,11 @@ setInterval(
         }
     };
 
-    geofs.debug.createE7Antenna = function() {
+    geofs.debug.createE7Antenna = () => {
        geofs.debug.E7Antenna = {};
         geofs.debug.E7Antenna.model = new geofs.api.Model(e7antenna)
     }
-    geofs.debug.loadE7Antenna = function() {
+    geofs.debug.loadE7Antenna = () => {
        geofs.debug.E7Antenna || geofs.debug.createE7Antenna()
         try {
             var c = V3.add(geofs.aircraft.instance.llaLocation, xyz2lla([0, 0, 0], geofs.aircraft.instance.llaLocation)),
@@ -2753,7 +2743,7 @@ setInterval(
         }
     };
 
-    geofs.debug.update = function (a) {
+    geofs.debug.update = (a) => {
         geofs.debug.fps = exponentialSmoothing("fps", 1e3 / a).toPrecision(2);
         if (geofs.debugOn) {
             if ((a = $(".debugPointName")[0])) {
@@ -3025,12 +3015,12 @@ geofsAddonAircraft = {};
 geofsAddonAircraft.wireLLAs = [[37.779434570552304, -122.60905835885147, 25]]; //geofs.aircraft.instance.llaLocation
 geofsAddonAircraft.stopForce = -(geofs.aircraft.instance.rigidBody.mass * 1.1);
 geofsAddonAircraft.landed = 0;
-geofsAddonAircraft.resolveForceVector = function(force, angle) {
+geofsAddonAircraft.resolveForceVector = (force, angle) => {
   var fx = force * (Math.cos(angle * (Math.PI/180)));
   var fy = force * (Math.sin(angle * (Math.PI/180)));
   return [fx, fy, 0];
 }
-geofsAddonAircraft.distance = function (pos1, pos2) {
+geofsAddonAircraft.distance = (pos1, pos2) => {
   var a = pos2[0] - pos1[0];
   var b = pos2[1] - pos1[1];
   var c = pos2[2] - pos1[2];
@@ -3041,8 +3031,8 @@ geofsAddonAircraft.distance = function (pos1, pos2) {
 //but I'm not gonna bother fixing it because approaching the carrier with CC multiplayer models turned on literally crashes my computer
 //The inconsiderate CCs think people playing GeoFS on school Chromebooks have 1000 dollars to drop on a PC that can run MSFS
 //which we obviously don't
-geofsAddonAircraft.runAddonTailhook = function(){
-   geofsAddonAircraft.wireLLAs.forEach(function(e){
+geofsAddonAircraft.runAddonTailhook = ()=> {
+   geofsAddonAircraft.wireLLAs.forEach((e)=> {
 if (geofs.animation.values.gearPosition == 0 && geofsAddonAircraft.landed == 0 && geofs.animation.values.groundContact == 1 && geofsAddonAircraft.distance(geofs.aircraft.instance.llaLocation, e) < 10) {
    console.log("Hooking detected")
    geofs.aircraft.instance.rigidBody.applyCentralImpulse([geofsAddonAircraft.resolveForceVector(geofsAddonAircraft.stopForce, geofs.animation.values.heading360)[1], geofsAddonAircraft.resolveForceVector(geofsAddonAircraft.stopForce, geofs.animation.values.heading360)[0], geofsAddonAircraft.resolveForceVector(geofsAddonAircraft.stopForce, geofs.animation.values.heading360)[2]])
@@ -3059,7 +3049,7 @@ console.log("Airborne")
 }
 //-----F/A-18C Hornet-----------------------------------------------------------------------------------------------------
 //adding the button
-geofsAddonAircraft.runFA18 = function(){
+geofsAddonAircraft.runFA18 = ()=> {
    console.log("Loading F/A-18C. Model credit cs09736. Model loaded under CC Attribution Share-Alike Liscense.")
    geofs.aircraft.instance.change(18, 4)
 }
@@ -3182,11 +3172,11 @@ geofsAddonAircraft.isFA18 = 0
 geofs.f18instruments = 0
    }
 }
-checkRunHornetInterval = setInterval(function(){runHornet()},10)
+checkRunHornetInterval = setInterval(()=> {runHornet()},10)
 
 //-----Mig-17 Fresco-----------------------------------------------------------------------------------------------------
 geofsAddonAircraft.isMig17 = 0
-geofsAddonAircraft.runMiG17 = function(){
+geofsAddonAircraft.runMiG17 = ()=> {
    console.log("Loading MiG-17. Model credit manilov.ap")
 }
 mig17Li = document.createElement("li");
@@ -3223,12 +3213,12 @@ setTimeout(() => {
 geofsAddonAircraft.isMig17 = 0
    }
 }
-mig17Int = setInterval(function(){runMiG17()},100)
+mig17Int = setInterval(()=> {runMiG17()},100)
 
 //-----Su-27 Flanker (the OG one)---------------------------------------------------------------------------------------
 geofsAddonAircraft.isSu27 = new Boolean(0)
 geofs.debug.su27Instruments = new Boolean(0)
-geofsAddonAircraft.runSu27 = function(){
+geofsAddonAircraft.runSu27 = ()=> {
    geofs.aircraft.instance.change(18, 1)
 }
 flankerLi = document.createElement("li");
@@ -3302,11 +3292,11 @@ geofs.debug.su27Instruments = 0
 geofsAddonAircraft.isSu27 = 0
 	}
 };
-Su27Int = setInterval(function(){runSu27()},100)
+Su27Int = setInterval(()=> {runSu27()},100)
 //clearInterval(Su27Int)
 //-----E-7 Wedgetail AEW&C------------------------------------------------------------------------------------------------
 geofsAddonAircraft.isE7 = 0
-geofsAddonAircraft.runE7 = function(){
+geofsAddonAircraft.runE7 = ()=> {
    console.log("Loading E-7 Wedgetail AEW&C.")
 }
 e7Li = document.createElement("li");
@@ -3324,9 +3314,9 @@ geofs.aircraft.instance.definition.mass = 75000
 geofsAddonAircraft.isE7 = 0
 	}
 }
-e7int = setInterval(function(){runE7Wedgetail()},100)
+e7int = setInterval(()=> {runE7Wedgetail()},100)
 //-----MiG-21 Fishbed-----------------------------------------------------------------------------------------------------
-geofsAddonAircraft.runMig21 = function(){
+geofsAddonAircraft.runMig21 = ()=> {
 	console.log("Loading MiG-21 Fishbed. Model credit manilov.ap.")
 	controls.optionalAnimatedPart.target = 1
 }
@@ -3404,10 +3394,10 @@ if (geofs.animation.values.view == "cockpit") {
 	geofs.mig21instruments = 0
 }
 }
-mig21Interval = setInterval(function(){runMiG21()},100)
+mig21Interval = setInterval(()=> {runMiG21()},100)
 //-----Morane-Saulneir "G"-----------------------------------------------------------------------------------------------------
 geofsAddonAircraft.isMsG = 0
-geofsAddonAircraft.runMsG = function(){
+geofsAddonAircraft.runMsG = ()=> {
    console.log("Loading Morane-Saulnier G. Model credit manilov.ap")
 }
 MsGLi = document.createElement("li");
@@ -3441,11 +3431,11 @@ if (geofs.aircraft.instance.id == 8 && geofs.aircraft.instance.liveryId == 3) {
 geofsAddonAircraft.isMSG = 0	
 }
 }
-msgInterval = setInterval(function(){runMsG()},100)
+msgInterval = setInterval(()=> {runMsG()},100)
 //----- F-117 -------------------------------------------------------------------------------------------------------------
 geofsAddonAircraft.isF117 = 0;
 geofs.debug.F117Instruments = 0;
-geofsAddonAircraft.runF117 = function(){
+geofsAddonAircraft.runF117 = ()=> {
    console.log("Loading F-117. Model credit manilov.ap")
 }
 f117Li = document.createElement("li");
@@ -3516,11 +3506,11 @@ geofsAddonAircraft.isF117 = 0
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	}
 }
-f117Int = setInterval(function(){runF117()},100)
+f117Int = setInterval(()=> {runF117()},100)
 //-----Grumman F-14A-----------------------------------------------------------------------------------------------------
 geofsAddonAircraft.isF14A = 0
 geofsAddonAircraft.F14AInstruments = 0
-geofsAddonAircraft.runF14A = function(){
+geofsAddonAircraft.runF14A = ()=> {
    console.log("Loading F-14A Tomcat. Model credit manilov.ap")
 }
 F14ALi = document.createElement("li");
@@ -3640,7 +3630,7 @@ setTimeout(() => {
    geofsAddonAircraft.F14AInstruments = 0
 }
 }
-f14aInterval = setInterval(function(){runF14A()},10)
+f14aInterval = setInterval(()=> {runF14A()},10)
 
 
 // ============================================================
@@ -3658,7 +3648,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
  * © 2026 amfi-disable. Licensed under the MIT License.
  */
 
-(function() {
+(() => {
     function main () {
         geofs.autothrottle = {
             on: !1,
@@ -3667,7 +3657,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
              * System Bootstrapper: Foundation & Callbacks
              * Injects styles, registers frame callbacks, and prepares the HUD panel.
              */
-            init: function () {
+            init: () => {
                 geofs.autothrottle.initStyles();
                 // Register high-frequency physics tick
                 geofs.autothrottle.callbackID = geofs.api.addFrameCallback(geofs.autothrottle.tickWrapper);
@@ -3727,7 +3717,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
                  * System Synchronization Events
                  * Handlers for engagement/disengagement state changes.
                  */
-                $(document).on("autothrottleOn", function() {
+                $(document).on("autothrottleOn", () => {
                     geofs.autopilot.on && geofs.autopilot.turnOff();
                     clearTimeout(geofs.autothrottle.panelTimeout);
                     geofs.autopilot.setArm(!1); // Standard safety: Start with Landing Mode OFF.
@@ -3783,12 +3773,12 @@ f14aInterval = setInterval(function(){runF14A()},10)
                 });
 
                 // Triggered when the system is disengaged.
-                $(document).on("autothrottleOff", function() {
+                $(document).on("autothrottleOff", () => {
                     $("#autothrottle-button").removeClass("green-pad").addClass("red-pad");
                     $(".ext-autothrottle-controls").hide();
                     geofs.autothrottle.on = !1;
                     
-                    geofs.autothrottle.panelTimeout = setTimeout(function() {
+                    geofs.autothrottle.panelTimeout = setTimeout(() => {
                         $("#autothrottle-button").removeClass("red-pad");
                     }, 3000);
                     
@@ -3840,7 +3830,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
                  * to prevent conflicting commands between the pilot and the PID controller.
                  */
                 const o = controls.axisSetters.throttle.process;
-                controls.axisSetters.throttle.process = function (e, t) {
+                controls.axisSetters.throttle.process = (e, t) => {
                     if (geofs.autothrottle.on) return;
                     o(e, t);
                 };
@@ -3849,7 +3839,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
              * Injects the necessary CSS for the legacy bar button and panel states.
              * This ensures the addon looks correct even if the main design system is slow to load.
              */
-            initStyles: function () {
+            initStyles: () => {
                 const style = document.createElement("style");
                 style.innerHTML = `
                    .ext-autothrottle-pad {
@@ -3989,7 +3979,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
              * Triggers the corresponding document events for synchronization.
              * Includes a pre-engagement validation check to ensure modes are selected.
              */
-            toggle: function () {
+            toggle: () => {
                 if (geofs.autothrottle.error) return;
                 
                 if (!geofs.autothrottle.on) {
@@ -4022,7 +4012,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
              * @param {number} a - Integrated delta time (seconds).
              * @param {number} b - Frame delta time (milliseconds).
              */
-            tick: function (a, b) {
+            tick: (a, b) => {
                 // Physics scaling: Normalize delta based on simulation frequency
                 var A = clamp(Math.floor(b / geofs.api.renderingSettings.physicsDeltaMs), 1, 10)
                   , B = a / A;
@@ -4091,7 +4081,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
                             errorBoost = (rawError / 10) * (1 + (rawError / 10000));
                         }
                         
-                        let targetMult = clamp(baseMult + errorBoost, 1, 1000000000);
+                        const targetMult = clamp(baseMult + errorBoost, 1, 1000000000);
                         
                         // Smoothly slide the multiplier towards the optimal target
                         window.opMultiplier += (targetMult - window.opMultiplier) * 0.15;
@@ -4185,7 +4175,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
              * Manages the execution context for the PID loop and implements 
              * the Landing Mode (Auto-Retard) logic.
              */
-            tickWrapper: function (a) {
+            tickWrapper: (a) => {
                 if (geofs.autothrottle.on) {
                     // Electrical System Dependency: Immediate emergency cut if power is lost.
                     if (window.failureSimulator?.fails?.electrical) {
@@ -4212,7 +4202,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
             /**
              * Standardized error handling to prevent the script from crashing the simulator.
              */
-            handleError: function (a) {
+            handleError: (a) => {
                 console.error(a);
                 ui.notification.show('An error with autothrottle occured, autothrottle is now disabled. Check console for more details.');
                 geofs.debug.log("meatbroc autothrottle error");
@@ -4234,7 +4224,7 @@ f14aInterval = setInterval(function(){runF14A()},10)
          * Custom Landing Mode (Arming) toggle.
          * Renamed to "Landing Mode" in the UI for better user understanding.
          */
-        geofs.autopilot.setArm = function (a) {
+        geofs.autopilot.setArm = (a) => {
             const b = JSON.parse(a);
             geofs.autothrottle.armed = b;
             $("#armOn").toggleClass("green-pad active", b);
@@ -4399,14 +4389,14 @@ async function autospoilers() {
 
   instruments.init(geofs.aircraft.instance.setup.instruments); // Initialize the instruments
   //set the camera again
-  let camera = geofs.camera.currentMode;
-  let fov = geofs.camera.currentFOV;
+  const camera = geofs.camera.currentMode;
+  const fov = geofs.camera.currentFOV;
   window.geofs.camera.set(camera);
   window.geofs.camera.setFOV(fov);
 
 
   // Event listener for keyboard events
-  $(document).keydown(function (e) {
+  $(document).keydown((e) => {
     if (e.which === 16 && !e.ctrlKey && !e.altKey && !e.metaKey) {
       // Check if the "Shift" key is pressed
       console.log("Toggled Arming Spoilers"); // Log the action
@@ -4432,7 +4422,7 @@ if (!controls.axisSetters.airbrakesPosition.__original) {
     controls.axisSetters.airbrakesPosition.__original = controls.axisSetters.airbrakesPosition.process;
 }
 
-controls.axisSetters.throttle.process = function (e, t) {
+controls.axisSetters.throttle.process = (e, t) => {
     // Always track joystick input
     currentThrottleJoystickInput = e;
     //console.log(currentThrottleJoystickInput)
@@ -4442,7 +4432,7 @@ controls.axisSetters.throttle.process = function (e, t) {
     }
     controls.axisSetters.throttle.__original(e, t);
 };
-controls.axisSetters.throttlereverse.process = function (e, t) {
+controls.axisSetters.throttlereverse.process = (e, t) => {
     // Always track joystick input
     currentRevThrottleJoystickInput = e;
     //console.log(currentRevThrottleJoystickInput)
@@ -4452,7 +4442,7 @@ controls.axisSetters.throttlereverse.process = function (e, t) {
     }
     controls.axisSetters.throttlereverse.__original(e, t);
 };
-controls.axisSetters.airbrakesPosition.process = function (e, t) {
+controls.axisSetters.airbrakesPosition.process = (e, t) => {
     // Always track joystick input
     currentSpoilersJoystickInput = e;
     //console.log(currentSpoilersJoystickInput)
@@ -4464,7 +4454,7 @@ controls.axisSetters.airbrakesPosition.process = function (e, t) {
 };
 
 
-setInterval(function () {
+setInterval(() => {
   // Check for landing + reversers
   if (
     geofs.aircraft.instance.animationValue.spoilerArming === 1 &&
@@ -4530,7 +4520,7 @@ setInterval(function () {
 //END OF JOYSTICK SUPPORTED CODE/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Interval to ensure instruments are set up correctly for specific aircraft IDs
-  setInterval(function () {
+  setInterval(() => {
     // Check if the aircraft ID is known and instruments are not initialized
     if (
       ["3292", "3054"].includes(geofs.aircraft.instance.id) &&
@@ -4551,8 +4541,8 @@ autospoilers();
 // ============================================================
 const gpwsAircraft= new Set ([5002, 5409, 5516, 5314, 5316, 3292, 1023, 1021, 1018, 1016, 2706, 3575, 2843, 2899, 5156, 2878, 2879, 3140, 3534, 2870, 2871, 2865, 5086, 242, 4646, 2856, 244, 4631, 2951, 2153, 2973, 239, 2788, 2418, 2420, 2426, 2395, 3011, 2772, 2769, 4140, 5203, 2003, 3054, 252, 5193, 238, 4743, 4745, 237, 4764, 4402, 240, 3179, 3180, 235, 2386, 2706, 3307, 247, 5073, 1069, 2461, 2004, 3289, 3436, 236, 3036, 2943, 3341, 2700, 4017, 3460, 5038, 2556, 2976, 3109, 2892, 2752, 5, 6, 4, 10, 20, 24, 25, 26, 1014, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1015, 1017, 1020]);
 setInterval(() => {
-    let checkNumber = Number(geofs.aircraft.instance.id);
-    let hasGPWS = gpwsAircraft.has(checkNumber);
+    const checkNumber = Number(geofs.aircraft.instance.id);
+    const hasGPWS = gpwsAircraft.has(checkNumber);
     window.soundsOn = hasGPWS;
     console.log(`Has GPWS? ${hasGPWS} `);
 }, 1000);
@@ -4957,15 +4947,15 @@ if (flight.recorder.playing) {
         }
     });*/
     setInterval(() => {
-        let geofsSoundOn = geofs.preferences.sound;
+        const geofsSoundOn = geofs.preferences.sound;
         if (!geofsSoundOn) {
-            for (let key in window) {
+            for (const key in window) {
             if (window[key] instanceof Audio) {
                 window[key].volume = 0;
             }
         }
         } else {
-            for (let key in window) {
+            for (const key in window) {
             if (window[key] instanceof Audio) {
                 window[key].volume = 1;
             }
@@ -5054,11 +5044,11 @@ geofs.aircraft.instance.addParts([{
     }
 
 }
-let offset = 0;
+const offset = 0;
 function changePos()
 {
-   let a = parseFloat(document.getElementById("moveAmount").value);
- let pos = geofs.aircraft.instance.parts.pfd9.position;
+   const a = parseFloat(document.getElementById("moveAmount").value);
+ const pos = geofs.aircraft.instance.parts.pfd9.position;
    let x = pos[0];
    let y = pos[1];
     let z = pos[2];
@@ -5090,7 +5080,7 @@ else{
 console.log("invalid");
 }
     console.log("Returned value out:", valuepressed);
-  geofs.api.addFrameCallback(function(){geofs.aircraft.instance.parts.pfd9.object3d._position = [x, y, z];})
+  geofs.api.addFrameCallback(()=> {geofs.aircraft.instance.parts.pfd9.object3d._position = [x, y, z];})
     geofs.aircraft.instance.parts.pfd9.position = [x,y,z];
     console.log(geofs.aircraft.instance.parts.pfd9.position);
 }
@@ -5098,8 +5088,8 @@ console.log("invalid");
 //rotate
 function rotate()
 {
-let r = parseFloat(document.getElementById("rotateAmount").value);
- let rot = geofs.aircraft.instance.parts.pfd9.rotation;
+const r = parseFloat(document.getElementById("rotateAmount").value);
+ const rot = geofs.aircraft.instance.parts.pfd9.rotation;
     let x = rot[1];
 if(valuepressed==7&& JBlockCheckValue==0)
 {
@@ -5110,7 +5100,7 @@ else if(valuepressed==8&& JBlockCheckValue==0)
 {
 x-=r;
 }
-     geofs.api.addFrameCallback(function(){
+     geofs.api.addFrameCallback(()=> {
     var part = geofs.aircraft.instance.parts['pfd9'];
     if (part && part.object3d) {
         part.object3d.rotateZ(x*(Math.PI / 180));
@@ -5122,7 +5112,7 @@ x-=r;
 }
 
 // Dynamically create the panel div
-let listdiv = document.createElement("div");
+const listdiv = document.createElement("div");
 listdiv.setAttribute("data-noblur", "true");
 listdiv.setAttribute("data-onshow", "{geofs.initializePreferencesPanel()}");
 listdiv.setAttribute("data-onhide", "{geofs.savePreferencesPanel()}");
@@ -5320,8 +5310,8 @@ let JBlockCheckValue = 0;
   });
 
 
-document.getElementById("toggleSwitch").addEventListener("click", function () {
-    let isChecked = document.getElementById("toggleSwitch").checked;
+document.getElementById("toggleSwitch").addEventListener("click", () => {
+    const isChecked = document.getElementById("toggleSwitch").checked;
     if (isChecked) {
         loadJB();
     }
@@ -5329,8 +5319,8 @@ document.getElementById("toggleSwitch").addEventListener("click", function () {
         geofs.aircraft.instance.parts['pfd9'].object3d.destroy();
     }
 });
-document.getElementById("jbLock").addEventListener("click", function () {
-    let isCheckedJBlock = document.getElementById("jbLock").checked;
+document.getElementById("jbLock").addEventListener("click", () => {
+    const isCheckedJBlock = document.getElementById("jbLock").checked;
     JBlockCheckValue = isCheckedJBlock ? 1 : 0;
     console.log("Jetbridge Lock:", JBlockCheckValue);
 });
@@ -5358,9 +5348,9 @@ let lowerCounter = 0;
 
 let rampRaiseCounter=0;
 
-let ramp_lower=0;
+const ramp_lower=0;
 
-let nameArr = [];
+const nameArr = [];
 fetch('https://geofs-assets.evengao6688.workers.dev/addons/spice9/ground-vehicles.json')
     .then(res => res.json())
     .then(data => {
@@ -5401,7 +5391,7 @@ document.querySelectorAll('#lockContent input').forEach((lockedItem, index) => {
         // Moved the event listener here, after list is loaded
         document.querySelectorAll('#vehSwitch input').forEach((listItem, index) => {
             listItem.addEventListener("click", () => {
-               let isCheckedVeh = listItem.checked;
+               const isCheckedVeh = listItem.checked;
                 if (isCheckedVeh)
                 {
                 const partsveh = [{
@@ -5420,7 +5410,7 @@ document.querySelectorAll('#lockContent input').forEach((lockedItem, index) => {
     .then(res => res.json())
     .then(data => {console.log(data);
 
-                 let animData=data;
+                 const animData=data;
                      raiseCounter=0;
                     lowerCounter = 0;
                    geofs.animation.values.jetbridgeRaiseValue = 0;
@@ -5428,7 +5418,7 @@ geofs.animation.values.dooropen = 0;
 geofs.animation.values.platformLevel = 0;
 
       try {
-          document.getElementById("raise").addEventListener("click", function() {
+          document.getElementById("raise").addEventListener("click", () => {
     raiseCounter++;
     console.log(raiseCounter);
     if(raiseCounter>=4)
@@ -5438,7 +5428,7 @@ geofs.animation.values.platformLevel = 0;
     geofs.animation.values.jetbridgeRaiseValue += 0.1;
 });
 
-document.getElementById("lower").addEventListener("click", function() {
+document.getElementById("lower").addEventListener("click", () => {
         raiseCounter--;
      console.log(raiseCounter);
     if(raiseCounter>=3)
@@ -5452,7 +5442,7 @@ document.getElementById("lower").addEventListener("click", function() {
 //ramp
              geofs.animation.values.rampRaiseValue = 0;
           geofs.animation.values.rampLevel = 0;
-          document.getElementById("ramp_raise").addEventListener("click", function() {
+          document.getElementById("ramp_raise").addEventListener("click", () => {
     rampRaiseCounter++;
     console.log(rampRaiseCounter);
     if(rampRaiseCounter>=2)
@@ -5462,7 +5452,7 @@ document.getElementById("lower").addEventListener("click", function() {
     geofs.animation.values.rampRaiseValue += 0.1;
 });
 
-document.getElementById("ramp_lower").addEventListener("click", function() {
+document.getElementById("ramp_lower").addEventListener("click", () => {
         rampRaiseCounter--;
      console.log(rampRaiseCounter);
     if(rampRaiseCounter>=1)
@@ -5475,10 +5465,10 @@ document.getElementById("ramp_lower").addEventListener("click", function() {
 
 //door
 geofs.animation.values.dooropen = 0;
-                   document.getElementById("door").addEventListener("click", function() {
+                   document.getElementById("door").addEventListener("click", () => {
     geofs.animation.values.dooropen += 1;
 });
-document.getElementById("door2").addEventListener("click", function() {
+document.getElementById("door2").addEventListener("click", () => {
     geofs.animation.values.dooropen -= 1;
 });
 
@@ -5502,8 +5492,8 @@ document.getElementById("door2").addEventListener("click", function() {
         //change position using parameters
 function rotateVeh()
 {
-let r = parseFloat(document.getElementById("rotateAmount").value);
- let rot = geofs.aircraft.instance.parts[listData[index].name].rotation;
+const r = parseFloat(document.getElementById("rotateAmount").value);
+ const rot = geofs.aircraft.instance.parts[listData[index].name].rotation;
     let x = rot[1];
 if(valuepressed==7&& nameArr[index]==0)
 {
@@ -5514,7 +5504,7 @@ else if(valuepressed==8&& nameArr[index]==0)
 {
 x-=r;
 }
-     geofs.api.addFrameCallback(function(){
+     geofs.api.addFrameCallback(()=> {
     var part = geofs.aircraft.instance.parts[listData[index].name];
     if (part && part.object3d) {
         part.object3d.rotateZ(x*(Math.PI / 180));
@@ -5526,8 +5516,8 @@ x-=r;
 }
                 function changePosPara()
                 {
-                   let a = parseFloat(document.getElementById("moveAmount").value);
- let pos = geofs.aircraft.instance.parts[listData[index].name].position;
+                   const a = parseFloat(document.getElementById("moveAmount").value);
+ const pos = geofs.aircraft.instance.parts[listData[index].name].position;
    let x = pos[0];
    let y = pos[1];
    let z = pos[2];
@@ -5558,7 +5548,7 @@ else{
 console.log("invalid");
 }
     console.log("Returned value out:", valuepressed);
-  geofs.api.addFrameCallback(function(){geofs.aircraft.instance.parts[listData[index].name].object3d._position = [x, y, z];})
+  geofs.api.addFrameCallback(()=> {geofs.aircraft.instance.parts[listData[index].name].object3d._position = [x, y, z];})
     geofs.aircraft.instance.parts[listData[index].name].position = [x,y,z];
     console.log(geofs.aircraft.instance.parts[listData[index].name].position);
 }
@@ -5580,17 +5570,17 @@ document.getElementById("acw").addEventListener("click", rotateVeh);
         });
     });
 
-let button1 = document.createElement("div");
+const button1 = document.createElement("div");
 button1.setAttribute("data-noblur", "true");
 button1.innerHTML = '<button class="mdl-button mdl-js-button geofs-f-standard-ui geofs-mediumScreenOnly" data-tooltip-classname="mdl-tooltip--top" id="ebutton">Button</button>';
 
 // Append the button for the panel toggle
-let buttonDiv = document.createElement("div");
+const buttonDiv = document.createElement("div");
 buttonDiv.innerHTML = '<button class="mdl-button mdl-js-button geofs-f-standard-ui geofs-mediumScreenOnly" data-toggle-panel=".geofs-livery-list" data-tooltip-classname="mdl-tooltip--top" tabindex="0" id="cambutton" size="50%">Jetbridge</button>';
 document.body.appendChild(buttonDiv);
 
 //Geofs UI
-let element = document.getElementById("cambutton");
+const element = document.getElementById("cambutton");
 if (geofs.version >= 3.6) {
     document.getElementsByClassName("geofs-ui-bottom")[0].insertBefore(element, document.getElementsByClassName("geofs-ui-bottom")[0].children[4]);
 } else {
@@ -5606,8 +5596,8 @@ function listPanel() {
 // ============================================================
 // MODULE: slew.js
 // ============================================================
-(function() {
-    'use strict';
+(() => {
+    
     if (!window.gmenu || !window.GMenu) {
         fetch('https://geofs-assets.evengao6688.workers.dev/scripts/addonmenu.js')
             .then(response => response.text())
@@ -5624,20 +5614,20 @@ function listPanel() {
         slewMenu.addItem("Speed after slew disabled (higher values are lower speeds, no flaps): ", "SpeedMultiplier", 'number', 0, '1.96');
         slewMenu.addItem("Speed after slew disabled (with flaps): ", "SpeedMultiplierFlaps", 'number', 0, '2.7');
         slewMenu.addHeader(2, "Keybinds");
-        slewMenu.addKBShortcut("Toggle Slew Mode: ", "Toggle", 1, 'y', function(){kb("Toggle")});
-        slewMenu.addKBShortcut("Forwards: ", "Forward", 1, 'i', function(){kb("Forward")}, function(){kbU("Forward")});
-        slewMenu.addKBShortcut("Backwards: ", "Backwards", 1, 'k', function(){kb("Backwards")}, function(){kbU("Backwards")});
-        slewMenu.addKBShortcut("Left: ", "Left", 1, 'j', function(){kb("Left")}, function(){kbU("Left")});
-        slewMenu.addKBShortcut("Right: ", "Right", 1, 'l', function(){kb("Right")}, function(){kbU("Right")});
-        slewMenu.addKBShortcut("Up: ", "Up", 1, 'u', function(){kb("Up")}, function(){kbU("Up")});
-        slewMenu.addKBShortcut("Down: ", "Down", 1, 'Enter', function(){kb("Down")}, function(){kbU("Down")});
+        slewMenu.addKBShortcut("Toggle Slew Mode: ", "Toggle", 1, 'y', ()=> {kb("Toggle")});
+        slewMenu.addKBShortcut("Forwards: ", "Forward", 1, 'i', ()=> {kb("Forward")}, ()=> {kbU("Forward")});
+        slewMenu.addKBShortcut("Backwards: ", "Backwards", 1, 'k', ()=> {kb("Backwards")}, ()=> {kbU("Backwards")});
+        slewMenu.addKBShortcut("Left: ", "Left", 1, 'j', ()=> {kb("Left")}, ()=> {kbU("Left")});
+        slewMenu.addKBShortcut("Right: ", "Right", 1, 'l', ()=> {kb("Right")}, ()=> {kbU("Right")});
+        slewMenu.addKBShortcut("Up: ", "Up", 1, 'u', ()=> {kb("Up")}, ()=> {kbU("Up")});
+        slewMenu.addKBShortcut("Down: ", "Down", 1, 'Enter', ()=> {kb("Down")}, ()=> {kbU("Down")});
         slewMenu.addHeader(3, "Rotation");
-        slewMenu.addKBShortcut("Tilt Up: ", "RotTiltUp", 2, 'ArrowUp', function(){kb("TiltUp")});
-        slewMenu.addKBShortcut("Tilt Down: ", "RotTiltDown", 2, 'ArrowDown', function(){kb("TiltDown")});
-        slewMenu.addKBShortcut("Roll Left: ", "RotRLeft", 2, 'ArrowLeft', function(){kb("RLeft")});
-        slewMenu.addKBShortcut("Roll Right: ", "RotRRight", 2, 'ArrowRight', function(){kb("RRight")});
-        slewMenu.addKBShortcut("Yaw Left: ", "RotRYLeft", 2, ',', function(){kb("YLeft")});
-        slewMenu.addKBShortcut("Yaw Right: ", "RotYRight", 2, '.', function(){kb("YRight")});
+        slewMenu.addKBShortcut("Tilt Up: ", "RotTiltUp", 2, 'ArrowUp', ()=> {kb("TiltUp")});
+        slewMenu.addKBShortcut("Tilt Down: ", "RotTiltDown", 2, 'ArrowDown', ()=> {kb("TiltDown")});
+        slewMenu.addKBShortcut("Roll Left: ", "RotRLeft", 2, 'ArrowLeft', ()=> {kb("RLeft")});
+        slewMenu.addKBShortcut("Roll Right: ", "RotRRight", 2, 'ArrowRight', ()=> {kb("RRight")});
+        slewMenu.addKBShortcut("Yaw Left: ", "RotRYLeft", 2, ',', ()=> {kb("YLeft")});
+        slewMenu.addKBShortcut("Yaw Right: ", "RotYRight", 2, '.', ()=> {kb("YRight")});
         //Update notification
         async function checkForUpdates() {
             // Disabled for localization
@@ -5691,7 +5681,7 @@ function listPanel() {
     function kb(event) { //kb = KeyBoard
         const isChatFocused = (document.activeElement === document.getElementById("chatInput"));
         if (!isChatFocused && (localStorage.getItem("slewEnabled") == 'true')) {
-            let blist = ["Forward", "Backwards", "Right", "Left", "Up", "Down"];
+            const blist = ["Forward", "Backwards", "Right", "Left", "Up", "Down"];
             if (event == "Toggle") {
                 isSlewing = !isSlewing;
                 if (isSlewing) {
@@ -5780,7 +5770,7 @@ function listPanel() {
         let deltaX;
         let deltaY;
         if (localStorage.getItem("slewMsfs") == "true") {
-            let altMult = Math.pow(Math.max(1,Math.log10(Math.abs(0.1*window.geofs.animation.values.haglFeet))), 2); //The further above the ground you are, the faster you go
+            const altMult = Math.max(1,Math.log10(Math.abs(0.1*window.geofs.animation.values.haglFeet))) ** 2; //The further above the ground you are, the faster you go
             deltaX = (Math.cos(headingRad) * (speedF && altMult*speedF[0]*(Date.now()-speedF[1])/10000)) - (Math.sin(headingRad) * (sideways && altMult*sideways[0]*(Date.now()-sideways[1])/5000));
             deltaY = (Math.sin(headingRad) * (speedF && altMult*speedF[0]*(Date.now()-speedF[1])/10000)) + (Math.cos(headingRad) * (sideways && altMult*sideways[0]*(Date.now()-sideways[1])/5000));
             slewAlt = (window.geofs.animation.values.groundContact && (!speedV || speedV[0] <= 0)) ? slewAlt : slewAlt + (speedV && altMult*speedV[0]*(Date.now()-speedV[1])/5000);
@@ -5795,7 +5785,7 @@ function listPanel() {
         window.geofs.aircraft.instance.object3d.setInitialRotation([tilt,roll,headingRad]);
         window.geofs.aircraft.instance.rigidBody.v_acceleration = [0,0,0];
         window.geofs.aircraft.instance.rigidBody.v_angularAcceleration = [0,0,0];
-        let ldgAGL = (window.geofs.animation.values.altitude !== undefined && window.geofs.animation.values.groundElevationFeet !== undefined) ? ((window.geofs.animation.values.altitude - window.geofs.animation.values.groundElevationFeet) + (window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]*3.2808399)) : 'N/A';
+        const ldgAGL = (window.geofs.animation.values.altitude !== undefined && window.geofs.animation.values.groundElevationFeet !== undefined) ? ((window.geofs.animation.values.altitude - window.geofs.animation.values.groundElevationFeet) + (window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]*3.2808399)) : 'N/A';
         if (!window.geofs.groundIsWater || ldgAGL > 3) { //If it's in the water, don't mess with some of the physics
             window.geofs.aircraft.instance.rigidBody.v_linearVelocity = [0,0,0];
             window.geofs.aircraft.instance.rigidBody.v_angularVelocity = [0,0,0];
@@ -5806,7 +5796,7 @@ function listPanel() {
         `;
     }
 
-    window.slew = async function() {
+    window.slew = async () => {
         window.slewEvents = {};
         speedF = 0;
         sideways = 0;
@@ -5866,7 +5856,7 @@ const workerScript = () => {
         }
         return false;
     }
-    const updateRoads = async function(coords, stLtDist, airportBounds) {
+    const updateRoads = async (coords, stLtDist, airportBounds) => {
         var allSPos = [];
         coords.forEach(road => {
             for (let i = 0; i < road.length - 1; i++) {
@@ -5900,7 +5890,7 @@ const workerScript = () => {
                     if (shouldSendL) {
                         allSPos.push(leftPoint);
                         let b = false;
-                        for (let i in airportBounds) {
+                        for (const i in airportBounds) {
                             if (inCoords(leftPoint, airportBounds[i])) {
                                 b = true;
                             }
@@ -5912,7 +5902,7 @@ const workerScript = () => {
                     if (shouldSendR) {
                         allSPos.push(rightPoint);
                         let b = false;
-                        for (let i in airportBounds) {
+                        for (const i in airportBounds) {
                             if (inCoords(rightPoint, airportBounds[i])) {
                                 b = true;
                             }
@@ -6012,7 +6002,7 @@ const workerScript = () => {
         }
         return ret;
     }
-    self.addEventListener('message', async function(event) {
+    self.addEventListener('message', async (event) => {
         if (event.data.type == 'fetchRoadData') {
             console.log("Fetching Road Data...");
             const bounds = event.data.data[0];
@@ -6058,8 +6048,8 @@ out body;
     });
 };
 //Main function
-(async function() {
-    'use strict';
+(async () => {
+    
     window.roads = [];
     //I have forgotten what most of these position arrays are for
     window.rPos = [];
@@ -6088,7 +6078,7 @@ out body;
     window.slLOD = false;
     window.ltTO = 0; //lightTimeOut, sets the timeout for light placing to hopefully reduce freezing
     window.streetLightWorker = new Worker(URL.createObjectURL(new Blob([`(${workerScript})()`], { type: 'application/javascript' })));
-    window.streetLightWorker.addEventListener('message', function(event) {
+    window.streetLightWorker.addEventListener('message', (event) => {
         if (event.data.type == "addStreetlight") {
 
 
@@ -6144,7 +6134,7 @@ out body;
     }
 })();
 
-window.streetLightLOD = async function() {
+window.streetLightLOD = async () => {
     var ldgAGL = (window.geofs.animation.values.altitude !== undefined && window.geofs.animation.values.groundElevationFeet !== undefined) ? ((window.geofs.animation.values.altitude - window.geofs.animation.values.groundElevationFeet) + (window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]*3.2808399)) : 'N/A';
     var i;
     if ((ldgAGL > 3000 || window.weather.timeRatio < 0.5) && !window.slLOD) {
@@ -6159,7 +6149,7 @@ window.streetLightLOD = async function() {
         }
     }
 };
-window.doRoads = async function() {
+window.doRoads = async () => {
     window.ltTO = 0;
     var ldgAGL = (window.geofs.animation.values.altitude !== undefined && window.geofs.animation.values.groundElevationFeet !== undefined) ? ((window.geofs.animation.values.altitude - window.geofs.animation.values.groundElevationFeet) + (window.geofs.aircraft.instance.collisionPoints[window.geofs.aircraft.instance.collisionPoints.length - 2].worldPosition[2]*3.2808399)) : 'N/A';
     if (window.geofs.cautiousWithTerrain == false && (localStorage.getItem("stLtEnabled") == "true") && ldgAGL < 3000) {
@@ -6288,7 +6278,7 @@ async function addStreetlight(position, heading) {
 }
 ///
 // Function to remove streetlights with x and y values within 5 of each other
-window.removeCloseStreetlights = async function() {
+window.removeCloseStreetlights = async () => {
     const cellSize = 5; // Grid cell size in meters
     const grid = new Map();
     const indicesToRemove = new Set();
@@ -6306,7 +6296,7 @@ window.removeCloseStreetlights = async function() {
     }
 
     // Check each cell and its neighbors
-    for (let [cellKey, indices] of grid) {
+    for (const [cellKey, indices] of grid) {
         const [cellX, cellY] = cellKey.split(',').map(Number);
 
         // Check the cell and its 8 neighbors
@@ -6352,8 +6342,8 @@ window.removeCloseStreetlights = async function() {
 // ============================================================
 // MODULE: twlights.js
 // ============================================================
-(function() {
-    'use strict';
+(() => {
+    
     window.twLights = [];
     window.errs = 0;
     window.twLC = {
@@ -6393,16 +6383,16 @@ function fpe(num) {
     return Number(num.toFixed(3));
 }
 
-window.updateLights = async function() {
+window.updateLights = async () => {
     if (window.geofs.cautiousWithTerrain == false && (localStorage.getItem("twLEnabled") == 'true')) { //timeRatio is basically how bright the terrain should be--at noon it's 0, at midnight it's 1
-        let chunkSize = 0.04;
-        let renderDist = 3;
+        const chunkSize = 0.04;
+        const renderDist = 3;
         function chunkTick() {
             //Chunks creation
-            let lla = window.geofs.aircraft.instance.llaLocation;
+            const lla = window.geofs.aircraft.instance.llaLocation;
             window.twLC.newChunks = [];
             for (let v = -renderDist; v <= renderDist; v++) {
-                let arr = [];
+                const arr = [];
                 for (let h = -renderDist; h <= renderDist; h++) {
                     arr.push({min: [fpe(Math.floor(lla[0]/chunkSize)*chunkSize + v*chunkSize), fpe(Math.floor(lla[1]/chunkSize)*chunkSize + h*chunkSize)], max: [fpe(Math.floor(lla[0]/chunkSize)*chunkSize + (v+1)*chunkSize), fpe(Math.floor(lla[1]/chunkSize)*chunkSize + (h+1)*chunkSize)]});
                 }
@@ -6425,10 +6415,10 @@ window.updateLights = async function() {
                     }
                 }
             }
-            for (let f in window.twLC.toRemove) {
-                let bds = window.twLC.oldChunks[window.twLC.toRemove[f][0]][window.twLC.toRemove[f][1]];
-                let bound = `${fpe(bds.min[0])}, ${fpe(bds.min[1])}, ${fpe(bds.max[0])}, ${fpe(bds.max[1])}`;
-                for (let l in window.twLights[bound]) {
+            for (const f in window.twLC.toRemove) {
+                const bds = window.twLC.oldChunks[window.twLC.toRemove[f][0]][window.twLC.toRemove[f][1]];
+                const bound = `${fpe(bds.min[0])}, ${fpe(bds.min[1])}, ${fpe(bds.max[0])}, ${fpe(bds.max[1])}`;
+                for (const l in window.twLights[bound]) {
                     window.geofs.api.viewer.entities.remove(window.twLights[bound][l]);
                 }
                 delete window.twLights[bound];
@@ -6438,8 +6428,8 @@ window.updateLights = async function() {
                     return;
                 }
                 console.log("adding " + e);
-                let bds = window.twLC.newChunks[window.twLC.toAdd[e][0]][window.twLC.toAdd[e][1]]; //bounds, no formatting
-                let bound = `${fpe(bds.min[0])}, ${fpe(bds.min[1])}, ${fpe(bds.max[0])}, ${fpe(bds.max[1])}`;
+                const bds = window.twLC.newChunks[window.twLC.toAdd[e][0]][window.twLC.toAdd[e][1]]; //bounds, no formatting
+                const bound = `${fpe(bds.min[0])}, ${fpe(bds.min[1])}, ${fpe(bds.max[0])}, ${fpe(bds.max[1])}`;
                 if (e == 45) {
                     console.log([window.twLC.newChunks, window.twLC.oldChunks]);
                 }
@@ -6499,7 +6489,7 @@ function interpolatePoints(start, end, interval) {
     const [lon2, lat2] = end;
 
     const distance = Math.sqrt(
-        Math.pow(lon2 - lon1, 2) + Math.pow(lat2 - lat1, 2)
+        (lon2 - lon1) ** 2 + (lat2 - lat1) ** 2
     );
 
     const numPoints = Math.max(Math.floor(distance / interval), 1);
@@ -6653,7 +6643,7 @@ async function getTaxiwayDataEdgeless(bounds) {
         console.error('Error fetching taxiway data:', error);
     }
 }
-window.getTwD = async function(bounds, id) {
+window.getTwD = async (bounds, id) => {
     getTaxiwayData(bounds).then(edges => {
         if (edges && edges.length && edges.length > 0) {
             edges.forEach(edge => {
@@ -6722,7 +6712,7 @@ function checkProximityToRunway(pos) {
 }
 ///
 
-window.getTwDE = async function(bounds, id) {
+window.getTwDE = async (bounds, id) => {
     getTaxiwayDataEdgeless(bounds).then(centerline => {
         var z = 0;
         if (centerline && centerline.length && centerline.length > 0) {
@@ -6847,11 +6837,11 @@ const workerScript = () => {
             });
             var toFilter = [];
             // Function to filter out nodes based on angles
-            for (let w in theWays) {
-                let toFilter = [];
+            for (const w in theWays) {
+                const toFilter = [];
 
                 for (let n = theWays[w].length - 2; n > 0; n--) {
-                    let angle = calculateAngle(theNodes[theWays[w][n - 1]], theNodes[theWays[w][n]], theNodes[theWays[w][n + 1]]);
+                    const angle = calculateAngle(theNodes[theWays[w][n - 1]], theNodes[theWays[w][n]], theNodes[theWays[w][n + 1]]);
 
                     // Adjust threshold if needed
                     if (angle > Number(twSAngle) && angle < 40) { //LocSt twSAngle
@@ -6863,7 +6853,7 @@ const workerScript = () => {
 
                 // Remove nodes in reverse to avoid index shift
                 for (let i = toFilter.length - 1; i >= 0; i--) {
-                    let index = toFilter[i];
+                    const index = toFilter[i];
                     console.log(`Removing node ${index} with angle: ${calculateAngle(theNodes[theWays[w][index - 1]], theNodes[theWays[w][index]], theNodes[theWays[w][index + 1]])}`); // Debug: log removed nodes
                     theWays[w].splice(index, 1);
                 }
@@ -6891,14 +6881,14 @@ const workerScript = () => {
             self.postMessage({type: "getTwM", data: theData});
         });
     }
-    self.addEventListener('message', function(event) {
+    self.addEventListener('message', (event) => {
         if (event.data.type == 'getTwM') {
             getTwM(event.data.data[0], event.data.data[1]);
         }
     });
 };
-(function() {
-    'use strict';
+(() => {
+    
     window.twM = [];
     window.twS = [];
     window.theWays = [];
@@ -6906,7 +6896,7 @@ const workerScript = () => {
     window.twSPos = [];
     window.twSOri = [];
     window.twSignWorker = new Worker(URL.createObjectURL(new Blob([`(${workerScript})()`], { type: 'application/javascript' })));
-    window.twSignWorker.addEventListener('message', function(event) {
+    window.twSignWorker.addEventListener('message', (event) => {
         if (event.data.type == 'getTwM' && (localStorage.getItem("twSEnabled") == "true")) {
             window.theWays = event.data.data.theWays;
             window.theNodes = event.data.data.theNodes;
@@ -6937,7 +6927,7 @@ const workerScript = () => {
         setInterval(() => {window.updateMarkers();}, 1000*Number(localStorage.getItem("twSUpdateInterval"))); //LocSt twSUpdateInterval
     }
 })();
-window.updateMarkers = async function() {
+window.updateMarkers = async () => {
     if (window.geofs.cautiousWithTerrain == false) {
         var renderDistance = Number(localStorage.getItem("twSRenderDist")); //Render distance, in degrees. //LocSt twSRenderDist
         var l0 = Math.floor(window.geofs.aircraft.instance.llaLocation[0]/renderDistance)*renderDistance;
@@ -6948,7 +6938,7 @@ window.updateMarkers = async function() {
             for (let i = 0; i < window.twM.length; i++) {
                 window.geofs.api.viewer.scene.primitives.remove(window.twM[i]);
             }
-            for (let i in window.twS) {
+            for (const i in window.twS) {
                 window.geofs.api.viewer.scene.primitives.remove(window.twS[i]);
             }
             window.twM = [];
@@ -6971,7 +6961,7 @@ function offsetCoordinate(coord, angle, offsetDistance) {
 
     return [offsetLat, offsetLon];
 }
-window.setTwM = async function(intersections) {
+window.setTwM = async (intersections) => {
     var heading = 0; //HEADING IS IN RADIANS!
     console.log(intersections);
     intersections.forEach(epos => {
@@ -7103,7 +7093,7 @@ window.setTwM = async function(intersections) {
                 const scaleMatrix = window.Cesium.Matrix4.fromScale(new window.Cesium.Cartesian3(-1.9, 0.9, 1));
 
                 // Combine transformations
-                let transformMatrix = new window.Cesium.Matrix4();
+                const transformMatrix = new window.Cesium.Matrix4();
                 window.Cesium.Matrix4.multiplyTransformation(translationMatrix, rotationMatrix, transformMatrix);
                 window.Cesium.Matrix4.multiplyTransformation(transformMatrix, scaleMatrix, transformMatrix);
 
@@ -7159,10 +7149,10 @@ async function instanceTwS() {
 // MODULE: maritime.js
 // ============================================================
 const _0x4ddc51 = _0x3bca;
-(function(_0x6684e, _0x3bb870) {
+(((_0x6684e, _0x3bb870) => {
     const _0x2ba9b9 = _0x3bca,
         _0x312b31 = _0x6684e();
-    while (!![]) {
+    while ([]) {
         try {
             const _0x228e30 = -parseInt(_0x2ba9b9(0x120)) / 0x1 + -parseInt(_0x2ba9b9(0x17a)) / 0x2 + parseInt(_0x2ba9b9(0x15f)) / 0x3 * (parseInt(_0x2ba9b9(0x104)) / 0x4) + -parseInt(_0x2ba9b9(0x11b)) / 0x5 + parseInt(_0x2ba9b9(0x189)) / 0x6 + -parseInt(_0x2ba9b9(0x1a0)) / 0x7 + -parseInt(_0x2ba9b9(0x11c)) / 0x8 * (-parseInt(_0x2ba9b9(0x111)) / 0x9);
             if (_0x228e30 === _0x3bb870) break;
@@ -7171,31 +7161,31 @@ const _0x4ddc51 = _0x3bca;
             _0x312b31['push'](_0x312b31['shift']());
         }
     }
-}(_0x80ea, 0x980f5));
+})(_0x80ea, 0x980f5));
 let addonHandler, listData, buildings, collData, lightData, catapultData, colors;
 (async () => {
-    let addonHandlerLink = _0x4ddc51(0x18e);
+    const addonHandlerLink = _0x4ddc51(0x18e);
     await fetch(addonHandlerLink)[_0x4ddc51(0x19a)](_0x311460 => _0x311460['text']())[_0x4ddc51(0x19a)](_0x537985 => addonHandler = _0x537985);
     eval(addonHandler);
     await new Promise(_0x8fa9c5 => setTimeout(_0x8fa9c5, 0x64));
     window[_0x4ddc51(0x13c)] ? addons[_0x4ddc51(0x18b)] = !![] : alert(_0x4ddc51(0x12c));
 
-    let listDataLink = _0x4ddc51(0xfb);
+    const listDataLink = _0x4ddc51(0xfb);
     await fetch(listDataLink)[_0x4ddc51(0x19a)](_0x56732e => _0x56732e[_0x4ddc51(0x126)]())[_0x4ddc51(0x19a)](_0x1f4dd4 => listData = _0x1f4dd4);
 
-    let buildingsLink = _0x4ddc51(0x175);
+    const buildingsLink = _0x4ddc51(0x175);
     await fetch(buildingsLink)[_0x4ddc51(0x19a)](_0x30fe2d => _0x30fe2d[_0x4ddc51(0x126)]())['then'](_0x331105 => buildings = _0x331105);
 
-    let collDataLink = _0x4ddc51(0xf5);
+    const collDataLink = _0x4ddc51(0xf5);
     await fetch(collDataLink)[_0x4ddc51(0x19a)](_0x3e2bcb => _0x3e2bcb[_0x4ddc51(0x126)]())['then'](_0x14e217 => collData = _0x14e217);
 
     colors = [_0x4ddc51(0x197), _0x4ddc51(0x17b), _0x4ddc51(0x141), _0x4ddc51(0xfa)];
     window[_0x4ddc51(0x102)] = [];
 
-    let lightDataLink = _0x4ddc51(0x160);
+    const lightDataLink = _0x4ddc51(0x160);
     await fetch(lightDataLink)[_0x4ddc51(0x19a)](_0x546714 => _0x546714['json']())[_0x4ddc51(0x19a)](_0xa2d580 => lightData = _0xa2d580);
 
-    let catapultDataLink = 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/catapults.json';
+    const catapultDataLink = 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/catapults.json';
     await fetch(catapultDataLink)['then'](_0x1b4b58 => _0x1b4b58['json']())[_0x4ddc51(0x19a)](_0x3bddaf => catapultData = _0x3bddaf);
 
     window[_0x4ddc51(0xf6)] = {};
@@ -7206,7 +7196,7 @@ let addonHandler, listData, buildings, collData, lightData, catapultData, colors
 const R = 6.378;
 var EPSILON = 1.1102230246251565e-16,
     ERRBOUND3 = (0x3 + 0x10 * EPSILON) * EPSILON;
-let prevObj = [{
+const prevObj = [{
         'name': _0x4ddc51(0x13b)
     }],
     lightSettings = {
@@ -7221,13 +7211,13 @@ let prevObj = [{
     };
 
 function main() {
-    let _0x3b3a44 = setInterval(function() {
+    const _0x3b3a44 = setInterval(() => {
         updateBuildings(), checkCarrier(), catapultMain();
     }, 0x3e8);
 }
 
 function secondMain() {
-    let _0x52d917 = setInterval(function() {
+    const _0x52d917 = setInterval(() => {
         editCoords();
     }, 0x1388);
 }
@@ -7239,11 +7229,11 @@ async function updateBuildings(_0x470cc3) {
         _0x5ce5c0[_0x4890db] = geofs[_0x2b641c(0x146)]['objectList'][_0x4890db];
     }
     _0x5ce5c0 = await getOld(_0x5ce5c0);
-    let _0x238d9f = checkIfSame(_0x5ce5c0, _0x2ba4de);
+    const _0x238d9f = checkIfSame(_0x5ce5c0, _0x2ba4de);
     if (_0x238d9f == ![] && !_0x470cc3) {
-        let _0x119ac3 = await removeOld(geofs['objects']['objectList']);
+        const _0x119ac3 = await removeOld(geofs['objects']['objectList']);
         geofs[_0x2b641c(0x146)][_0x2b641c(0x16c)] = _0x119ac3;
-        let _0x5a2d5c = [];
+        const _0x5a2d5c = [];
         for (let _0xf88133 = 0x0; _0xf88133 < _0x2ba4de[_0x2b641c(0x12a)]; _0xf88133++) {
             _0x5a2d5c[_0xf88133] = _0x2ba4de[_0xf88133];
         }
@@ -7254,9 +7244,9 @@ async function updateBuildings(_0x470cc3) {
         geofs[_0x2b641c(0x146)][_0x2b641c(0x17c)](), geofs[_0x2b641c(0x146)][_0x2b641c(0x154)](), geofs[_0x2b641c(0x146)][_0x2b641c(0x191)]();
     } else {
         if (_0x470cc3) {
-            let _0x3038a4 = await removeOld(geofs[_0x2b641c(0x146)][_0x2b641c(0x16c)]);
+            const _0x3038a4 = await removeOld(geofs[_0x2b641c(0x146)][_0x2b641c(0x16c)]);
             geofs[_0x2b641c(0x146)][_0x2b641c(0x16c)] = _0x3038a4;
-            let _0x5956bf = [];
+            const _0x5956bf = [];
             for (let _0x16dee9 = 0x0; _0x16dee9 < _0x2ba4de[_0x2b641c(0x12a)]; _0x16dee9++) {
                 _0x5956bf[_0x16dee9] = _0x2ba4de[_0x16dee9];
             }
@@ -7271,13 +7261,13 @@ async function updateBuildings(_0x470cc3) {
 async function spawnHTML() {
     const _0x2d42f7 = _0x4ddc51;
     var _0x437dfb = await createList();
-    let _0x4779e8 = document[_0x2d42f7(0x196)](_0x2d42f7(0x187));
+    const _0x4779e8 = document[_0x2d42f7(0x196)](_0x2d42f7(0x187));
     _0x4779e8[_0x2d42f7(0x137)] = _0x2d42f7(0x148) + _0x437dfb + _0x2d42f7(0xf8);
-    let _0x539c27 = document['getElementsByClassName'](_0x2d42f7(0x193))[0x0];
+    const _0x539c27 = document['getElementsByClassName'](_0x2d42f7(0x193))[0x0];
     document[_0x2d42f7(0x10c)]('geofs-ui-left')[0x0]['appendChild'](_0x4779e8);
-    let _0x5a899e = document['createElement'](_0x2d42f7(0x187));
+    const _0x5a899e = document['createElement'](_0x2d42f7(0x187));
     _0x5a899e['innerHTML'] = _0x2d42f7(0x109), document['body']['appendChild'](_0x5a899e), document[_0x2d42f7(0x10c)](_0x2d42f7(0x173))[0x0]['appendChild'](_0x5a899e);
-    let _0x22b9f0 = document[_0x2d42f7(0x1a8)](_0x2d42f7(0x14c));
+    const _0x22b9f0 = document[_0x2d42f7(0x1a8)](_0x2d42f7(0x14c));
     document[_0x2d42f7(0x10c)](_0x2d42f7(0x173))[0x0][_0x2d42f7(0x185)](_0x22b9f0, _0x5a899e);
 }
 async function createList() {
@@ -7290,19 +7280,19 @@ async function createList() {
 }
 window[_0x4ddc51(0x18f)] = () => {
     const _0x579081 = _0x4ddc51;
-    let _0x2bdf9e = document['getElementById'](_0x579081(0xfd))[_0x579081(0x156)];
+    const _0x2bdf9e = document['getElementById'](_0x579081(0xfd))[_0x579081(0x156)];
     if (_0x2bdf9e != 0x0 && _0x2bdf9e != 0x7 && _0x2bdf9e != 0xa) {
-        let _0x2d9f04 = [],
+        const _0x2d9f04 = [],
             _0x242196 = geofs[_0x579081(0x15a)][_0x579081(0xef)][_0x579081(0x115)];
         _0x2d9f04[_0x579081(0x121)]([_0x242196[0x0], _0x242196[0x1]]), _0x2d9f04[_0x579081(0x121)]([listData[_0x2bdf9e]['location'][0x0], listData[_0x2bdf9e]['location'][0x1]]), geofs['api'][_0x579081(0x149)]['setPathPoints'](_0x2d9f04), geofs[_0x579081(0x132)][_0x579081(0x149)][_0x579081(0x10a)]();
     }
 }, window[_0x4ddc51(0x118)] = () => {
     const _0x438cd5 = _0x4ddc51;
-    let _0x2f24b1 = document[_0x438cd5(0x1a8)]('structureSelect')['value'];
+    const _0x2f24b1 = document[_0x438cd5(0x1a8)]('structureSelect')['value'];
     _0x2f24b1 != 0x0 && _0x2f24b1 != 0x7 && _0x2f24b1 != 0xa && (geofs[_0x438cd5(0x106)](listData[_0x2f24b1][_0x438cd5(0x151)]), updateBuildings('placeholder'), geofs['objects'][_0x438cd5(0x19f)](), nodeState = {});
 }, window[_0x4ddc51(0x1a5)] = () => {
     const _0x21c6b8 = _0x4ddc51;
-    let _0x1013db = document[_0x21c6b8(0x1a8)]('structureSelect')[_0x21c6b8(0x156)];
+    const _0x1013db = document[_0x21c6b8(0x1a8)]('structureSelect')[_0x21c6b8(0x156)];
     _0x1013db != 0x0 && _0x1013db != 0x7 && _0x1013db != 0xa && (geofs['flyTo'](listData[_0x1013db]['flyLocation']), updateBuildings('placeholder'), geofs[_0x21c6b8(0x146)]['unloadModels'](), nodeState = {});
 };
 
@@ -7318,7 +7308,7 @@ function addBuildings() {
             'latitude': buildings[_0x4e8f31][_0x14cd18(0x151)][0x0],
             'longitude': buildings[_0x4e8f31]['location'][0x1]
         };
-        let _0x4e708d = calculateDistance(_0x1d7f92, _0x570dee);
+        const _0x4e708d = calculateDistance(_0x1d7f92, _0x570dee);
         _0x4e708d < 0xc350 && _0x134156[_0x14cd18(0x121)](JSON[_0x14cd18(0x100)](JSON['stringify'](buildings[_0x4e8f31])));
     }
     return _0x134156;
@@ -7346,7 +7336,7 @@ function getOld(_0x1b6b66) {
 
 function removeOld(_0x4e646a) {
     const _0x57f7e0 = _0x4ddc51;
-    let _0x2abe65 = [];
+    const _0x2abe65 = [];
     if (_0x4e646a['length'] != 0x0) {
         for (let _0x3aadb0 = 0x0; _0x3aadb0 < _0x4e646a[_0x57f7e0(0x12a)]; _0x3aadb0++) {
             for (let _0x5525b6 = 0x0; _0x5525b6 < buildings[_0x57f7e0(0x12a)]; _0x5525b6++) {
@@ -7365,7 +7355,7 @@ function removeOld(_0x4e646a) {
 
 function calculateDistance(_0x3a48ee, _0x4a9d5a) {
     const _0x461468 = _0x4ddc51;
-    let _0x26c1d6 = _0x3a48ee[_0x461468(0x176)] * (Math['PI'] / 0xb4),
+    const _0x26c1d6 = _0x3a48ee[_0x461468(0x176)] * (Math['PI'] / 0xb4),
         _0x53ea24 = _0x4a9d5a[_0x461468(0x176)] * (Math['PI'] / 0xb4),
         _0x2b3fd8 = _0x3a48ee[_0x461468(0x142)] * (Math['PI'] / 0xb4),
         _0x17eb2b = _0x4a9d5a[_0x461468(0x142)] * (Math['PI'] / 0xb4),
@@ -7384,11 +7374,11 @@ function editCoords() {
             if (geofs[_0x2a28a8(0x146)]['objectList'][0x0][_0x2a28a8(0x11f)] == _0x2a28a8(0x11a)) {
                 if (collState[_0x2a28a8(0x11a)] == !![]) {
                     if (geofs[_0x2a28a8(0x15a)][_0x2a28a8(0xef)][_0x2a28a8(0x115)][0x2] < 0x14) {
-                        let _0x4bd9d5 = checkIfPointIsInSquare(geofs[_0x2a28a8(0x146)][_0x2a28a8(0x16c)][0x0][_0x2a28a8(0x151)], geofs[_0x2a28a8(0x15a)][_0x2a28a8(0xef)][_0x2a28a8(0x115)], collData[_0x2a28a8(0x11a)][_0x2a28a8(0x145)]);
+                        const _0x4bd9d5 = checkIfPointIsInSquare(geofs[_0x2a28a8(0x146)][_0x2a28a8(0x16c)][0x0][_0x2a28a8(0x151)], geofs[_0x2a28a8(0x15a)][_0x2a28a8(0xef)][_0x2a28a8(0x115)], collData[_0x2a28a8(0x11a)][_0x2a28a8(0x145)]);
                         _0x4bd9d5 == !![] && lowerCollCG57();
                     }
                 } else {
-                    let _0x4b3a94 = checkIfPointIsInSquare(geofs['objects'][_0x2a28a8(0x16c)][0x0][_0x2a28a8(0x151)], geofs[_0x2a28a8(0x15a)]['instance'][_0x2a28a8(0x115)], collData[_0x2a28a8(0x11a)][_0x2a28a8(0x145)]);
+                    const _0x4b3a94 = checkIfPointIsInSquare(geofs['objects'][_0x2a28a8(0x16c)][0x0][_0x2a28a8(0x151)], geofs[_0x2a28a8(0x15a)]['instance'][_0x2a28a8(0x115)], collData[_0x2a28a8(0x11a)][_0x2a28a8(0x145)]);
                     _0x4b3a94 == ![] ? normalizeCollCG57() : geofs[_0x2a28a8(0x15a)][_0x2a28a8(0xef)][_0x2a28a8(0x115)][0x2] > 0x14 && normalizeCollCG57();
                 }
             }
@@ -7427,9 +7417,9 @@ function checkIfSame(_0x1d27f6, _0x1b1a66) {
 
 function _0x3bca(_0x141198, _0x4f1ec3) {
     const _0x80eae7 = _0x80ea();
-    return _0x3bca = function(_0x3bca6f, _0x3c5aa1) {
+    return _0x3bca = (_0x3bca6f, _0x3c5aa1) => {
         _0x3bca6f = _0x3bca6f - 0xed;
-        let _0x2dcf9 = _0x80eae7[_0x3bca6f];
+        const _0x2dcf9 = _0x80eae7[_0x3bca6f];
         return _0x2dcf9;
     }, _0x3bca(_0x141198, _0x4f1ec3);
 }
@@ -7449,14 +7439,14 @@ function isPointInSquare(_0x2bd0ca, _0x2b7541, _0x4ef418, _0x231c8b, _0x655f71, 
 }
 
 function checkIfPointIsInSquare(_0x9734df, _0x28f388, _0x139843) {
-    let _0x37e046 = latLonToMercator(_0x9734df[0x0], _0x9734df[0x1]),
+    const _0x37e046 = latLonToMercator(_0x9734df[0x0], _0x9734df[0x1]),
         _0x3ed0ad = latLonToMercator(_0x28f388[0x0], _0x28f388[0x1]),
         _0x11fc93 = _0x3ed0ad[0x0] - _0x37e046[0x0],
         _0x1f09eb = _0x3ed0ad[0x1] - _0x37e046[0x1],
         _0x31ecf5 = isPointInSquare(-_0x11fc93, _0x1f09eb, _0x139843[0x0], _0x139843[0x1], _0x139843[0x2], _0x139843[0x3]);
     return _0x31ecf5;
 }
-window[_0x4ddc51(0x19b)] = function(_0x254e63) {
+window[_0x4ddc51(0x19b)] = (_0x254e63) => {
     clickedNodeHandler(_0x254e63);
 };
 
@@ -7476,7 +7466,7 @@ window['nodeState'] = {};
 function clickedNodeHandler(_0x2a9840) {
     const _0x136071 = _0x4ddc51;
     if (geofs[_0x136071(0x146)][_0x136071(0x16c)][_0x136071(0x12a)] != 0x0) {
-        let _0x2663c0 = [];
+        const _0x2663c0 = [];
         for (let _0x2b4a00 = 0x0; _0x2b4a00 < geofs['objects'][_0x136071(0x16c)][_0x136071(0x12a)]; _0x2b4a00++) {
             _0x2663c0[_0x136071(0x121)](geofs[_0x136071(0x146)][_0x136071(0x16c)][_0x2b4a00]['name'] || _0x136071(0x13b));
         }
@@ -7485,7 +7475,7 @@ function clickedNodeHandler(_0x2a9840) {
             _0x2663c0[_0x136071(0x182)](collData[_0x136071(0x10b)][_0x3d54f1]) > -0x1 && (_0x575849 = _0x2663c0[_0x136071(0x182)](collData[_0x136071(0x10b)][_0x3d54f1]), _0x25f7e2 = !![]);
         }
         if (_0x25f7e2 == !![]) {
-            let _0x51d3f2 = geofs[_0x136071(0x146)][_0x136071(0x16c)][_0x575849][_0x136071(0x11f)];
+            const _0x51d3f2 = geofs[_0x136071(0x146)][_0x136071(0x16c)][_0x575849][_0x136071(0x11f)];
             for (let _0x37bf44 = 0x0; _0x37bf44 < collData[_0x51d3f2]['touchNodes'][_0x136071(0x12a)]; _0x37bf44++) {
                 if (_0x2a9840 == collData[_0x51d3f2][_0x136071(0x127)][_0x37bf44]) {
                     !nodeState[_0x51d3f2] && (nodeState[_0x51d3f2] = {});
@@ -7521,11 +7511,11 @@ function clickedNodeHandler(_0x2a9840) {
         }
     }
 }
-collState[_0x4ddc51(0x162)] = async function(_0x5bd04f, _0xfad880, _0xeb528b, _0x3cf89e, _0xe91c06, _0xfbd9e2) {
+collState[_0x4ddc51(0x162)] = async (_0x5bd04f, _0xfad880, _0xeb528b, _0x3cf89e, _0xe91c06, _0xfbd9e2) => {
     const _0x3744f6 = _0x4ddc51;
     console[_0x3744f6(0x113)](_0xfbd9e2);
     if (geofs[_0x3744f6(0x15a)][_0x3744f6(0xef)][_0x3744f6(0x115)][0x2] > collData[_0xfad880][_0x3744f6(0xf4)]) {
-        let _0x23ab3c = [];
+        const _0x23ab3c = [];
         for (let _0x3a1437 = 0x0; _0x3a1437 < collData[_0xfad880][_0x3744f6(0x167)]['length']; _0x3a1437++) {
             _0x23ab3c[_0x3744f6(0x121)](classifyPointMain(_0xfad880, _0x3a1437));
         }
@@ -7534,7 +7524,7 @@ collState[_0x4ddc51(0x162)] = async function(_0x5bd04f, _0xfad880, _0xeb528b, _0
             _0x23ab3c[_0x2a19e3] == -0x1 && _0x5bd04f == _0x3cf89e[_0x2a19e3] && (_0x52beac = !![]);
         }
         if (_0x52beac == !![]) {
-            let _0x53872e = collData[_0xfad880][_0x3744f6(0x158)] / 0x3e8 * _0xfbd9e2,
+            const _0x53872e = collData[_0xfad880][_0x3744f6(0x158)] / 0x3e8 * _0xfbd9e2,
                 _0x288835 = _0xe91c06 / 0x3e8;
             for (let _0x24f298 = 0x0; _0x24f298 < 0x3e8; _0x24f298++) {
                 for (let _0x341025 = 0x0; _0x341025 < geofs['objects'][_0x3744f6(0x16c)][_0xeb528b][_0x3744f6(0x105)][_0x3744f6(0x12a)]; _0x341025++) {
@@ -7562,7 +7552,7 @@ function resetWireCollisions(_0x4029df) {
     geofs['objects']['updateCollidables']();
 }
 window[_0x4ddc51(0x150)] = {};
-let intervalCount = 0x0;
+const intervalCount = 0x0;
 window[_0x4ddc51(0xfe)] = {};
 
 function setPartAnimationDelta(_0x46f624) {
@@ -7582,7 +7572,7 @@ function animatePart(_0x1feba2, _0x1d9686) {
 
 function animationHandler(_0x140de4, _0x5ef7eb) {
     const _0x42bfb7 = _0x4ddc51;
-    let _0x3328e8 = nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x135)][_0x42bfb7(0x135)][_0x42bfb7(0x11d)](nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x11f)]),
+    const _0x3328e8 = nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x135)][_0x42bfb7(0x135)][_0x42bfb7(0x11d)](nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x11f)]),
         _0x4ab0ec = [nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x151)][0x0] * nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x15b)], nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x151)][0x1] * nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x15b)], nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x151)][0x2] * nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x15b)]],
         _0x4a0c47 = [nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x10e)][0x0] * nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x15b)], nodeState[_0x140de4][_0x5ef7eb]['rotation'][0x1] * nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x15b)], nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x10e)][0x2] * nodeState[_0x140de4][_0x5ef7eb][_0x42bfb7(0x15b)]];
     geofs[_0x42bfb7(0x132)]['setNodeRotationTranslationScale'](_0x3328e8, M33['setFromEuler'](V3[_0x42bfb7(0xf0)](_0x4a0c47)), _0x4ab0ec, [0x1, 0x1, 0x1]);
@@ -7590,17 +7580,15 @@ function animationHandler(_0x140de4, _0x5ef7eb) {
 
 function _0x80ea() {
     const _0x4654af = ['preProcessObjects', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=780,height=300,top=', 'sqrt', 'actualNodes', 'atan2', 'atan', 'indexOf', 'animation', '\x27)\x22>', 'insertBefore', '_lla', 'div', 'JBD', '2767956DGLzGd', 'tan', 'maritime', 'close', '</p>', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/addonhandler.js', 'loadOnMap', 'movingCollision', 'loadModels', 'forEach', 'geofs-ui-left', '_billboard', 'applyCentralImpulse', 'createElement', 'blue', 'barKey', 'key', 'then', 'internalNodeHandlerMaritime', 'JBDAnglesPos', 'launchKey', 'includes', 'unloadModels', '8559698pCKFzG', '\x27)\x22>Toggle\x20Lights</button></p>', 'reset', 'inCarrierPlane', 'resetCollisions', 'apporachSpawn', 'splice', '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22turnLightOn(\x27', 'getElementById', 'winButtons', 'values', 'keypress', 'instance', 'toRadians', 'setup', 'max', '<style>\x0a\x20\x20\x20\x20\x20\x20\x20\x20.mdl-button{\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20background:\x200\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border-radius:\x202px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#000;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20position:\x20relative;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20height:\x2036px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20min-width:\x2064px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200\x2016px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20display:\x20inline-block;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20\x22Roboto\x22,\x22Helvetica\x22,\x22Arial\x22,sans-serif;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2014px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20font-weight:\x20500;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-transform:\x20uppercase;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20letter-spacing:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20overflow:\x20hidden;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20will-change:\x20box-shadow;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20transition:\x20box-shadow\x20.2s\x20cubic-bezier(.4,0,1,1),background-color\x20.2s\x20cubic-bezier(.4,0,.2,1),color\x20.2s\x20cubic-bezier(.4,0,.2,1);\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20outline:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20cursor:\x20pointer;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-decoration:\x20none;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20line-height:\x2036px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20vertical-align:\x20middle;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20\x20\x20.center\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20verdana;\x0a\x20\x20\x20\x20\x20\x20\x20\x20display:\x20center;\x0a\x20\x20\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20\x20\x20\x20\x20</style>\x0a\x20\x20\x20\x20\x20\x20\x20\x20', 'refAlt', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/collisionsettings.json', 'collState', '3460', '</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22loadOnMap()\x22\x20data-upgraded=\x22,MaterialButton\x22>Get\x20direction\x20to\x20structure</button>\x0a\x20\x20</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22runwaySpawn()\x22\x20data-upgraded=\x22,MaterialButton\x22>Spawn\x20on\x20location</button>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22apporachSpawn()\x22\x20data-upgraded=\x22,MaterialButton\x22>Spawn\x20on\x20approach</button>\x0a\x20\x20\x20\x20\x20\x20</p>\x0a\x20\x20\x20\x20\x20\x20<button\x20class=\x22mdl-button\x22\x20mdl-js-button\x20mdl-button—raised\x20mdl-button—colored\x20onclick=\x22openWindow()\x22\x20data-upgraded=\x22,MaterialButton\x22>Open\x20Object\x20Settings</button>\x0a\x20\x20</ul>', 'down', 'whitepapi', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/buildingsloc.json', 'planeID', 'structureSelect', 'modelLocs', '<label\x20for=\x22parkourSelect\x22>Choose\x20a\x20structure:</label><select\x20name=\x22structureSelect\x22\x20id=\x22structureSelect\x22>', 'parse', 'random', 'lights', 'bottom', '38096kNbTeG', 'collisionTriangles', 'flyTo', 'v_angularVelocity', 'cos', '<button\x20class=\x22mdl-button\x20mdl-js-button\x20geofs-f-standard-ui\x20geofs-mediumScreenOnly\x22\x20data-toggle-panel=\x22.geofs-carriers-list\x22\x20data-tooltip-classname=\x22mdl-tooltip--top\x22\x20id=\x22landButton\x22\x20tabindex=\x220\x22\x20data-upgraded=\x22,MaterialButton\x22>MARITIME</button>', 'stopCreatePath', 'carriers', 'getElementsByClassName', 'ressetting\x20wires\x20', 'rotation', 'JBDTouch', 'launchBarDown', '61209LCPDeV', 'rigidBody', 'log', 'aircraftRecord', 'llaLocation', 'barDown', 'turnLightOn', 'runwaySpawn', 'barLocked', 'cg57', '2032075MJBKXx', '3960tMonev', 'getNode', 'lockKey', 'name', '1102381ODSJzG', 'push', 'actualCatPos', 'jbd', 'mass', 'min', 'json', 'touchNodes', 'add', 'lightsPosition', 'length', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/launch_bar_down.png', 'Failed\x20to\x20load\x20handling\x20script,\x20please\x20try\x20again\x20or\x20reload.\x20If\x20this\x20problem\x20persists,\x20contact\x20Elon.', 'undefined', 'width', 'reverse', 'mainData', 'locationIndex', 'api', 'setLocation', 'light', 'model', 'setAngularVelocity', 'innerHTML', '<button\x20class=\x22center\x22\x20type=\x22button\x22\x20onclick=\x22elevator(', 'positionTarget', 'animatable', 'null', 'addons', 'positions', 'collision', 'readyToLaunch', 'time', 'orange', 'longitude', 'definitions', 'openWindow', 'square', 'objects', 'instruments', '<ul\x20class=\x22geofs-list\x20geofs-toggle-panel\x20geofs-carriers-list\x20geofs-preferences\x22\x20data-noblur=\x22true\x22\x20data-onshow=\x22{geofs.initializePreferencesPanel()}\x22\x20data-onhide=\x22{geofs.savePreferencesPanel()}\x22>\x0a\x20\x20\x20\x20<style>\x0a\x20\x20\x20\x20\x20\x20#MainDIV\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20position:\x20absolute;\x0a\x20\x20\x20\x20\x20\x20\x20\x20left:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20top:\x200;\x0a\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20#fff;\x0a\x20\x20\x20\x20\x20\x20\x20\x20text-align:\x20left;\x0a\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200\x200\x200\x2010px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20margin-top:\x202px;\x0a\x20\x20\x20\x20\x20\x20\x20\x20margin-bottom:\x202px\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20table,\x0a\x20\x20\x20\x20\x20\x20td,\x0a\x20\x20\x20\x20\x20\x20th\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20border:\x201px\x20solid\x20#000\x0a\x20\x20\x20\x20\x20\x20}\x0a\x0a\x20\x20\x20\x20\x20\x20#DIVtitle\x20{\x0a\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#000;\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20Helvetica,\x20Arial,\x20sans-serif;\x0a\x20\x20\x20\x20\x20\x20\x20\x20font-size:\x2020px\x0a\x20\x20\x20\x20\x20\x20}\x0a\x20\x20\x20\x20</style>\x0a\x20\x20\x20\x20<div\x20id=\x22MainDIV\x22>\x0a\x20\x20\x20\x20\x20\x20<p\x20id=\x22DIVtitle\x22>Geo-FS\x20Extra\x20Maritime\x20structures</p>\x0a\x20\x20\x20\x20\x20\x20</p>', 'map', 'sin', 'setVisibility', 'landButton', 'lockInt', 'init', 'catLlas', 'intervals', 'location', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/ready_to_launch.png', 'JBDName', 'updateCollidables', 'show', 'value', 'gear', 'alt', 'delta', 'aircraft', 'position', ',left=', 'vinson', 'truman', '48QpXZqF', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/lights.json', '2581', 'collisionsMove', 'destroy', 'entries', 'heading360', 'setLinearVelocity', 'elevatorSquares', 'carrierPlaneIds', 'easeOutQuart', 'camera', 'document', 'objectList', 'collAlt', 'height', 'carrierIndex', 'moving', 'buttonPressed', 'whitesmoke', 'geofs-ui-bottom', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>', 'https://geofs-assets.evengao6688.workers.dev/addons/maritime/buildings.json', 'latitude', 'positionReadable', 'angle', 'animateMain', '1251516VQvfLS', 'redpapi'];
-    _0x80ea = function() {
-        return _0x4654af;
-    };
+    _0x80ea = () => _0x4654af;
     return _0x80ea();
 }
 
 function collisionHandler(_0x298951, _0x38b79a) {
     const _0x11e828 = _0x4ddc51;
-    let _0x36a66e = nodeState[_0x298951][_0x38b79a][_0x11e828(0x16f)];
+    const _0x36a66e = nodeState[_0x298951][_0x38b79a][_0x11e828(0x16f)];
     if (geofs['aircraft'][_0x11e828(0xef)][_0x11e828(0x115)][0x2] > collData[_0x298951]['refAlt'] && nodeState[_0x298951][_0x38b79a][_0x11e828(0x177)] == _0x11e828(0xf9) || geofs[_0x11e828(0x15a)][_0x11e828(0xef)]['llaLocation'][0x2] < collData[_0x298951][_0x11e828(0xf4)] && nodeState[_0x298951][_0x38b79a][_0x11e828(0x177)] == 'up' || nodeState[_0x298951][_0x38b79a][_0x11e828(0x190)] == !![]) {
-        let _0x1fda12 = [];
+        const _0x1fda12 = [];
         for (let _0x4f0d75 = 0x0; _0x4f0d75 < collData[_0x298951][_0x11e828(0x167)][_0x11e828(0x12a)]; _0x4f0d75++) {
             _0x1fda12['push'](classifyPointMain(_0x298951, _0x4f0d75));
         }
@@ -7615,7 +7603,7 @@ function collisionHandler(_0x298951, _0x38b79a) {
         }
     }
 }
-window[_0x4ddc51(0x179)] = function(_0x25d541) {
+window[_0x4ddc51(0x179)] = (_0x25d541) => {
     Object['entries'](nodeState)['forEach'](([_0x4de47a, _0x44d47b]) => {
         const _0x2e2d3a = _0x3bca;
         Object[_0x2e2d3a(0x164)](nodeState[_0x4de47a])['forEach'](([_0xa10e21, _0x2ed91d]) => {
@@ -7624,7 +7612,7 @@ window[_0x4ddc51(0x179)] = function(_0x25d541) {
         });
     });
 };
-let constTime = 0.05;
+const constTime = 0.05;
 
 function changeWires(_0x19a3a3, _0x635fc9) {
     const _0x33efd4 = _0x4ddc51;
@@ -7640,7 +7628,7 @@ function sleep(_0x306de3) {
 
 function classifyPointMain(_0x4f1c05, _0xdac25d) {
     const _0x12571c = _0x4ddc51;
-    let _0x1ac08e = geofs[_0x12571c(0x146)]['objectList'][0x4][_0x12571c(0x151)],
+    const _0x1ac08e = geofs[_0x12571c(0x146)]['objectList'][0x4][_0x12571c(0x151)],
         _0x3baf02 = geofs[_0x12571c(0x15a)][_0x12571c(0xef)][_0x12571c(0x115)],
         _0x329215 = latLonToMercator(_0x1ac08e[0x0], _0x1ac08e[0x1]),
         _0xcbf270 = latLonToMercator(_0x3baf02[0x0], _0x3baf02[0x1]),
@@ -7803,13 +7791,13 @@ function initInstruments() {
         }
     };
     var _0x5ad14d = instruments['init'];
-    instruments['init'] = function(_0x54e35f) {
+    instruments['init'] = (_0x54e35f) => {
         const _0x5dc739 = _0x8d8d33;
         let _0x390975 = ['7', _0x5dc739(0x161), _0x5dc739(0xf7)];
         void 0x0 !== _0x54e35f['gear'] || _0x390975[_0x5dc739(0x19e)](geofs[_0x5dc739(0x15a)][_0x5dc739(0xef)][_0x5dc739(0x114)]['id']) ? (enabled = !0x0, _0x54e35f[_0x5dc739(0x110)] = _0x54e35f[_0x5dc739(0x157)]) : enabled = void 0x0, _0x5ad14d(_0x54e35f), _0x390975 = ['7', _0x5dc739(0x161), _0x5dc739(0xf7)], (void 0x0 !== _0x54e35f[_0x5dc739(0x157)] || _0x390975[_0x5dc739(0x19e)](geofs[_0x5dc739(0x15a)]['instance'][_0x5dc739(0x114)]['id']) ? (enabled = !0x0, _0x54e35f[_0x5dc739(0x13f)] = _0x54e35f[_0x5dc739(0x157)]) : enabled = void 0x0, _0x5ad14d(_0x54e35f));
     }, instruments[_0x8d8d33(0x14e)](geofs['aircraft'][_0x8d8d33(0xef)]['setup'][_0x8d8d33(0x147)]);
 }
-let catapult = {};
+const catapult = {};
 catapult[_0x4ddc51(0x14f)] = catapultData[_0x4ddc51(0x14f)], catapult['angle'] = catapultData['angle'], catapult[_0x4ddc51(0x122)] = catapult[_0x4ddc51(0x14f)], catapult[_0x4ddc51(0x168)] = ['7', _0x4ddc51(0x161), '3460'], catapult['barDown'] = ![], catapult['barLocked'] = ![], catapult[_0x4ddc51(0x198)] = 'q', catapult[_0x4ddc51(0x19d)] = 'l', catapult[_0x4ddc51(0x11e)] = '/', catapult[_0x4ddc51(0x14d)], catapult[_0x4ddc51(0x1a3)] = ![], catapult[_0x4ddc51(0xfc)];
 
 function gearBarPosLock() {
@@ -7819,7 +7807,7 @@ function gearBarPosLock() {
 
 function resolveForceVector(_0x2a6d58, _0x5a399b) {
     const _0x4698c2 = _0x4ddc51;
-    let _0x520825 = _0x2a6d58 * Math[_0x4698c2(0x108)](_0x5a399b * (Math['PI'] / 0xb4)),
+    const _0x520825 = _0x2a6d58 * Math[_0x4698c2(0x108)](_0x5a399b * (Math['PI'] / 0xb4)),
         _0x17a5e9 = _0x2a6d58 * Math['sin'](_0x5a399b * (Math['PI'] / 0xb4));
     return [_0x520825, _0x17a5e9, 0x0];
 }
@@ -7851,9 +7839,9 @@ function catapultMain() {
                 if (catapult['barLocked']) catapult[_0x2606be(0x119)] = ![], geofs[_0x2606be(0x183)][_0x2606be(0xed)]['readyToLaunch'] = 0x0, clearInterval(catapult[_0x2606be(0x14d)]);
                 else {
                     let _0x33953c;
-                    catapult[_0x2606be(0x14f)][catapult[_0x2606be(0xfc)]][_0x2606be(0x192)](async function(_0x4d3c84, _0x54b413) {
+                    catapult[_0x2606be(0x14f)][catapult[_0x2606be(0xfc)]][_0x2606be(0x192)](async (_0x4d3c84, _0x54b413) => {
                         const _0x1a0842 = _0x2606be;
-                        distance(geofs[_0x1a0842(0x15a)][_0x1a0842(0xef)][_0x1a0842(0x115)], _0x4d3c84) < 0x3 && geofs[_0x1a0842(0x183)]['values']['heading360'] < catapult['angle'][_0x54b413] + 0x5 && geofs['animation']['values'][_0x1a0842(0x165)] > catapult[_0x1a0842(0x178)][_0x54b413] - 0x5 && catapult[_0x1a0842(0x116)] == !![] && (geofs[_0x1a0842(0x106)]([catapult[_0x1a0842(0x14f)][catapult[_0x1a0842(0xfc)]][_0x54b413][0x0], catapult['catLlas'][catapult[_0x1a0842(0xfc)]][_0x54b413][0x1], 0x0, catapult[_0x1a0842(0x178)][_0x54b413]]), await sleep(0xfa), geofs[_0x1a0842(0x16a)][_0x1a0842(0x1a2)](), catapult[_0x1a0842(0x119)] = !![], geofs['animation']['values'][_0x1a0842(0x13f)] = 0x1, catapult[_0x1a0842(0x14d)] = setInterval(function() {
+                        distance(geofs[_0x1a0842(0x15a)][_0x1a0842(0xef)][_0x1a0842(0x115)], _0x4d3c84) < 0x3 && geofs[_0x1a0842(0x183)]['values']['heading360'] < catapult['angle'][_0x54b413] + 0x5 && geofs['animation']['values'][_0x1a0842(0x165)] > catapult[_0x1a0842(0x178)][_0x54b413] - 0x5 && catapult[_0x1a0842(0x116)] == !![] && (geofs[_0x1a0842(0x106)]([catapult[_0x1a0842(0x14f)][catapult[_0x1a0842(0xfc)]][_0x54b413][0x0], catapult['catLlas'][catapult[_0x1a0842(0xfc)]][_0x54b413][0x1], 0x0, catapult[_0x1a0842(0x178)][_0x54b413]]), await sleep(0xfa), geofs[_0x1a0842(0x16a)][_0x1a0842(0x1a2)](), catapult[_0x1a0842(0x119)] = !![], geofs['animation']['values'][_0x1a0842(0x13f)] = 0x1, catapult[_0x1a0842(0x14d)] = setInterval(() => {
                             gearBarPosLock();
                         }));
                     });
@@ -7863,7 +7851,7 @@ function catapultMain() {
                 if (catapult[_0x2606be(0x119)] && geofs[_0x2606be(0x183)]['values']['throttle'] == 0x1) {
                     clearInterval(catapult['lockInt']), catapult['barLocked'] = ![], catapult[_0x2606be(0x116)] = ![], geofs[_0x2606be(0x183)][_0x2606be(0xed)][_0x2606be(0x110)] = 0x0, geofs['animation'][_0x2606be(0xed)]['readyToLaunch'] = 0x0, geofs['aircraft'][_0x2606be(0xef)][_0x2606be(0x112)]['reset']();
                     var _0x4403ec = geofs[_0x2606be(0x15a)]['instance'][_0x2606be(0x112)][_0x2606be(0x124)] * 0xa;
-                    let _0x1a8f97 = new geofs['fx']['ParticleEmitter']({
+                    const _0x1a8f97 = new geofs['fx']['ParticleEmitter']({
                             'anchor': {
                                 'worldPosition': [0x0, 0x0, -0x1]
                             },
@@ -7880,7 +7868,7 @@ function catapultMain() {
                             'startRotation': _0x2606be(0x101),
                             'texture': _0x2606be(0x172)
                         }),
-                        _0x483cf6 = setInterval(function() {
+                        _0x483cf6 = setInterval(() => {
                             const _0xfef7cb = _0x2606be;
                             geofs[_0xfef7cb(0x183)][_0xfef7cb(0xed)]['groundContact'] == 0x1 ? geofs[_0xfef7cb(0x15a)]['instance'][_0xfef7cb(0x112)][_0xfef7cb(0x195)]([resolveForceVector(_0x4403ec, geofs[_0xfef7cb(0x183)]['values'][_0xfef7cb(0x165)])[0x1], resolveForceVector(_0x4403ec, geofs['animation'][_0xfef7cb(0xed)][_0xfef7cb(0x165)])[0x0], resolveForceVector(_0x4403ec, geofs[_0xfef7cb(0x183)][_0xfef7cb(0xed)][_0xfef7cb(0x165)])[0x2]]) : (clearInterval(_0x483cf6), _0x1a8f97[_0xfef7cb(0x163)]());
                         }, 0xc8);
@@ -7911,7 +7899,7 @@ function getGeoCoords(_0x1e25aa, _0x301e45, _0x4f5324, _0x5ea169) {
     let _0x1d1cff = _0x301e45 * 20037508.34 / 0xb4,
         _0x1dd5b6 = Math['log'](Math['tan']((0x5a + _0x1e25aa) * Math['PI'] / 0x168)) / (Math['PI'] / 0xb4);
     _0x1dd5b6 = _0x1dd5b6 * 20037508.34 / 0xb4;
-    let _0x5be6dc = _0x4f5324 - _0x1d1cff,
+    const _0x5be6dc = _0x4f5324 - _0x1d1cff,
         _0x30a00a = _0x5ea169 - _0x1dd5b6,
         {
             lat: _0xf6cd79,
@@ -7943,7 +7931,7 @@ function spawnLights(_0x1c6ce8) {
                 for (let _0x1e15b5 = 0x0; _0x1e15b5 < lightData[_0x1c6ce8][colors[_0x22afee]][_0x564988(0x12a)]; _0x1e15b5++) {
                     let _0x55b3d4 = [];
                     _0x55b3d4 = rotatePoint(0x0, 0x0, lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x0], lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x1], lightData[_0x1c6ce8][_0x564988(0x178)]), _0x55b3d4[0x2] = lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x2];
-                    let _0x39bc83 = getBuildingPosition(_0x1c6ce8),
+                    const _0x39bc83 = getBuildingPosition(_0x1c6ce8),
                         _0x156e0a = buildings[_0x39bc83][_0x564988(0x151)];
                     var _0x1ba0ec = V3['add'](_0x156e0a, xyz2lla(_0x55b3d4, _0x156e0a));
                     lights[_0x564988(0x121)](new geofs['fx'][(_0x564988(0x134))](_0x1ba0ec, colors[_0x22afee], lightSettings)), lightAlt = lightData[_0x1c6ce8][colors[_0x22afee]][_0x1e15b5][0x2];
@@ -7996,7 +7984,7 @@ function getBuildingPosition(_0x404c82) {
 
 function rotatePoint(_0x214597, _0x57840a, _0x4f341e, _0x4e60dd, _0x1190d4) {
     const _0xa60ab9 = _0x4ddc51;
-    let _0x16b1b2 = (_0x4f341e - _0x214597) * Math[_0xa60ab9(0x108)](toRadians(_0x1190d4)) - (_0x4e60dd - _0x57840a) * Math['sin'](toRadians(_0x1190d4)) + _0x214597,
+    const _0x16b1b2 = (_0x4f341e - _0x214597) * Math[_0xa60ab9(0x108)](toRadians(_0x1190d4)) - (_0x4e60dd - _0x57840a) * Math['sin'](toRadians(_0x1190d4)) + _0x214597,
         _0x284569 = (_0x4f341e - _0x214597) * Math[_0xa60ab9(0x14a)](toRadians(_0x1190d4)) + (_0x4e60dd - _0x57840a) * Math[_0xa60ab9(0x108)](toRadians(_0x1190d4)) + _0x57840a;
     return [_0x16b1b2, _0x284569];
 }
@@ -8004,12 +7992,12 @@ function rotatePoint(_0x214597, _0x57840a, _0x4f341e, _0x4e60dd, _0x1190d4) {
 function toRadians(_0x5bceeb) {
     return _0x5bceeb * Math['PI'] / 0xb4;
 }
-let itv = setInterval(function() {
+const itv = setInterval(() => {
         try {
             window['ui'] && window['flight'] && (main(), spawnHTML(), secondMain(), startLights(), clearInterval(itv));
         } catch (_0x2349ed) {}
     }, 0x1f4),
-    itv5 = setInterval(function() {
+    itv5 = setInterval(() => {
         const _0x31c762 = _0x4ddc51;
         try {
             geofs[_0x31c762(0x15a)][_0x31c762(0xef)][_0x31c762(0xf1)]['instruments'] && (initInstruments(), clearInterval(itv5));
@@ -8037,27 +8025,27 @@ function getHTMLForWindow() {
     }
 }
 let winObject;
-window[_0x4ddc51(0x144)] = function() {
+window[_0x4ddc51(0x144)] = () => {
     const _0x349381 = _0x4ddc51;
     console[_0x349381(0x113)]('window');
     winObject != void 0x0 && winObject[_0x349381(0x18c)]();
-    let _0x48dc5f = getHTMLForWindow();
-    winObject = window['open']('', 'Title', _0x349381(0x17d) + (screen[_0x349381(0x16e)] - 0x190) + _0x349381(0x15c) + (screen[_0x349381(0x12e)] - 0x348)), winObject[_0x349381(0x16b)]['body'][_0x349381(0x137)] = _0x349381(0xf3) + _0x48dc5f + _0x349381(0x174), winObject[_0x349381(0x117)] = function(_0x43276a) {
+    const _0x48dc5f = getHTMLForWindow();
+    winObject = window['open']('', 'Title', _0x349381(0x17d) + (screen[_0x349381(0x16e)] - 0x190) + _0x349381(0x15c) + (screen[_0x349381(0x12e)] - 0x348)), winObject[_0x349381(0x16b)]['body'][_0x349381(0x137)] = _0x349381(0xf3) + _0x48dc5f + _0x349381(0x174), winObject[_0x349381(0x117)] = (_0x43276a) => {
         lightHandler(_0x43276a);
-    }, winObject['elevator'] = function(_0x2de52d, _0x549daf) {
+    }, winObject['elevator'] = (_0x2de52d, _0x549daf) => {
         elevator(_0x2de52d, _0x549daf);
-    }, winObject[_0x349381(0x123)] = function(_0x1bcc2b, _0x2e2387) {
+    }, winObject[_0x349381(0x123)] = (_0x1bcc2b, _0x2e2387) => {
         jbd(_0x1bcc2b, _0x2e2387);
     };
-}, window[_0x4ddc51(0x129)] = ![], window['lightHandler'] = function(_0x441cc5) {
+}, window[_0x4ddc51(0x129)] = ![], window['lightHandler'] = (_0x441cc5) => {
     lightsPosition ? turnLightsOff(_0x441cc5) : turnLightsOn(_0x441cc5);
-}, window['elevator'] = function(_0x4bf36b, _0x3b7cf3) {
+}, window['elevator'] = (_0x4bf36b, _0x3b7cf3) => {
     const _0x4d5869 = _0x4ddc51;
-    let _0xdf52dd = collData[_0x3b7cf3][_0x4d5869(0x127)][_0x4bf36b];
+    const _0xdf52dd = collData[_0x3b7cf3][_0x4d5869(0x127)][_0x4bf36b];
     console['log'](_0xdf52dd), clickedNodeHandler(_0xdf52dd);
-}, window['jbd'] = function(_0x574e5, _0xe00f59) {
+}, window['jbd'] = (_0x574e5, _0xe00f59) => {
     const _0x2e497e = _0x4ddc51;
-    let _0x25fd2e = collData[_0xe00f59][_0x2e497e(0x10f)][_0x574e5];
+    const _0x25fd2e = collData[_0xe00f59][_0x2e497e(0x10f)][_0x574e5];
     console['log'](_0x25fd2e), clickedNodeHandler(_0x25fd2e);
 };
 
@@ -8068,7 +8056,7 @@ function turnLightsOn(_0x4b2e11) {
         for (let _0x546bc7 = 0x0; _0x546bc7 < lightData[_0x4b2e11][colors[_0x55bb75]][_0x467d5f(0x12a)]; _0x546bc7++) {
             let _0x1f4447 = [];
             _0x1f4447 = rotatePoint(0x0, 0x0, lightData[_0x4b2e11][colors[_0x55bb75]][_0x546bc7][0x0], lightData[_0x4b2e11][colors[_0x55bb75]][_0x546bc7][0x1], lightData[_0x4b2e11]['angle']), _0x1f4447[0x2] = lightData[_0x4b2e11][colors[_0x55bb75]][_0x546bc7][0x2];
-            let _0x3844e1 = getBuildingPosition(_0x4b2e11),
+            const _0x3844e1 = getBuildingPosition(_0x4b2e11),
                 _0x4b8eeb = buildings[_0x3844e1][_0x467d5f(0x151)];
             var _0x4d3485 = V3[_0x467d5f(0x128)](_0x4b8eeb, xyz2lla(_0x1f4447, _0x4b8eeb));
             lights[_0x467d5f(0x121)](new geofs['fx'][(_0x467d5f(0x134))](_0x4d3485, colors[_0x55bb75], lightSettings));
@@ -8085,8 +8073,8 @@ function turnLightsOff(_0x55d034) {
 // ============================================================
 // MODULE: vehicles.js
 // ============================================================
-(function () {
-    'use strict';
+(() => {
+    
     console.log("Extras script running...");
 
     // reload from error
@@ -8252,7 +8240,7 @@ function turnLightsOff(_0x55d034) {
     function loadAircraftFromUrl(baseUrl, mpID, name) {
         $.ajax(baseUrl + "aircraft.json", {
             dataType: "text",
-            success: function (jsonText) {
+            success: (jsonText) => {
                 var customRecord = {
                     id: "custom_" + Date.now(),
                     name: name,
@@ -8280,13 +8268,13 @@ function turnLightsOff(_0x55d034) {
                     ui.notification.show("Failed to parse aircraft.json");
                 }
             },
-            error: function () {
+            error: () => {
                 ui.notification.show("Could not load aircraft.json");
             }
         });
     }
 
-    extrasPanel.addEventListener("click", function (e) {
+    extrasPanel.addEventListener("click", (e) => {
         const li = e.target.closest("li[data-url]");
         if (li) {
             const url = li.getAttribute("data-url");
@@ -8298,7 +8286,7 @@ function turnLightsOff(_0x55d034) {
     });
 
     // save aircraft and location
-    window.addEventListener("beforeunload", function () {
+    window.addEventListener("beforeunload", () => {
         if (geofs && geofs.aircraft && geofs.aircraft.instance) {
             // gear down?
             const groundAlt = geofs.api.getGroundAltitude(geofs.aircraft.instance.llaLocation);
@@ -8422,10 +8410,10 @@ function turnLightsOff(_0x55d034) {
 const exemptAircraft = new Set([1023, 1021, 1025, 1018, 1014, 1013, 1022, 1015, 1005, 1004, 4402, 5409, 5431, 5486, 5499, 5516, 2864, 2418, 2420, 2426, 5316, 5314, 5193, 2750, 5347, 5229, 5038, 2752, 4409, 5405, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 23, 24, 25, 27, 28, 29, 31, 51, 102]);
 let savedVolume = null; 
 let wasCockpit = false;
-let volumeReduction = 0.5;
-let reductionCams = new Set (["cockpit", "jump seat", "pilot", "cabin", "door gunner", "docking controls", "mid-deck", "payload bay"])
+const volumeReduction = 0.5;
+const reductionCams = new Set (["cockpit", "jump seat", "pilot", "cabin", "door gunner", "docking controls", "mid-deck", "payload bay"])
 function matchesReduction(cameraMode) {
-    for (let keyword of reductionCams) {
+    for (const keyword of reductionCams) {
         if (cameraMode.toLowerCase().includes(keyword)) {
             return true;
         }
@@ -8449,7 +8437,7 @@ setInterval(() => {
         }
         return;
     }
-    let interior = matchesReduction(cameraMode);
+    const interior = matchesReduction(cameraMode);
     if (cameraMode === 'cockpit' || cameraMode === 'cockpitless' || cameraMode === 'Jump Seat'|| cameraMode.toLowerCase().includes('pilot')) {
         if (!wasCockpit) {
             savedVolume = geofs.preferences.volume;
@@ -8484,7 +8472,7 @@ window.addEventListener("beforeunload", () => {
 // ============================================================
 // MODULE: skydolly.js
 // ============================================================
-(function() {
+(() => {
     //Addon menu code
     if (!window.gmenu || !window.GMenu) {
         fetch(
@@ -8527,13 +8515,13 @@ window.addEventListener("beforeunload", () => {
         track();
 
         //UTILITY FUNCTIONS//
-        window.sd.msToTime = function(ms) {
+        window.sd.msToTime = (ms) => {
             let sec = Math.floor((ms / 1000) % 60);
             if (sec.toString().length < 2) {
                 sec = "0" + sec;
             }
-            let min = Math.floor((ms / 60000)) % 60;
-            let hours = Math.floor((ms / 3600000));
+            const min = Math.floor((ms / 60000)) % 60;
+            const hours = Math.floor((ms / 3600000));
             let ret;
             if (hours == 0) {
                 ret = `${min}:${sec}`;
@@ -8542,7 +8530,7 @@ window.addEventListener("beforeunload", () => {
             }
             return ret;
         }
-        window.sd.getDistance = function(coord1, coord2) {
+        window.sd.getDistance = (coord1, coord2) => {
             const [lat1, lon1] = coord1;
             const [lat2, lon2] = coord2;
 
@@ -8566,7 +8554,7 @@ window.addEventListener("beforeunload", () => {
             const distanceInDegrees = c * (180 / Math.PI);
             return distanceInDegrees;
         }
-        window.sd.hexToRgb = function(hex) {
+        window.sd.hexToRgb = (hex) => {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
             return result ? {
                 r: parseInt(result[1], 16),
@@ -8576,34 +8564,34 @@ window.addEventListener("beforeunload", () => {
         }
 
         //DATABASE FUNCTIONS//
-        window.sd.loadFromDB = function(callback) {
-            let request = indexedDB.open("SkyDollyDB", 1);
+        window.sd.loadFromDB = (callback) => {
+            const request = indexedDB.open("SkyDollyDB", 1);
 
-            request.onupgradeneeded = function(event) {
-                let db = event.target.result;
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
                 if (!db.objectStoreNames.contains("sdData")) {
                     db.createObjectStore("sdData", { keyPath: "id" }); // Define keyPath here as well, though autoIncrement might not be needed for reading
                 }
             };
 
-            request.onsuccess = function(event) {
-                let db = event.target.result;
+            request.onsuccess = (event) => {
+                const db = event.target.result;
                 // Check if the object store exists before attempting a transaction
                 if (db.objectStoreNames.contains("sdData")) {
-                    let transaction = db.transaction("sdData", "readonly");
-                    let store = transaction.objectStore("sdData");
-                    let getRequest = store.get("data");
+                    const transaction = db.transaction("sdData", "readonly");
+                    const store = transaction.objectStore("sdData");
+                    const getRequest = store.get("data");
 
-                    getRequest.onsuccess = function() {
+                    getRequest.onsuccess = () => {
                         callback(getRequest.result ? getRequest.result.value : []);
                     };
 
-                    getRequest.onerror = function(event) {
+                    getRequest.onerror = (event) => {
                         console.error("Error getting data from database:", event.target.error);
                         callback(null); // Call the callback even on error to avoid blocking
                     };
 
-                    transaction.onerror = function(event) {
+                    transaction.onerror = (event) => {
                         console.error("Transaction error (reading):", event.target.error);
                         callback(null); // Call the callback even on error
                     };
@@ -8613,50 +8601,48 @@ window.addEventListener("beforeunload", () => {
                 }
             };
 
-            request.onerror = function(event) {
+            request.onerror = (event) => {
                 console.error("Error opening database:", event.target.error);
                 callback([]); // Call the callback even if opening the database fails
             };
         };
-        window.sd.saveToDB = function(data) {
-            return new Promise((resolve, reject) => {
-                let request = indexedDB.open("SkyDollyDB", 1);
+        window.sd.saveToDB = (data) => new Promise((resolve, reject) => {
+                const request = indexedDB.open("SkyDollyDB", 1);
 
-                request.onupgradeneeded = function(event) {
-                    let db = event.target.result;
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
                     if (!db.objectStoreNames.contains("sdData")) {
                         db.createObjectStore("sdData", { keyPath: "id", autoIncrement: true });
                     }
                 };
 
-                request.onsuccess = function(event) {
-                    let db = event.target.result;
-                    let transaction = db.transaction("sdData", "readwrite");
-                    let store = transaction.objectStore("sdData");
+                request.onsuccess = (event) => {
+                    const db = event.target.result;
+                    const transaction = db.transaction("sdData", "readwrite");
+                    const store = transaction.objectStore("sdData");
                     const putRequest = store.put({ id: "data", value: data });
 
-                    putRequest.onsuccess = function() {
+                    putRequest.onsuccess = () => {
                         window.sd.saved = true;
                         window.sd.saving = false;
                         resolve(); // Resolve the promise when the operation is successful
                     };
 
-                    putRequest.onerror = function(event) {
+                    putRequest.onerror = (event) => {
                         reject(event.target.error); // Reject the promise on error
                     };
                 };
 
-                request.onerror = function(event) {
+                request.onerror = (event) => {
                     reject(event.target.error); // Reject the promise if opening the database fails
                 };
-            });
-        }
-        window.sd.sendToLS = async function() {
+            })
+        window.sd.sendToLS = async () => {
             window.sd.saved = true;
             window.sd.saving = true;
             console.log("Sending to database...");
-            let dataToStore = window.sd.data.map(item => {
-                let newItem = { ...item };
+            const dataToStore = window.sd.data.map(item => {
+                const newItem = { ...item };
                 delete newItem.model;
                 delete newItem.map;
                 delete newItem.smoke;
@@ -8672,7 +8658,7 @@ window.addEventListener("beforeunload", () => {
         }
 
         //INIT FUNCTIONS//
-        window.sd.init = async function() {
+        window.sd.init = async () => {
             console.log("Sky Dolly Initializing...");
             window.sd.loadFromDB((data) => { window.sd.data = data; });
             if (localStorage.getItem("sdSlowed") == "true") {
@@ -8702,11 +8688,11 @@ window.addEventListener("beforeunload", () => {
                 lastJump: NaN,
                 next: NaN,
                 fac: 0,
-                tick: function() { //Cubic interpolation generated by AI, based on my linear interpolation implementation
+                tick: () => { //Cubic interpolation generated by AI, based on my linear interpolation implementation
                     if (window.sd.cam.data) {
-                        let keys = Object.keys(window.sd.cam.data).map(Number).sort((a, b) => a - b);
-                        let n = keys.length;
-                        let interpolate = function(points, tickNum = window.sd.tickNum, fac = window.sd.fac) {
+                        const keys = Object.keys(window.sd.cam.data).map(Number).sort((a, b) => a - b);
+                        const n = keys.length;
+                        const interpolate = (points, tickNum = window.sd.tickNum, fac = window.sd.fac) => {
                             const currentTick = tickNum + fac;
                             const keys = Object.keys(points).map(Number).sort((a, b) => a - b);
                             const n = keys.length;
@@ -8774,12 +8760,12 @@ window.addEventListener("beforeunload", () => {
                                 (cu - sq) * (m2 * deltaT);
                         };
 
-                        let currentIndex = keys.findIndex(key => key >= window.sd.tickNum);
+                        const currentIndex = keys.findIndex(key => key >= window.sd.tickNum);
                         let p0Index, p1Index, p2Index, p3Index;
                         let last = -1;
                         let next = Infinity;
-                        for (let k in window.sd.cam.data) {
-                            let i = Number(k);
+                        for (const k in window.sd.cam.data) {
+                            const i = Number(k);
                             if (i < window.sd.tickNum && i > last) {
                                 last = i;
                             }
@@ -8787,10 +8773,10 @@ window.addEventListener("beforeunload", () => {
                                 next = i;
                             }
                         }
-                        let a = document.getElementById("sdKeyframes");
+                        const a = document.getElementById("sdKeyframes");
                         if (a) {
                             for (let i = 0; i < a.children.length; i++) {
-                                let tn = Number(a.children[i].getAttribute("ticknum"));
+                                const tn = Number(a.children[i].getAttribute("ticknum"));
                                 a.children[i].style.left = `${(tn/window.sd.maxTick)*99.5-1}%`;
                             }
                         }
@@ -8812,25 +8798,25 @@ window.addEventListener("beforeunload", () => {
                             p3Index = Math.min(n - 1, currentIndex + 1);
                         }
 
-                        let t0 = keys[p0Index];
-                        let t1 = keys[p1Index];
-                        let t2 = keys[p2Index];
-                        let t3 = keys[p3Index];
+                        const t0 = keys[p0Index];
+                        const t1 = keys[p1Index];
+                        const t2 = keys[p2Index];
+                        const t3 = keys[p3Index];
 
-                        let v0 = window.sd.cam.data[t0];
-                        let v1 = window.sd.cam.data[t1];
-                        let v2 = window.sd.cam.data[t2];
-                        let v3 = window.sd.cam.data[t3];
-                        let xObj = {};
-                        let yObj = {};
-                        let zObj = {};
-                        let hdgObj = {};
-                        let pitchObj = {};
-                        let rollObj = {};
-                        let fovObj = {};
+                        const v0 = window.sd.cam.data[t0];
+                        const v1 = window.sd.cam.data[t1];
+                        const v2 = window.sd.cam.data[t2];
+                        const v3 = window.sd.cam.data[t3];
+                        const xObj = {};
+                        const yObj = {};
+                        const zObj = {};
+                        const hdgObj = {};
+                        const pitchObj = {};
+                        const rollObj = {};
+                        const fovObj = {};
                         for (let a = 0; a < Object.keys(window.sd.cam.data).length; a++) {
-                            let t = Object.keys(window.sd.cam.data)[a];
-                            let d = window.sd.cam.data[Object.keys(window.sd.cam.data)[a]];
+                            const t = Object.keys(window.sd.cam.data)[a];
+                            const d = window.sd.cam.data[Object.keys(window.sd.cam.data)[a]];
                             xObj[t] = d.pos.x;
                             yObj[t] = d.pos.y;
                             zObj[t] = d.pos.z;
@@ -8840,42 +8826,42 @@ window.addEventListener("beforeunload", () => {
                             fovObj[t] = d.fov;
                         }
                         function mathAll(obj, doCosine) {
-                            let ret = {};
-                            for (let v in obj) {
+                            const ret = {};
+                            for (const v in obj) {
                                 ret[v] = doCosine ? Math.cos(obj[v]) : Math.sin(obj[v]);
                             }
                             return ret;
                         }
 
-                        let t = (window.sd.tickNum+window.sd.fac - t1) / (t2 - t1);
+                        const t = (window.sd.tickNum+window.sd.fac - t1) / (t2 - t1);
 
                         if (!window.sd.cam.modified) {
-                            let posX = interpolate(xObj);
-                            let posY = interpolate(yObj);
-                            let posZ = interpolate(zObj);
+                            const posX = interpolate(xObj);
+                            const posY = interpolate(yObj);
+                            const posZ = interpolate(zObj);
                             let pos = new window.Cesium.Cartesian3(posX, posY, posZ);
                             var cartographic = window.Cesium.Cartographic.fromCartesian(pos);
 
                             var lon = window.Cesium.Math.toDegrees(cartographic.longitude);
                             var lat = window.Cesium.Math.toDegrees(cartographic.latitude);
                             var alt = cartographic.height;
-                            let groundAlt = window.geofs.api.getGroundAltitude([lat, lon, alt]) + 1;
+                            const groundAlt = window.geofs.api.getGroundAltitude([lat, lon, alt]) + 1;
                             if (alt < groundAlt) {
                                 pos = window.Cesium.Cartesian3.fromDegrees(lon, lat, groundAlt);
                             }
 
-                            let hdgC = interpolate(mathAll(hdgObj, true)); //Heading Cosine
-                            let hdgS = interpolate(mathAll(hdgObj, false)); //Heading Sine
-                            let hdg = Math.atan2(hdgS, hdgC); //Avoid the 0/2Pi boundary
-                            let pitchC = interpolate(mathAll(pitchObj, true));
-                            let pitchS = interpolate(mathAll(pitchObj, false));
-                            let pitch = Math.atan2(pitchS, pitchC);
-                            let rollC = interpolate(mathAll(rollObj, true));
-                            let rollS = interpolate(mathAll(rollObj, false));
-                            let roll = Math.atan2(rollS, rollC);
-                            let dir = [hdg, pitch, roll];
+                            const hdgC = interpolate(mathAll(hdgObj, true)); //Heading Cosine
+                            const hdgS = interpolate(mathAll(hdgObj, false)); //Heading Sine
+                            const hdg = Math.atan2(hdgS, hdgC); //Avoid the 0/2Pi boundary
+                            const pitchC = interpolate(mathAll(pitchObj, true));
+                            const pitchS = interpolate(mathAll(pitchObj, false));
+                            const pitch = Math.atan2(pitchS, pitchC);
+                            const rollC = interpolate(mathAll(rollObj, true));
+                            const rollS = interpolate(mathAll(rollObj, false));
+                            const roll = Math.atan2(rollS, rollC);
+                            const dir = [hdg, pitch, roll];
 
-                            let fov = interpolate(fovObj);
+                            const fov = interpolate(fovObj);
 
                             window.geofs.camera.cam.flyTo({
                                 destination: pos,
@@ -8892,24 +8878,24 @@ window.addEventListener("beforeunload", () => {
                 }
             }
             if (window.sd.data) {
-                for (let i in window.sd.data) {
+                for (const i in window.sd.data) {
                     window.sd.maxTick = Math.max(window.sd.data[i].lastTick, window.sd.maxTick);
                 }
             } else {
                 window.sd.data = [];
             }
         }
-        window.sd.recInit = function(cT) {
-            let date = new Date();
+        window.sd.recInit = (cT) => {
+            const date = new Date();
             var animations = {};
             var animationParts = [];
-            for (let i in window.geofs.aircraft.instance.definition.parts) {
-                let p = window.geofs.aircraft.instance.definition.parts[i].animations;
-                let newAnim = [];
-                for (let j in p) {
+            for (const i in window.geofs.aircraft.instance.definition.parts) {
+                const p = window.geofs.aircraft.instance.definition.parts[i].animations;
+                const newAnim = [];
+                for (const j in p) {
                     if (p && p[j]) {
-                        let newAnimB = {};
-                        for (let k in p[j]) {
+                        const newAnimB = {};
+                        for (const k in p[j]) {
                             if (k !== 'rotationMethod' || typeof k.rotationMethod === 'string') {
                                 newAnimB[k] = p[j][k];
                             }
@@ -8940,7 +8926,7 @@ window.addEventListener("beforeunload", () => {
             console.log("recInit");
             console.log(window.sd.isRec);
         };
-        window.sd.camRecInit = function() {
+        window.sd.camRecInit = () => {
             if (!window.sd.cam.data && !document.getElementById("sdScrn")) {
                 window.sd.cam.data = {};
                 window.geofs.camera.set(4);
@@ -8948,22 +8934,22 @@ window.addEventListener("beforeunload", () => {
                 window.sd.cam.path = null;
                 window.sd.cam.pathKeyframes = [];
                 //Time & keyframe slider
-                let html0 = `<div style="background: black;width: 80%;height: 8%;position: fixed;left: 10%;padding-left: 1%;padding-right: 1%;border: 1px solid darkgray;border-radius: 25px; z-index: 5000;" id="sdTContainer">
+                const html0 = `<div style="background: black;width: 80%;height: 8%;position: fixed;left: 10%;padding-left: 1%;padding-right: 1%;border: 1px solid darkgray;border-radius: 25px; z-index: 5000;" id="sdTContainer">
                         <div style="width: 98.5%;position: absolute;top: 25%;height: 20%;background: gray;border-radius: 20px;left: 1%;margin: auto;"></div>
                         <input type="range" style="-webkit-appearance: none;appearance: none;background: transparent;width: 99.5%;position: absolute;top: 24%;height: 15%;left: 2px;" id="sdTime" min="0" max="${window.sd.maxTick}" step="1">
                         <div style="width: 98.5%;position: absolute;top: 50%;height: 20%;background: rgba(255,255,255,0.2);border-radius: 20px;left: 1%;margin: auto;" id="sdKeyframes"></div>
                     </div>`;
                 //Button menu
-                let html1 = `<div id="sdScrn" style="position: fixed;left: 33%;top: 8%;width: 33%;height: 10%;z-index: 100;">
+                const html1 = `<div id="sdScrn" style="position: fixed;left: 33%;top: 8%;width: 33%;height: 10%;z-index: 100;">
                 <button id="sdRec">Record Keyframe</button><button id="sdNext">Next Keyframe</button><button id="sdPrev">Previous Keyframe</button><br>
                 <button id="sdPlay">Play</button><button id="sdDelete">Delete Keyframe</button><button id="sdClear">Clear All Keyframes</button><button id="sdMod">Toggle Modify</button><button id="sdPath">Show/Hide Camera Path</button><button id="sdSpeed">Set Sim Speed to 1/4</button><button id="sdStartRec">Start Recording</button>`;
                 //FOV slider
                 //let html2 = `<div id="sdFOVContainer"><input id="sdSlider" type="range" min="0.1" step="0.05" max="2.5" style="position: fixed;left: 1%;writing-mode: vertical-lr;direction: ltr;height: 80%;top: 10%;z-index: 100;">
                 //<label for="sdSlider" style="position: fixed;left: 0.5%;top: 7%;backdrop-filter: brightness(0.8);color: white;padding: 3px;">FOV</label></div>`;
                 //Add the HTML to the screen
-                let a = document.createElement('div');
+                const a = document.createElement('div');
                 //let b = document.createElement('div');
-                let c = document.createElement('div');
+                const c = document.createElement('div');
                 document.body.appendChild(a);
                 //document.body.appendChild(b);
                 document.body.appendChild(c);
@@ -8981,7 +8967,7 @@ window.addEventListener("beforeunload", () => {
                         };
                         document.getElementById("sdKeyframes").innerHTML += `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="gold" style="position: absolute;left: ${(window.sd.tickNum/window.sd.maxTick)*99.5-1}%;top: -50%;" ticknum="${window.sd.tickNum}"><path d="M480-80 240-480l240-400 240 400L480-80Z"></path></svg>`;
                         if (window.sd.cam.path) {
-                            let arr = [];
+                            const arr = [];
                             for (let j = 0; j < Object.keys(window.sd.cam.data).length; j++) {
                                 arr.push(window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos);
                             }
@@ -9025,14 +9011,14 @@ window.addEventListener("beforeunload", () => {
                             document.querySelector(`[ticknum="${window.sd.tickNum}"]`).remove();
                             if (window.sd.cam.path) {
                                 window.geofs.api.viewer.entities.remove(window.sd.cam.path);
-                                for (let a in window.sd.cam.pathKeyframes) {
+                                for (const a in window.sd.cam.pathKeyframes) {
                                     window.geofs.api.viewer.entities.remove(window.sd.cam.pathKeyframes[a]);
                                 }
                                 window.sd.cam.pathKeyframes = [];
                                 window.sd.cam.path = null;
 
-                                let d = window.sd.cam.data[c];
-                                let arr = [];
+                                const d = window.sd.cam.data[c];
+                                const arr = [];
                                 for (let j = 0; j < Object.keys(window.sd.cam.data).length; j++) {
                                     arr.push(window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos);
                                     window.sd.cam.pathKeyframes.push(window.geofs.api.viewer.entities.add({
@@ -9085,7 +9071,7 @@ window.addEventListener("beforeunload", () => {
                         window.sd.cam.modified = false;
                         window.instruments.hide(); //Hide the instruments
                         document.getElementById("geofs-ui-3dview").style.zIndex = "1000000";
-                        let type = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 'video/webm';
+                        const type = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 'video/webm';
                         const options = { mimeType: type, videoBitsPerSecond: 8000000 }; // 8 Mbps MP4
                         const stream = await navigator.mediaDevices.getDisplayMedia();
                         const recoder = new MediaRecorder(stream, options);
@@ -9108,14 +9094,14 @@ window.addEventListener("beforeunload", () => {
                     document.getElementById("sdPath").addEventListener('click', () => {
                         if (window.sd.cam.path) {
                             window.geofs.api.viewer.entities.remove(window.sd.cam.path);
-                            for (let a in window.sd.cam.pathKeyframes) {
+                            for (const a in window.sd.cam.pathKeyframes) {
                                 window.geofs.api.viewer.entities.remove(window.sd.cam.pathKeyframes[a]);
                             }
                             window.sd.cam.pathKeyframes = [];
                             window.sd.cam.path = null;
                         } else {
-                            let d = window.sd.cam.data[c];
-                            let arr = [];
+                            const d = window.sd.cam.data[c];
+                            const arr = [];
                             for (let j = 0; j < Object.keys(window.sd.cam.data).length; j++) {
                                 arr.push(window.sd.cam.data[Object.keys(window.sd.cam.data)[j]].pos);
                                 window.sd.cam.pathKeyframes.push(window.geofs.api.viewer.entities.add({
@@ -9154,9 +9140,9 @@ window.addEventListener("beforeunload", () => {
                 }, 400);
             }
         }
-        window.sd.playbackInit = function(cT) { //Initialize playback
-            for (let i in window.sd.data) {
-                let d = window.sd.data[i];
+        window.sd.playbackInit = (cT) => { //Initialize playback
+            for (const i in window.sd.data) {
+                const d = window.sd.data[i];
                 if (d.enabled && !d.model) {
                     d.model = new window.geofs.api.Model(null, {
                         url: d.modelPath,
@@ -9172,8 +9158,8 @@ window.addEventListener("beforeunload", () => {
                     window.sd.isFlare = true;
                 }
                 if (d.enabled && !d.map && window.geofs.map.mapActive) {
-                    let mS = d.modelPath.split("/");
-                    let aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
+                    const mS = d.modelPath.split("/");
+                    const aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
                     d.map = window.geofs.map.addPlayerMarker((Math.random()*Date.now()).toString(), "blue", `${aircraft} Flight ${i}<br/>${d[d.firstTick].htr[0]}dg<br/>${d[d.firstTick].lla[2]*window.METERS_TO_FEET}ft`);
                     d.map.update(d[d.firstTick].lla[0], d[d.firstTick].lla[1], d[d.firstTick].htr[0]);
                 }
@@ -9182,7 +9168,7 @@ window.addEventListener("beforeunload", () => {
         }
 
         //TICK FUNCTIONS//
-        window.sd.tick = function() {
+        window.sd.tick = () => {
             if (window.sd.saved && window.sd.window && window.sd.window.document.getElementById("save")) {
                 window.sd.window.document.getElementById("save").className = "saved";
                 window.sd.window.document.getElementById("save").innerHTML = (window.sd.saving) ? `Saving` : `Saved`;
@@ -9210,7 +9196,7 @@ window.addEventListener("beforeunload", () => {
             }
             window.sd.uTime = 100 / window.geofs.preferences.simulationSpeed;
             if (window.sd.data) {
-                for (let i in window.sd.data) {
+                for (const i in window.sd.data) {
                     window.sd.maxTick = Math.max(window.sd.data[i].lastTick, window.sd.maxTick);
                 }
             }
@@ -9233,30 +9219,30 @@ window.addEventListener("beforeunload", () => {
                 }
             }
             if (window.sd.window) {
-                let t = window.sd.window.document.getElementById("timeSlider");
+                const t = window.sd.window.document.getElementById("timeSlider");
                 if (t) {
                     t.max = window.sd.maxTick;
                     t.value = window.sd.tickNum;
                 }
-                let currTime = window.sd.msToTime(window.sd.tickNum*window.sd.uTime);
-                let maxTime = window.sd.msToTime(window.sd.maxTick*window.sd.uTime);
+                const currTime = window.sd.msToTime(window.sd.tickNum*window.sd.uTime);
+                const maxTime = window.sd.msToTime(window.sd.maxTick*window.sd.uTime);
                 if (window.sd.window.document.getElementById("time")) {
                     window.sd.window.document.getElementById("time").innerHTML = `${currTime} / ${maxTime}`;
                 }
             }
-            let u = document.getElementById("sdTime");
+            const u = document.getElementById("sdTime");
             if (u) {
                 u.max = window.sd.maxTick;
                 u.value = window.sd.tickNum;
             }
             requestAnimationFrame(window.sd.tick);
         };
-        window.sd.recTick = function(cT) {
+        window.sd.recTick = (cT) => {
             if (window.sd.isRec) {
-                let id = window.sd.data.length - 1;
-                let d = window.sd.data[id][(cT || window.sd.tickNum)];
-                let anims = {};
-                for (let i in window.sd.data[id].animationParts) {
+                const id = window.sd.data.length - 1;
+                const d = window.sd.data[id][(cT || window.sd.tickNum)];
+                const anims = {};
+                for (const i in window.sd.data[id].animationParts) {
                     if (window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1])) {
                         anims[window.sd.data[id].animationParts[i][1]] = window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1]).matrix.clone();
                     } else if (window.geofs.aircraft.instance.object3d.model._model.getNode(window.sd.data[id].animationParts[i][1].toLowerCase())) {
@@ -9281,30 +9267,30 @@ window.addEventListener("beforeunload", () => {
             }
         };
 
-        window.sd.playbackTick = function(cT, factor) {
+        window.sd.playbackTick = (cT, factor) => {
             try {
                 if (window.sd.isPlayback) {
-                    for (let i in window.sd.data) {
-                        let d = window.sd.data[i];
+                    for (const i in window.sd.data) {
+                        const d = window.sd.data[i];
                         window.sd.fac = 1 - (window.sd.nextTime - window.sd.currTime)/window.sd.uTime;
-                        let t1 = d[window.sd.tickNum];
-                        let t2 = d[window.sd.tickNum+1];
+                        const t1 = d[window.sd.tickNum];
+                        const t2 = d[window.sd.tickNum+1];
                         if (d.enabled == true && t1 && t1.lla && d.model) {
                             if (window.sd.getDistance(window.geofs.aircraft.instance.llaLocation, t1.lla) <= 1) {
                                 if (t2 && t2.lla) {
-                                    let lla = [
+                                    const lla = [
                                         t1.lla[0] + (t2.lla[0] - t1.lla[0]) * factor,
                                         t1.lla[1] + (t2.lla[1] - t1.lla[1]) * factor,
                                         t1.lla[2] + (t2.lla[2] - t1.lla[2]) * factor,
                                     ];
-                                    let htr = [
+                                    const htr = [
                                         t1.htr[0] + (t2.htr[0] - t1.htr[0]) * factor,
                                         t1.htr[1] + (t2.htr[1] - t1.htr[1]) * factor,
                                         t1.htr[2] + (t2.htr[2] - t1.htr[2]) * factor,
                                     ];
                                     d.model.setPositionOrientationAndScale(lla, htr, null);
-                                    let mS = window.sd.data[i].modelPath.split("/");
-                                    let aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
+                                    const mS = window.sd.data[i].modelPath.split("/");
+                                    const aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
                                     if (d.map) {
                                         d.map.update(lla[0], lla[1], htr[0], `${aircraft} Flight ${i}<br/>${Math.round(htr[0])}dg<br/>${Math.round(lla[2]*window.METERS_TO_FEET)}ft`);
                                     } else if (window.geofs.map.mapActive) {
@@ -9313,8 +9299,8 @@ window.addEventListener("beforeunload", () => {
                                     }
                                 } else {
                                     d.model.setPositionOrientationAndScale(t1.lla, t1.htr, null);
-                                    let mS = window.sd.data[i].modelPath.split("/");
-                                    let aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
+                                    const mS = window.sd.data[i].modelPath.split("/");
+                                    const aircraft = (d.name || mS[mS.length - 1].split(".")[0]);
                                     if (d.map) {
                                         d.map.update(t1.lla[0], t1.lla[1], t1.htr[0], `${aircraft} Flight ${i}<br/>${Math.round(t1.htr[0])}dg<br/>${Math.round(t1.lla[2]*window.METERS_TO_FEET)}ft`);
                                     } else if (window.geofs.map.mapActive) {
@@ -9343,14 +9329,14 @@ window.addEventListener("beforeunload", () => {
                                         d.smoke._options.location = t1.lla;
                                         d.smoke._options._location = t1.lla;
                                         if (!window.sd.isFlare) {
-                                            let c = window.sd.hexToRgb(localStorage.getItem("utilsColor")); //c for Color
+                                            const c = window.sd.hexToRgb(localStorage.getItem("utilsColor")); //c for Color
                                             window.geofs.fx.setParticlesColor(new window.Cesium.Color(c.r/255, c.g/255, c.b/255, 1));
                                         }
                                     } else if (d.smoke && t1.smokeOn) { //Smoke location update
                                         d.smoke._options.location = t1.lla;
                                         d.smoke._options._location = t1.lla;
                                         if (!window.sd.isFlare) {
-                                            let c = window.sd.hexToRgb(localStorage.getItem("utilsColor")); //c for Color
+                                            const c = window.sd.hexToRgb(localStorage.getItem("utilsColor")); //c for Color
                                             window.geofs.fx.setParticlesColor(new window.Cesium.Color(c.r/255, c.g/255, c.b/255, 1));
                                         }
                                     } else if (d.smoke && !t1.smokeOn) {
@@ -9360,15 +9346,15 @@ window.addEventListener("beforeunload", () => {
                                 }
                                 if (window.sd.isFlare) {
                                     if (!d.flareData && t1.flaresOn) { //Flares turn on
-                                        let doRight = window.gmenu.get("utils", "FRight");
-                                        let doLeft = window.gmenu.get("utils", "FLeft");
-                                        let doCenter = window.gmenu.get("utils", "FCenter");
-                                        let doUp = window.gmenu.get("utils", "FUp");
-                                        let num = Number(doRight) + Number(doLeft) + Number(doCenter) + Number(doUp);
-                                        let time = (1000/Number(localStorage.getItem("utilsFRate")))*num;
-                                        let life = 1000*Number(localStorage.getItem("utilsFLife"));
-                                        let nextTime = Date.now();
-                                        let startTime = Date.now();
+                                        const doRight = window.gmenu.get("utils", "FRight");
+                                        const doLeft = window.gmenu.get("utils", "FLeft");
+                                        const doCenter = window.gmenu.get("utils", "FCenter");
+                                        const doUp = window.gmenu.get("utils", "FUp");
+                                        const num = Number(doRight) + Number(doLeft) + Number(doCenter) + Number(doUp);
+                                        const time = (1000/Number(localStorage.getItem("utilsFRate")))*num;
+                                        const life = 1000*Number(localStorage.getItem("utilsFLife"));
+                                        const nextTime = Date.now();
+                                        const startTime = Date.now();
                                         d.flareData = {
                                             doRight: doRight,
                                             doLeft: doLeft,
@@ -9384,7 +9370,7 @@ window.addEventListener("beforeunload", () => {
                                         if (Date.now() >= d.flareData.nextTime) {
                                             d.flareData.doRight && window.createFlare(d.flareData.life, [25 + 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Right
                                             d.flareData.doLeft && window.createFlare(d.flareData.life, [-25 - 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Left
-                                            let rand = Math.random();
+                                            const rand = Math.random();
                                             d.flareData.doCenter && window.createFlare(d.flareData.life, [Math.random()*10 - 5, 0, -33], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Center
                                             d.flareData.doUp && window.createFlare(d.flareData.life, [30, Math.random()*100, 100], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Up
                                             d.flareData.nextTime = Date.now() + d.flareData.time/2 + (d.flareData.time*Math.random());
@@ -9393,7 +9379,7 @@ window.addEventListener("beforeunload", () => {
                                         if (Date.now() >= d.flareData.nextTime) {
                                             d.flareData.doRight && window.createFlare(d.flareData.life, [25 + 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Right
                                             d.flareData.doLeft && window.createFlare(d.flareData.life, [-25 - 25*Math.random(), 0, 0], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Left
-                                            let rand = Math.random();
+                                            const rand = Math.random();
                                             d.flareData.doCenter && window.createFlare(d.flareData.life, [Math.random()*10 - 5, 0, -33], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Center
                                             d.flareData.doUp && window.createFlare(d.flareData.life, [30, Math.random()*100, 100], -9.8, [Math.sin(t1.htr[0]), Math.cos(t1.htr[0]), 0], t1.lla, t1.htr, t1.vel); //Up
                                             d.flareData.nextTime = Date.now() + d.flareData.time/2 + (d.flareData.time*Math.random());
@@ -9413,8 +9399,8 @@ window.addEventListener("beforeunload", () => {
                         }
                         if (d.model && d.model._model && d.animations && d.animationParts && t1 && t1.anims) {
                             try {
-                                for (let i in t1.anims) {
-                                    let m = d.model._model && d.model._model.ready && (d.model._model.getNode(i) || d.model._model.getNode(i.toLowerCase()));
+                                for (const i in t1.anims) {
+                                    const m = d.model._model && d.model._model.ready && (d.model._model.getNode(i) || d.model._model.getNode(i.toLowerCase()));
                                     m.matrix = t1.anims[i];
                                 }
                             } catch (e) {
@@ -9429,10 +9415,10 @@ window.addEventListener("beforeunload", () => {
                 console.error(e);
             }
         };
-        window.sd.stopPlayback = function() {
+        window.sd.stopPlayback = () => {
             if (window.sd.isPlayback) {
-                for (let i in window.sd.data) {
-                    let d = window.sd.data[i];
+                for (const i in window.sd.data) {
+                    const d = window.sd.data[i];
                     if (d.model) {
                         d.model.removeFromWorld();
                         d.model = null;
@@ -9454,7 +9440,7 @@ window.addEventListener("beforeunload", () => {
         };
 
         //HTML FUNCTIONS//
-        window.sd.addListeners = function() {
+        window.sd.addListeners = () => {
             if (window.sd.window && window.sd.window.document) {
                 window.sd.window.document.body.innerHTML = window.sd.html;
                 setTimeout(() => {
@@ -9508,10 +9494,10 @@ window.addEventListener("beforeunload", () => {
                             console.warn("Visualization already created.");
                         } else {
                             const rainbow = [window.Cesium.Color.RED, window.Cesium.Color.ORANGE, window.Cesium.Color.YELLOW, window.Cesium.Color.GREEN, window.Cesium.Color.BLUE, window.Cesium.Color.INDIGO, window.Cesium.Color.VIOLET];
-                            for (let z in window.sd.data) {
-                                let i = window.sd.data[z];
+                            for (const z in window.sd.data) {
+                                const i = window.sd.data[z];
                                 if (i.enabled && window.sd.getDistance(window.geofs.aircraft.instance.llaLocation, i[i.firstTick].lla) <= 0.5) {
-                                    let arr = [];
+                                    const arr = [];
                                     for (let j = i.firstTick; j <= Math.min(window.sd.tickNum, i.lastTick); j++) {
                                         arr.push(i[j].lla[1], i[j].lla[0], i[j].lla[2]);
                                     }
@@ -9531,10 +9517,10 @@ window.addEventListener("beforeunload", () => {
                             }
                             window.sd.vizI = setInterval(() => {
                                 if (window.sd.viz.length && window.sd.prevTick != window.sd.tickNum) {
-                                    for (let v in window.sd.viz) {
-                                        let i = window.sd.data[v];
+                                    for (const v in window.sd.viz) {
+                                        const i = window.sd.data[v];
                                         if (window.sd.getDistance(window.geofs.aircraft.instance.llaLocation, i[i.firstTick].lla) <= 0.5) {
-                                            let arr = [];
+                                            const arr = [];
                                             for (let j = i.firstTick; j <= Math.min(window.sd.tickNum, i.lastTick); j++) {
                                                 arr.push(i[j].lla[1], i[j].lla[0], i[j].lla[2]);
                                             }
@@ -9550,7 +9536,7 @@ window.addEventListener("beforeunload", () => {
                         if (!window.sd.viz.length) {
                             console.warn("Visualization already removed.");
                         } else {
-                            for (let i of window.sd.viz) {
+                            for (const i of window.sd.viz) {
                                 window.geofs.api.viewer.entities.remove(i);
                             }
                             window.sd.viz = [];
@@ -9567,11 +9553,11 @@ window.addEventListener("beforeunload", () => {
                     });
                     window.sd.window.document.getElementById("camera").addEventListener('click', window.sd.camRecInit);
                     console.log("Running for loop");
-                    for (let i in window.sd.data) {
-                        let d = window.sd.data[i];
-                        let el = window.sd.window.document.getElementById("cb" + i);
-                        let del = window.sd.window.document.getElementById("del" + i);
-                        let la = window.sd.window.document.getElementById("la" + i);
+                    for (const i in window.sd.data) {
+                        const d = window.sd.data[i];
+                        const el = window.sd.window.document.getElementById("cb" + i);
+                        const del = window.sd.window.document.getElementById("del" + i);
+                        const la = window.sd.window.document.getElementById("la" + i);
                         if (el) {
                             el.checked = d.enabled;
                             el.addEventListener('click', () => {
@@ -9588,24 +9574,24 @@ window.addEventListener("beforeunload", () => {
                         }
                         if (la) {
                             la.addEventListener('click', () => {
-                                let lla = window.sd.data[i][window.sd.tickNum].lla;
-                                let camLLA = window.geofs.camera.lla;
-                                let from = window.Cesium.Cartesian3.fromDegrees(camLLA[1], camLLA[0], camLLA[2]);
-                                let to = window.Cesium.Cartesian3.fromDegrees(lla[1], lla[0], lla[2]);
+                                const lla = window.sd.data[i][window.sd.tickNum].lla;
+                                const camLLA = window.geofs.camera.lla;
+                                const from = window.Cesium.Cartesian3.fromDegrees(camLLA[1], camLLA[0], camLLA[2]);
+                                const to = window.Cesium.Cartesian3.fromDegrees(lla[1], lla[0], lla[2]);
                                 // Compute direction vector
-                                let dir = window.Cesium.Cartesian3.subtract(to, from, new window.Cesium.Cartesian3());
+                                const dir = window.Cesium.Cartesian3.subtract(to, from, new window.Cesium.Cartesian3());
                                 window.Cesium.Cartesian3.normalize(dir, dir);
 
                                 // Compute a rotation matrix from local East-North-Up frame
-                                let transform = window.Cesium.Transforms.eastNorthUpToFixedFrame(from);
-                                let invTransform = window.Cesium.Matrix4.inverseTransformation(transform, new window.Cesium.Matrix4());
-                                let localDir = window.Cesium.Matrix4.multiplyByPointAsVector(invTransform, dir, new window.Cesium.Cartesian3());
+                                const transform = window.Cesium.Transforms.eastNorthUpToFixedFrame(from);
+                                const invTransform = window.Cesium.Matrix4.inverseTransformation(transform, new window.Cesium.Matrix4());
+                                const localDir = window.Cesium.Matrix4.multiplyByPointAsVector(invTransform, dir, new window.Cesium.Cartesian3());
                                 window.Cesium.Cartesian3.normalize(localDir, localDir);
 
                                 // Heading = rotation around Z (up), Pitch = rotation around Y (right)
-                                let heading = Math.atan2(localDir.x, localDir.y);
-                                let pitch = Math.asin(-localDir.z);
-                                let roll = 0; // usually 0 if no banking
+                                const heading = Math.atan2(localDir.x, localDir.y);
+                                const pitch = Math.asin(-localDir.z);
+                                const roll = 0; // usually 0 if no banking
 
                                 // Set the camera
                                 window.geofs.camera.cam.setView({
@@ -9626,10 +9612,10 @@ window.addEventListener("beforeunload", () => {
                 setTimeout(window.sd.addListeners, 500);
             }
         };
-        window.sd.updateHTML = function() {
+        window.sd.updateHTML = () => {
             let tr = ``;
-            for (let i in window.sd.data) {
-                let d = window.sd.data[i];
+            for (const i in window.sd.data) {
+                const d = window.sd.data[i];
                 tr += `<tr>
             <td>${parseInt(i) + 1}</td>
             <td class="model-path">${d.modelPath}</td>
@@ -9803,12 +9789,12 @@ window.addEventListener("beforeunload", () => {
     `;
             window.sd.addListeners();
         }
-        window.sd.windowInit = function() {
+        window.sd.windowInit = () => {
             window.sd.updateHTML();
             window.sd.window = window.open("about:blank", "_blank", "width=1160,height=400");
             window.sd.window.document.title = 'Sky Dolly';
             const head = window.sd.window.document.head;
-            let closeScript = window.sd.window.document.createElement('script');
+            const closeScript = window.sd.window.document.createElement('script');
             closeScript.innerHTML = `
                 // Start checking periodically
                 const interval = setInterval(() => {
