@@ -51,68 +51,68 @@
 // @name:lo             GeoFS-V3.9_Addon-Pack
 // @name:ur             GeoFS-V3.9_ایڈ-آن-پیک
 
-// @description         27+ bundled addons with polished UI, draggable HUD, real aircraft procedures! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:vi      Hơn 27 tiện ích mở rộng tích hợp với giao diện bóng bẩy, HUD có thể kéo và quy trình máy bay thực tế! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:zh-CN   27+ 个捆绑插件，具有精美的 UI、可拖动的 HUD 和真实的飞机程序！ © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:zh-TW   27+ 個捆綁插件，具有精美的 UI、可拖動的 HUD 和真實的飛機程序！ © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ja      洗練された UI、ドラッグ可能な HUD、実機の手順を備えた 27 以上のバンドルアドオン！ © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ko      세련된 UI, 드래그 가능한 HUD, 실제 항공기 절차를 갖춘 27개 이상의 번들 애드온! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fr      Plus de 27 add-ons intégrés avec une interface soignée, un HUD glissant et de vraies procédures aéronautiques ! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:de      27+ gebündelte Addons mit polierter Benutzeroberfläche, ziehbarem HUD und echten Flugzeugverfahren! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:es      ¡Más de 27 complementos incluidos con una interfaz pulida, HUD arrastrable y procedimientos de aeronaves reales! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:pt-BR   Mais de 27 addons integrados com interface polida, HUD arrastável e procedimentos de aeronaves reais! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:pt-PT   Mais de 27 addons integrados com interface polida, HUD arrastável e procedimentos de aeronaves reais! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ru      Более 27 встроенных аддонов с улучшенным интерфейсом, перетаскиваемым HUD и реальными процедурами самолета! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ar      أكثر من 27 إضافة مجمعة مع واجهة مصقولة، وHUD قابل للسحب، وإجراءات طائرة حقيقية! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:tr      Cilalı arayüz, sürüklenebilir HUD ve gerçek uçak prosedürlerine sahip 27+ paketlenmiş eklenti! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:id      27+ addon terbundel dengan UI yang dipoles, HUD yang dapat diseret, dan prosedur pesawat nyata! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:th      แอดออนรวมกว่า 27 รายการพร้อม UI ที่สวยงาม HUD แบบลากได้ และขั้นตอนของเครื่องบินจริง! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:pl      Ponad 27 dołączonych dodatków z dopracowanym interfejsem użytkownika, przeciąganym HUD-em i prawdziwymi procedurami lotniczymi! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:nl      27+ gebundelde add-ons met gepolijste gebruikersinterface, versleepbare HUD en echte vliegtuigprocedures! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:it      Oltre 27 addon inclusi con interfaccia utente rifinita, HUD trascinabile e procedure aeronautiche reali! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sv      27+ buntade tillägg med polerat gränssnitt, dragbar HUD och verkliga flygplansprocedurer! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:da      27+ bundtede tilføjelser med poleret brugerflade, trækbar HUD og rigtige flyprocedurer! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fi      Yli 27 mukana tulevaa lisäosaa, joissa on hiottu käyttöliittymä, raahattava HUD ja todelliset lentokoneen menettelytavat! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:nb      27+ buntede tillegg med polert brukergrensesnitt, dregbar HUD og ekte flyprosedyrer! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:cs      Více než 27 přibalených doplňků s vylepšeným uživatelským rozhraním, přetahovatelným HUD a skutečnými postupy v letadle! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:hu      27+ mellékelt kiegészítő csiszolt felülettel, húzható HUD-val és valós repülőgép-eljárásokkal! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ro      Peste 27 de addon-uri incluse cu interfață cizelată, HUD glisant și proceduri reale de avioane! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:uk      Більше 27 вбудованих аддонів із витонченим інтерфейсом користувача, HUD, який можна перетягувати, та реальними процедурами літака! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:hi      पॉलिश किए गए यूआई, ड्रैग करने योग्य एचयूडी, वास्तविक विमान प्रक्रियाओं के साथ 27+ बंडल किए गए एडऑन! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:bn      পালিশ করা ইউআই, টেনে আনা যায় এমন এইচইউডি, আসল বিমান প্রক্রিয়া সহ ২৭+ বান্ডেল করা অ্যাডঅন! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fa      بیش از ۲۷ افزونه همراه با رابط کاربری صیقلی، HUD قابل کشیدن و رویه‌های واقعی هواپیما! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:he      מעל 27 תוספים כלולים עם ממשק משתמש מלוטש, HUD הניתן לגרירה ונהלי מטוס אמיתיים! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ms      27+ addon terbundle dengan UI yang digilap, HUD yang boleh diseret dan prosedur pesawat sebenar! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fil     27+ bundled add-ons na may polished UI, dragable HUD, at totoong mga pamamaraan ng eroplano! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:el      27+ ενσωματωμένα πρόσθετα με εκλεπτυσμένο UI, ρυθμιζόμενο HUD και πραγματικές διαδικασίες αεροσκαφών! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:hr      Više od 27 priloženih dodataka s poliranim sučeljem, HUD-om koji se može povući i stvarnim zrakoplovnim procedurama! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sk      Viac ako 27 balených doplnkov s vyladeným používateľským rozhraním, presúvateľným HUD a skutočnými letovými postupmi! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:bg      27+ пакетирани добавки с полиран потребителски интерфейс, подвижен HUD и реални процедури за самолети! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sr      Више од 27 пакетираних додатака са полираним интерфејсом, HUD-ом који се може превући и стварним процедурама за авионе! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:lt      Daugiau nei 27 priedų rinkinys su patobulinta sąsaja, velkamu HUD ir tikromis orlaivių procedūromis! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:lv      Vairāk nekā 27 komplektēti papildinājumi ar pulētu lietotāja saskarni, velkamu HUD un reālām gaisa kuģu procedūrām! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:et      27+ lisatud lisaprogrammi koos viimistletud kasutajaliidese, lohistatava HUDi ja reaalsete lennuki protseduuridega! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sl      Več kot 27 priloženih dodatkov s poliranim uporabniškim vmesnikom, vlečnim HUD-om in resničnimi letalskimi postopki! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ca      Més de 27 complements integrats amb una interfície polida, HUD arrossegable i procediments d'aeronaus reals! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:af      27+ gebondelde byvoegings met gepoleerde gebruikerskoppelvlak, sleepbare HUD en regte vliegtuigprosedures! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sw      Viongezo 27+ vilivyounganishwa na UI iliyoboreshwa, HUD inayoweza kuburuzwa, na taratibu halisi za ndege! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:zu      Izingezeli ezingaphezu kwe-27 ezihlanganisiwe ne-UI epholishiwe, i-HUD ehudulekayo, nezinqubo zezindiza zangempela! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:mn      Өнгөлөг хэрэглэгчийн интерфেইс, чирэх боломжтой HUD, бодит агаарын хөлгийн процедур бүхий 27 гаруй багц нэмэлтүүд! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:my      လှပသော UI၊ ဆွဲယူနိုင်သော HUD နှင့် အမှန်တကယ် လေယာဉ် ပျံសန်းမှု လုပ်ငန်းစဉ်များ ပါဝင်သော ၂၇+ ပေါင်းစပ် အက်ဒွန်များ။ © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:km      កម្មវិធីបន្ថែមដែលភ្ជាប់មកជាមួយ 27+ ជាមួយ UI ដ៏ស្រស់ស្អាត HUD អាចអូសបាន និងនីតិវិធីយន្តហោះពិតប្រាកដ! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:lo      27+ ແອດອอนທີ່ມາພ້ອມກັບ UI ທີ່ສວຍງາມ, HUD ທີ່ສາມາດລາກໄດ້ ແລະຂັ້ນຕອນການບິນຕົວຈิง! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ur      پالش شدہ UI، ڈریگیبل HUD، اور حقیقی ہوائی جہاز کے طریقہ کار کے ساتھ 27+ بنڈل ایڈونز! © 2026 _init. Part of the GeoFS-V3.9_Ecosystem.
+// @description         27+ bundled addons with polished UI, draggable HUD, real aircraft procedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:vi      Hơn 27 tiện ích mở rộng tích hợp với giao diện bóng bẩy, HUD có thể kéo và quy trình máy bay thực tế! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:zh-CN   27+ 个捆绑插件，具有精美的 UI、可拖动的 HUD 和真实的飞机程序！ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:zh-TW   27+ 個捆綁插件，具有精美的 UI、可拖動的 HUD 和真實的飛機程序！ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ja      洗練された UI、ドラッグ可能な HUD、実機の手順を備えた 27 以上のバンドルアドオン！ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ko      세련된 UI, 드래그 가능한 HUD, 실제 항공기 절차를 갖춘 27개 이상의 번들 애드온! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:fr      Plus de 27 add-ons intégrés avec une interface soignée, un HUD glissant et de vraies procédures aéronautiques ! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:de      27+ gebündelte Addons mit polierter Benutzeroberfläche, ziehbarem HUD und echten Flugzeugverfahren! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:es      ¡Más de 27 complementos incluidos con una interfaz pulida, HUD arrastrable y procedimientos de aeronaves reales! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:pt-BR   Mais de 27 addons integrados com interface polida, HUD arrastável e procedimentos de aeronaves reais! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:pt-PT   Mais de 27 addons integrados com interface polida, HUD arrastável e procedimentos de aeronaves reais! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ru      Более 27 встроенных аддонов с улучшенным интерфейсом, перетаскиваемым HUD и реальными процедурами самолета! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ar      أكثر من 27 إضافة مجمعة مع واجهة مصقولة، وHUD قابل للسحب، وإجراءات طائرة حقيقية! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:tr      Cilalı arayüz, sürüklenebilir HUD ve gerçek uçak prosedürlerine sahip 27+ paketlenmiş eklenti! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:id      27+ addon terbundel dengan UI yang dipoles, HUD yang dapat diseret, dan prosedur pesawat nyata! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:th      แอดออนรวมกว่า 27 รายการพร้อม UI ที่สวยงาม HUD แบบลากได้ และขั้นตอนของเครื่องบินจริง! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:pl      Ponad 27 dołączonych dodatków z dopracowanym interfejsem użytkownika, przeciąganym HUD-em i prawdziwymi procedurami lotniczymi! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:nl      27+ gebundelde add-ons met gepolijste gebruikersinterface, versleepbare HUD en echte vliegtuigprocedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:it      Oltre 27 addon inclusi con interfaccia utente rifinita, HUD trascinabile e procedure aeronautiche reali! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:sv      27+ buntade tillägg med polerat gränssnitt, dragbar HUD och verkliga flygplansprocedurer! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:da      27+ bundtede tilføjelser med poleret brugerflade, trækbar HUD og rigtige flyprocedurer! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:fi      Yli 27 mukana tulevaa lisäosaa, joissa on hiottu käyttöliittymä, raahattava HUD ja todelliset lentokoneen menettelytavat! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:nb      27+ buntede tillegg med polert brukergrensesnitt, dregbar HUD og ekte flyprosedyrer! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:cs      Více než 27 přibalených doplňků s vylepšeným uživatelským rozhraním, přetahovatelným HUD a skutečnými postupy v letadle! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:hu      27+ mellékelt kiegészítő csiszolt felülettel, húzható HUD-val és valós repülőgép-eljárásokkal! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ro      Peste 27 de addon-uri incluse cu interfață cizelată, HUD glisant și proceduri reale de avioane! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:uk      Більше 27 вбудованих аддонів із витонченим інтерфейсом користувача, HUD, який можна перетягувати, та реальними процедурами літака! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:hi      पॉलिश किए गए यूआई, ड्रैग करने योग्य एचयूडी, वास्तविक विमान प्रक्रियाओं के साथ 27+ बंडल किए गए एडऑन! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:bn      পালিশ করা ইউআই, টেনে আনা যায় এমন এইচইউডি, আসল বিমান প্রক্রিয়া সহ ২৭+ বান্ডেল করা অ্যাডঅন! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:fa      بیش از ۲۷ افزونه همراه با رابط کاربری صیقلی، HUD قابل کشیدن و رویه‌های واقعی هواپیما! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:he      מעל 27 תוספים כלולים עם ממשק משתמש מלוטש, HUD הניתן לגרירה ונהלי מטוס אמיתיים! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ms      27+ addon terbundle dengan UI yang digilap, HUD yang boleh diseret dan prosedur pesawat sebenar! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:fil     27+ bundled add-ons na may polished UI, dragable HUD, at totoong mga pamamaraan ng eroplano! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:el      27+ ενσωματωμένα πρόσθετα με εκλεπτυσμένο UI, ρυθμιζόμενο HUD και πραγματικές διαδικασίες αεροσκαφών! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:hr      Više od 27 priloženih dodataka s poliranim sučeljem, HUD-om koji se može povući i stvarnim zrakoplovnim procedurama! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:sk      Viac ako 27 balených doplnkov s vyladeným používateľským rozhraním, presúvateľným HUD a skutočnými letovými postupmi! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:bg      27+ пакетирани добавки с полиран потребителски интерфейс, подвижен HUD и реални процедури за самолети! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:sr      Више од 27 пакетираних додатака са полираним интерфејсом, HUD-ом који се може превући и стварним процедурама за авионе! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:lt      Daugiau nei 27 priedų rinkinys su patobulinta sąsaja, velkamu HUD ir tikromis orlaivių procedūromis! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:lv      Vairāk nekā 27 komplektēti papildinājumi ar pulētu lietotāja saskarni, velkamu HUD un reālām gaisa kuģu procedūrām! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:et      27+ lisatud lisaprogrammi koos viimistletud kasutajaliidese, lohistatava HUDi ja reaalsete lennuki protseduuridega! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:sl      Več kot 27 priloženih dodatkov s poliranim uporabniškim vmesnikom, vlečnim HUD-om in resničnimi letalskimi postopki! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ca      Més de 27 complements integrats amb una interfície polida, HUD arrossegable i procediments d'aeronaus reals! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:af      27+ gebondelde byvoegings met gepoleerde gebruikerskoppelvlak, sleepbare HUD en regte vliegtuigprosedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:sw      Viongezo 27+ vilivyounganishwa na UI iliyoboreshwa, HUD inayoweza kuburuzwa, na taratibu halisi za ndege! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:zu      Izingezeli ezingaphezu kwe-27 ezihlanganisiwe ne-UI epholishiwe, i-HUD ehudulekayo, nezinqubo zezindiza zangempela! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:mn      Өнгөлөг хэрэглэгчийн интерфেইс, чирэх боломжтой HUD, бодит агаарын хөлгийн процедур бүхий 27 гаруй багц нэмэлтүүд! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:my      လှပသော UI၊ ဆွဲယူနိုင်သော HUD နှင့် အမှန်တကယ် လေယာဉ် ပျံសန်းမှု လုပ်ငန်းစဉ်များ ပါဝင်သော ၂၇+ ပေါင်းစပ် အက်ဒွန်များ။ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:km      កម្មវិធីបន្ថែមដែលភ្ជាប់មកជាមួយ 27+ ជាមួយ UI ដ៏ស្រស់ស្អាត HUD អាចអូសបាន និងនីតិវិធីយន្តហោះពិតប្រាកដ! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:lo      27+ ແອດອอนທີ່ມາພ້ອມກັບ UI ທີ່ສວຍງາມ, HUD ທີ່ສາມາດລາກໄດ້ ແລະຂັ້ນຕອນການບິນຕົວຈิง! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description:ur      پالش شدہ UI، ڈریگیبل HUD، اور حقیقی ہوائی جہاز کے طریقہ کار کے ساتھ 27+ بنڈل ایڈونز! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
 
 // @namespace           https://greasyfork.org/users/1594049
 // @version             3.0.1
-// @author              _init
+// @author              AMFI-Disable
 // @match               https://www.geo-fs.com/geofs.php*
 // @icon                https://geofs-assets.evengao6688.workers.dev/icons/addon-pack.png
 // @require             https://update.greasyfork.org/scripts/581510/code.js
 // @require             https://update.greasyfork.org/scripts/581511/code.js
 // @grant               none
 // @license             MIT
-// @copyright           2026, _init (https://greasyfork.org/users/1594049)
+// @copyright           2026, AMFI-Disable (https://greasyfork.org/users/1594049)
 // @homepageURL         https://sites.google.com/view/geofs-v39-ecosystem/home
 // @connect             greasyfork.org
 // @compatible          chrome
@@ -3645,7 +3645,7 @@ f14aInterval = setInterval(()=> {runF14A()},10)
  * 
  * Part of the GeoFS-V3.9_Ecosystem.
  * 
- * © 2026 amfi-disable. Licensed under the MIT License.
+ * © 2026 AMFI-Disable. Licensed under the MIT License.
  */
 
 (() => {
