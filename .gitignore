@@ -1,4 +1,122 @@
-GeoFS-V3.9_Assets/
+# ==============================================================================
+# GeoFS-V3.9_Addon-Pack .gitignore
+# ==============================================================================
+# Controls file visibility and repository hygiene:
+# - Hides transient build artifacts, machine-specific caches, editor states, and secrets.
+# - Preserves active working files, configuration definitions, and userscript assets.
+# ==============================================================================
+
+# ==============================================================================
+# SECTION 1: WORKING & PRESERVED FILES (Explicit Whitelists)
+# (Guarantees vital project sources, configs, and assets are preserved)
+# ==============================================================================
+
+# Core Userscript & Configuration
+!addon-pack_standalone.user.js
+!*.user.js
+!.gitignore
+!.markdownlint.yaml
+!.markdownlint.json
+
+# Documentation, Assets & Licensing
+!readme*.md
+!changelog.md
+!license
+!release-notes/
+!logo.png
+
+# ==============================================================================
+# SECTION 2: HIDDEN & IGNORED ARTIFACTS
+# (Local caches, intermediate builds, user states, credentials, diagnostics)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 2.1 macOS System & Volume Metadata
+# ------------------------------------------------------------------------------
 .DS_Store
-*.log
+.DS_Store?
+.ds_store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+Icon?
+Thumbs.db
+
+# ------------------------------------------------------------------------------
+# 2.2 Local Linked Assets Repository
+# ------------------------------------------------------------------------------
+GeoFS-V3.9_Assets/
+
+# ------------------------------------------------------------------------------
+# 2.3 Package Managers & Local Dependencies
+# ------------------------------------------------------------------------------
 node_modules/
+.npm/
+.yarn/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------------------------------------------------------
+# 2.4 Build Products, Caches & Output Directories
+# ------------------------------------------------------------------------------
+build/
+dist/
+.cache/
+*.tgz
+*.zip
+
+# ------------------------------------------------------------------------------
+# 2.5 Environment Secrets, Private Keys & Tokens
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.key
+*.pem
+*.token
+credentials.json
+token.json
+*secret*
+
+# ------------------------------------------------------------------------------
+# 2.6 Diagnostics, Logs & Telemetry
+# ------------------------------------------------------------------------------
+*.log
+logs/
+
+# ------------------------------------------------------------------------------
+# 2.7 IDEs, Text Editors & AI Agent Working Contexts
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.gemini/
+.claude/
+.cursor/
+.windsurf/
+.codex/
+antigravity.json
+.nodeterm/
+
+# ------------------------------------------------------------------------------
+# 2.8 Temporary Files, Local Scratchpads & Local Internal Documents
+# ------------------------------------------------------------------------------
+*.tmp
+*.temp
+*.bak
+tmp/
+temp/
+scratch/
+task.md
+todo.md
+plan.md
+report.md
