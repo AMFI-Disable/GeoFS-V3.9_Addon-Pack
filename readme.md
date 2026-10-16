@@ -6,6 +6,18 @@
 
 The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned and rebuilt from the ground up for **V1.0.0** (resetting from the legacy V3 architecture), this pack unifies all 13 official modular avionics, telemetry, physics, and ground enhancement addons under a shared, glassmorphic design system and high-performance technical kernel.
 
+---
+
+## ⚖️ Educational & Fair-Play Disclaimer
+
+> [!CAUTION]
+> **IMPORTANT NOTICE & DISCLAIMER**:
+> This codebase is provided strictly for educational, research, and testing purposes in authorized environments.
+> Using automated assistance or unauthorized scripts in violation of platform terms of service or anti-cheat policies may lead to account penalties.
+> The developers and contributors accept no responsibility or liability for misuse of this software.
+
+---
+
 ## ✨ Bundled Modules
 
 - **🔧 Core-Library & Design-System**: Shared technical kernel, fail-safe `SafeInit` lifecycle, draggable UI persistence, and glassmorphic styling tokens.
