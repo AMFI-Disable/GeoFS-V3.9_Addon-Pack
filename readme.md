@@ -1,10 +1,35 @@
-# **GeoFS-V3.9**_Addon-Pack
+# 🧩 GeoFS-V3.9 Addon-Pack - Unified Avionics & Flight Simulation Suite
 
-![Version](https://img.shields.io/badge/Version-V1.0.0-3b82f6?style=flat-square&logo=git&logoColor=white)
-![Ecosystem](https://img.shields.io/badge/GeoFS--V3.9-Addon_Pack-f59e0b?style=flat-square&logo=box&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Stable-10b981?style=flat-square&logo=lighthouse&logoColor=white)
+<div align="center">
 
-The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned and rebuilt from the ground up for **V1.0.0** (resetting from the legacy V3 architecture), this pack unifies all 13 official modular avionics, telemetry, physics, and ground enhancement addons under a shared, glassmorphic design system and high-performance technical kernel.
+<img src="logo.png" width="128" height="128" alt="GeoFS-V3.9 Addon-Pack Logo" />
+
+**The Premier Modular Avionics Master Bundle For GeoFS**  
+*Unifies 13 official modular avionics, telemetry, physics, and ground enhancement addons under a shared glassmorphic design system.*
+
+[![Browser: Chrome / Firefox / Safari](https://img.shields.io/badge/Browser-Chrome%20%7C%20Firefox%20%7C%20Safari-blue.svg?style=flat-square&logo=googlechrome)](https://google.com/chrome)
+[![Manager: Tampermonkey](https://img.shields.io/badge/Manager-Tampermonkey%20%7C%20Violentmonkey-orange.svg?style=flat-square&logo=tampermonkey)](https://tampermonkey.net)
+[![Release: v1.0.0](https://img.shields.io/badge/Release-v1.0.0-blue.svg?style=flat-square&logo=github)](https://github.com/AMFI-Disable/GeoFS-V3.9_Addon-Pack/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](license)
+[![Privacy: 100% Client-Side](https://img.shields.io/badge/Privacy-100%25%20Client--Side-purple.svg?style=flat-square)](#-bundled-modules)
+
+</div>
+
+---
+
+## 🧭 Table Of Contents
+
+- [Overview & Core Value](#-overview-and-core-value)
+- [Educational & Fair-Play Disclaimer](#-educational--fair-play-disclaimer)
+- [Bundled Modules](#-bundled-modules)
+- [Installation Guide](#-installation-guide)
+- [License And Terms](#-license-and-terms)
+
+---
+
+## ⚡ Overview And Core Value
+
+The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned and rebuilt from the ground up for **v1.0.0** (resetting from the legacy V3 architecture), this pack unifies all 13 official modular avionics, telemetry, physics, and ground enhancement addons under a shared, glassmorphic design system and high-performance technical kernel.
 
 ---
 
@@ -18,7 +43,7 @@ The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned
 
 ---
 
-## ✨ Bundled Modules
+## 🚀 Bundled Modules
 
 - **🔧 Core-Library & Design-System**: Shared technical kernel, fail-safe `SafeInit` lifecycle, draggable UI persistence, and glassmorphic styling tokens.
 - **⚡ Autothrottle**: Closed-loop PID speed controller with Knots/Mach switching and auto-retard Landing Mode.
@@ -33,7 +58,9 @@ The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned
 - **🛰️ Satellite-Imagery**: High-definition Bing Maps Aerial provider integration with built-in ad cleanup.
 - **🛫 JetBridge-System**: Proximity gate detection and passenger boarding bridge foundation.
 
-## 🛠️ Installation
+---
+
+## 📦 Installation Guide
 
 ### Standalone (Tampermonkey)
 
@@ -43,4 +70,6 @@ The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned
 
 ---
 
-*© 2026 AMFI-Disable. Part of the [**GeoFS-V3.9**_Ecosystem](https://sites.google.com/view/geofs-v39-ecosystem/home).*
+## 📄 License And Terms
+
+Licensed under the [MIT License](license). Copyright (c) 2026 AMFI-Disable. Part of the [**GeoFS-V3.9** Ecosystem](https://sites.google.com/view/geofs-v39-ecosystem/home).
