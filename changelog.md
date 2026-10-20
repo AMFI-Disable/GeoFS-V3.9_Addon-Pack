@@ -4,6 +4,14 @@ All notable changes, addon updates, and version releases for the GeoFS-V3.9 Addo
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- Aligned repository `readme.md` with workspace documentation standards, introducing a standardized hero header with 128x128 logo, Title Case section headers, table of contents, and flat-square Shields.io badges.
+
+---
+
 ## [1.0.0] - Foundation Reset & Official Ecosystem Master Bundle
 
 > **Architecture Reset**: Complete reimagining and reboot of the Addon Pack from the ground up, resetting from legacy V3 monolithic community scripts to a clean, standardized V1.0.0 foundation composed exclusively of the official GeoFS-V3.9 ecosystem modules.
