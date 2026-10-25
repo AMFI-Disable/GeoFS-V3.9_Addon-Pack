@@ -20,7 +20,7 @@
 ## 🧭 Table Of Contents
 
 - [Overview & Core Value](#-overview-and-core-value)
-- [Educational & Fair-Play Disclaimer](#-educational--fair-play-disclaimer)
+- [Educational & Fair-Play Disclaimer](#️-educational--fair-play-disclaimer)
 - [Bundled Modules](#-bundled-modules)
 - [Installation Guide](#-installation-guide)
 - [License And Terms](#-license-and-terms)
