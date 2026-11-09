@@ -148,6 +148,24 @@
 (() => {
     "use strict";
 
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this master bundle only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Addon-Pack] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
+
     console.info('[GeoFS-V3.9_Addon-Pack] >> V1.0.0 Master Bundle Initializing...');
 
 // ============================================================
@@ -242,6 +260,10 @@
      * @param {boolean} silent - Suppresses initialization-start alerts
      */
     window.SafeInit = (moduleName, func, silent = true) => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Core-Library] >> [MODULE BLOCKED] " + moduleName + " disabled: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         console.info(`[GeoFS-V3.9_Core-Library] >> [MODULE] Initializing: ${moduleName}`);
         if (!silent) window.V39_NOTIF.info(`Initializing ${moduleName}...`);
         try {
@@ -5388,6 +5410,7 @@ function main() {
         };
 
         window.executeOnEventDone("geofsStarted", function() {
+            if (isUnsupportedGeoFS()) return;
             if (window.geofs.api.hdOn !== window.geofsNewHDState) {
                 window.jQuery("body").trigger("terrainProviderWillUpdate");
                 window.geofs.geoIpUpdate();
