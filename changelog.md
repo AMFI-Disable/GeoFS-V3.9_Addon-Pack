@@ -4,11 +4,82 @@ All notable changes, addon updates, and version releases for the GeoFS-V3.9 Addo
 
 ---
 
-## [Unreleased]
+## [3.9.0] - Unified Metadata
 
 ### Changed
 
-- Aligned repository `readme.md` with workspace documentation standards, introducing a standardized hero header with 128x128 logo, Title Case section headers, table of contents, and flat-square Shields.io badges.
+- Standardize the userscript metadata and version across the V3.9 ecosystem.
+- Match only the GeoFS main site and activate only when it reports V3.9.
+
+---
+
+## [Unreleased]
+
+### Added
+
+- **Automated Bundle Test Suite**: Added automated tests for bundle integrity, autothrottle landing modes, HUD tab ordering, and notification queues (`tests/`).
+- **Assembly Script**: Added Python build script (`scripts/assemble.py`) to automate bundle compilation from standalone modules.
+- **CI Workflow Testing**: Added automated `node --test` validation step in GitHub Actions CI (`ci.yml`).
+
+### Changed
+
+- **Ecosystem Bundle Synchronization**: Synchronized master bundle (`v1.0.1`) with standalone module updates, including neutral styling, keyboard-accessible autothrottle switches, and standardized tab order.
+- **Favicon Metadata**: Switched userscript icon reference to the official GeoFS favicon.
+- **Documentation Standards**: Aligned repository `readme.md` with workspace documentation standards, introducing a standardized hero header with 128x128 logo, Title Case section headers, table of contents, and flat-square Shields.io badges.
+
+---
+
+## [1.0.7] - GeoFS V3.9 Compatibility
+
+### Changed
+
+- Start only after GeoFS reports V3.9; remain inactive on other or unrecognized versions.
+- Update compatibility documentation and version metadata.
+
+---
+
+## [1.0.6] - Startup Panel and Notification Banners
+
+### Changed
+
+- Keep the startup panel open when scripts are not detected or fail, and dismiss it after all scripts are detected.
+- Show in-flight messages as separate temporary banners.
+
+---
+
+## [1.0.5] - Unified Core Startup
+
+### Fixed
+
+- Report Core Library startup in the shared panel without a separate legacy toast.
+- Replace earlier versions of the shared notification engine.
+
+---
+
+## [1.0.4] - Ecosystem Notification Header
+
+### Changed
+
+- Renamed the shared notification panel header to GeoFS-V3.9_Ecosystem.
+
+---
+
+## [1.0.3] - Startup Detection Fix
+
+### Fixed
+
+- Detect add-ons that started before the status panel and keep checking during startup.
+- Replace older notification engines to avoid losing module reports.
+- Wait for startup to settle before listing add-ons that were not detected.
+
+---
+
+## [1.0.2] - Esri Imagery and Unified Notifications
+
+### Changed
+
+- Switched satellite imagery to Esri direct tiles with attribution.
+- Combined suite startup status and notifications in one dismissible panel.
 
 ---
 

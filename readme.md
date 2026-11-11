@@ -1,82 +1,34 @@
-# 🧩 GeoFS-V3.9 Addon-Pack - Unified Avionics & Flight Simulation Suite
+# GeoFS-V3.9_Addon-Pack
 
-<div align="center">
+![Version](https://img.shields.io/badge/Version-v3.9.0-3b82f6?style=flat-square)
 
-<img src="logo.png" width="128" height="128" alt="GeoFS-V3.9 Addon-Pack Logo" />
+A bundled userscript for the GeoFS-V3.9 ecosystem, combining the shared libraries and standalone add-ons into one package.
 
-**The Premier Modular Avionics Master Bundle For GeoFS**  
-*Unifies 12 official modular avionics, telemetry, physics, and ground enhancement addons under a shared GeoFS-style design system.*
+## Included components
 
-[![Browser: Chrome / Firefox / Safari](https://img.shields.io/badge/Browser-Chrome%20%7C%20Firefox%20%7C%20Safari-blue.svg?style=flat-square&logo=googlechrome)](https://google.com/chrome)
-[![Manager: Tampermonkey](https://img.shields.io/badge/Manager-Tampermonkey%20%7C%20Violentmonkey-orange.svg?style=flat-square&logo=tampermonkey)](https://tampermonkey.net)
-[![Release: v1.0.0](https://img.shields.io/badge/Release-v1.0.0-blue.svg?style=flat-square&logo=github)](https://github.com/AMFI-Disable/GeoFS-V3.9_Addon-Pack/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](license)
-[![Privacy: 100% Client-Side](https://img.shields.io/badge/Privacy-100%25%20Client--Side-purple.svg?style=flat-square)](#-bundled-modules)
+- **Core Library and Design System:** Shared initialization, GeoFS-style controls, the HUD, and notifications.
+- **Autothrottle:** Speed control and an optional landing mode that retards thrust at touchdown.
+- **Checklist System, Fuel Simulator, Information Display, and Realism Pack:** Shared HUD tabs, ordered INFO → FUEL → CHECKS → REALISM when available.
+- **Failure Simulator:** Configurable system failures and repairs.
+- **Flight Path Vector:** A toggleable marker showing the aircraft's projected movement.
+- **Landing Statistics:** Touchdown measurements and a landing report.
+- **Overpowered Engines:** Thrust, altitude ceiling, and stability controls.
+- **Satellite Imagery:** Esri World Imagery and terrain settings. Tile availability depends on the shared Esri key and its usage allowance.
 
-</div>
+The **GeoFS-V3.9_Ecosystem** startup panel closes after all components are detected. It stays open and identifies components that are not detected or failed; dismiss it with ×. Runtime messages appear as separate temporary banners.
 
----
+## Installation
 
-## 🧭 Table Of Contents
+1. Install a userscript manager such as [Tampermonkey](https://www.tampermonkey.net/).
+2. Install the bundle from this repository, or install individual scripts from the [Greasy Fork collection](https://greasyfork.org/en/scripts?set=594718).
+3. Open or reload GeoFS V3.9. Avoid enabling both the bundle and the same standalone scripts together.
 
-- [Overview & Core Value](#-overview-and-core-value)
-- [Educational & Fair-Play Disclaimer](#️-educational--fair-play-disclaimer)
-- [Bundled Modules](#-bundled-modules)
-- [Installation Guide](#-installation-guide)
-- [License And Terms](#-license-and-terms)
+The bundle activates only when GeoFS reports version V3.9 (including V3.9 patch releases). It waits for the version to become available and remains inactive on other versions.
 
----
+## Development and validation
 
-## ⚡ Overview And Core Value
+Run `python3 scripts/assemble.py` to rebuild the bundle from the sibling standalone scripts, or `python3 scripts/assemble.py --check` to check for drift. Run `node --check addon-pack_standalone.user.js` and `node --test tests/*.test.js` for syntax and bundle checks. These checks do not replace a flight test in GeoFS.
 
-The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned and rebuilt from the ground up for **v1.0.0** (resetting from the legacy V3 architecture), this pack unifies all 12 official modular avionics, telemetry, physics, and ground enhancement addons under a shared GeoFS-style design system and high-performance technical kernel.
+## License
 
----
-
-## ⚖️ Educational & Fair-Play Disclaimer
-
-> [!CAUTION]
-> **IMPORTANT NOTICE & DISCLAIMER**:
-> This codebase is provided strictly for educational, research, and testing purposes in authorized environments.
-> Using automated assistance or unauthorized scripts in violation of platform terms of service or anti-cheat policies may lead to account penalties.
-> The developers and contributors accept no responsibility or liability for misuse of this software.
-
----
-
-## 🚀 Bundled Modules
-
-- **🔧 Core-Library & Design-System**: Shared technical kernel, fail-safe `SafeInit` lifecycle, draggable UI persistence, and GeoFS-style visual tokens.
-- **⚡ Autothrottle**: Closed-loop PID speed controller with Knots/Mach switching and auto-retard Landing Mode.
-- **📋 Checklist-System**: Dynamic, aircraft-tailored flight deck checklists integrated directly into the unified HUD.
-- **🚨 Failure-Simulator**: Random and triggered systems, engine, gear, and control failures with procedure checklists.
-- **🎯 Flight-Path-Vector (FPV)**: True velocity vector Cesium projection with dynamic angle-of-attack (AoA) warnings.
-- **⛽ Fuel-Simulator**: Aircraft-specific fuel consumption, dynamic center of gravity, fuel dumping, and auto-refuel.
-- **📊 Information-Display**: High-precision flight telemetry strip (IAS, Mach, ALT, AGL, HDG, V/S, AoA, G-force).
-- **🛬 Landing-Statistics**: Touchdown telemetry logging (VS, G-force, bounce count, touchdown zone scoring) with audio callouts.
-- **🚀 Overpowered-Engines**: Military-grade SAS stabilization, thrust multipliers, and altitude ceiling extensions.
-- **🌪️ Realism-Pack**: Dynamic atmospheric audio, sonic booms, blackout/redout visual effects, and cockpit camera shake.
-- **🛰️ Satellite-Imagery**: High-definition Bing Maps Aerial provider integration with built-in ad cleanup.
-
----
-
-## 📦 Installation Guide
-
-### Standalone (Tampermonkey)
-
-1. Install the [Tampermonkey](https://www.tampermonkey.net/) extension.
-2. Install the script via [**Greasy Fork**](https://greasyfork.org/en/scripts?set=594718).
-3. Refresh GeoFS and the master bundle will automatically initialize alongside the HUD.
-
----
-
-## 🛠️ Development And Validation
-
-The bundle is assembled from the 12 standalone userscripts in the sibling `GeoFS-V3.9_Standalones` directory. From this directory, run `python3 scripts/assemble.py` to synchronize it, or `python3 scripts/assemble.py --check` to check for drift without changing files. The bundle wrapper and metadata are preserved. Keep all standalone folders present when running these commands.
-
-Run `node --check addon-pack_standalone.user.js` and `node --test tests/*.test.js` to check syntax, module inventory, and the GeoFS 4 compatibility guard. These checks do not replace a flight test in GeoFS 3.9.
-
----
-
-## 📄 License And Terms
-
-Licensed under the [MIT License](license). Copyright (c) 2026 AMFI-Disable. Part of the [**GeoFS-V3.9** Ecosystem](https://sites.google.com/view/geofs-v39-ecosystem/home).
+[MIT](license) · © 2026 AMFI-Disable · [GeoFS-V3.9 Ecosystem](https://sites.google.com/view/geofs-v39-ecosystem/home)
