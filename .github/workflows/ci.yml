@@ -33,6 +33,9 @@ jobs:
             echo "Validated syntax: $file"
           done
 
+      - name: Test Bundle
+        run: node --test tests/*.test.js
+
       - name: Validate YAML Files
         run: |
           ruby -ryaml -e '

@@ -120,3 +120,7 @@ task.md
 todo.md
 plan.md
 report.md
+
+# Python build artifacts
+__pycache__/
+*.pyc

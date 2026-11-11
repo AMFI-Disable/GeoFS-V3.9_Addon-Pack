@@ -5,7 +5,7 @@
 <img src="logo.png" width="128" height="128" alt="GeoFS-V3.9 Addon-Pack Logo" />
 
 **The Premier Modular Avionics Master Bundle For GeoFS**  
-*Unifies 13 official modular avionics, telemetry, physics, and ground enhancement addons under a shared glassmorphic design system.*
+*Unifies 12 official modular avionics, telemetry, physics, and ground enhancement addons under a shared GeoFS-style design system.*
 
 [![Browser: Chrome / Firefox / Safari](https://img.shields.io/badge/Browser-Chrome%20%7C%20Firefox%20%7C%20Safari-blue.svg?style=flat-square&logo=googlechrome)](https://google.com/chrome)
 [![Manager: Tampermonkey](https://img.shields.io/badge/Manager-Tampermonkey%20%7C%20Violentmonkey-orange.svg?style=flat-square&logo=tampermonkey)](https://tampermonkey.net)
@@ -29,7 +29,7 @@
 
 ## ⚡ Overview And Core Value
 
-The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned and rebuilt from the ground up for **v1.0.0** (resetting from the legacy V3 architecture), this pack unifies all 13 official modular avionics, telemetry, physics, and ground enhancement addons under a shared, glassmorphic design system and high-performance technical kernel.
+The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned and rebuilt from the ground up for **v1.0.0** (resetting from the legacy V3 architecture), this pack unifies all 12 official modular avionics, telemetry, physics, and ground enhancement addons under a shared GeoFS-style design system and high-performance technical kernel.
 
 ---
 
@@ -45,7 +45,7 @@ The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned
 
 ## 🚀 Bundled Modules
 
-- **🔧 Core-Library & Design-System**: Shared technical kernel, fail-safe `SafeInit` lifecycle, draggable UI persistence, and glassmorphic styling tokens.
+- **🔧 Core-Library & Design-System**: Shared technical kernel, fail-safe `SafeInit` lifecycle, draggable UI persistence, and GeoFS-style visual tokens.
 - **⚡ Autothrottle**: Closed-loop PID speed controller with Knots/Mach switching and auto-retard Landing Mode.
 - **📋 Checklist-System**: Dynamic, aircraft-tailored flight deck checklists integrated directly into the unified HUD.
 - **🚨 Failure-Simulator**: Random and triggered systems, engine, gear, and control failures with procedure checklists.
@@ -56,7 +56,6 @@ The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned
 - **🚀 Overpowered-Engines**: Military-grade SAS stabilization, thrust multipliers, and altitude ceiling extensions.
 - **🌪️ Realism-Pack**: Dynamic atmospheric audio, sonic booms, blackout/redout visual effects, and cockpit camera shake.
 - **🛰️ Satellite-Imagery**: High-definition Bing Maps Aerial provider integration with built-in ad cleanup.
-- **🛫 JetBridge-System**: Proximity gate detection and passenger boarding bridge foundation.
 
 ---
 
@@ -67,6 +66,14 @@ The premier master bundle of the **GeoFS-V3.9** ecosystem. Completely redesigned
 1. Install the [Tampermonkey](https://www.tampermonkey.net/) extension.
 2. Install the script via [**Greasy Fork**](https://greasyfork.org/en/scripts?set=594718).
 3. Refresh GeoFS and the master bundle will automatically initialize alongside the HUD.
+
+---
+
+## 🛠️ Development And Validation
+
+The bundle is assembled from the 12 standalone userscripts in the sibling `GeoFS-V3.9_Standalones` directory. From this directory, run `python3 scripts/assemble.py` to synchronize it, or `python3 scripts/assemble.py --check` to check for drift without changing files. The bundle wrapper and metadata are preserved. Keep all standalone folders present when running these commands.
+
+Run `node --check addon-pack_standalone.user.js` and `node --test tests/*.test.js` to check syntax, module inventory, and the GeoFS 4 compatibility guard. These checks do not replace a flight test in GeoFS 3.9.
 
 ---
 

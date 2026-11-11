@@ -51,63 +51,13 @@
 // @name:lo             GeoFS-V3.9_Addon-Pack
 // @name:ur             GeoFS-V3.9_ایڈ-آن-پیک
 
-// @description         27+ bundled addons with polished UI, draggable HUD, real aircraft procedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:vi      Hơn 27 tiện ích mở rộng tích hợp với giao diện bóng bẩy, HUD có thể kéo và quy trình máy bay thực tế! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:zh-CN   27+ 个捆绑插件，具有精美的 UI、可拖动的 HUD 和真实的飞机程序！ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:zh-TW   27+ 個捆綁插件，具有精美的 UI、可拖動的 HUD 和真實的飛機程序！ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ja      洗練された UI、ドラッグ可能な HUD、実機の手順を備えた 27 以上のバンドルアドオン！ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ko      세련된 UI, 드래그 가능한 HUD, 실제 항공기 절차를 갖춘 27개 이상의 번들 애드온! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fr      Plus de 27 add-ons intégrés avec une interface soignée, un HUD glissant et de vraies procédures aéronautiques ! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:de      27+ gebündelte Addons mit polierter Benutzeroberfläche, ziehbarem HUD und echten Flugzeugverfahren! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:es      ¡Más de 27 complementos incluidos con una interfaz pulida, HUD arrastrable y procedimientos de aeronaves reales! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:pt-BR   Mais de 27 addons integrados com interface polida, HUD arrastável e procedimentos de aeronaves reais! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:pt-PT   Mais de 27 addons integrados com interface polida, HUD arrastável e procedimentos de aeronaves reais! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ru      Более 27 встроенных аддонов с улучшенным интерфейсом, перетаскиваемым HUD и реальными процедурами самолета! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ar      أكثر من 27 إضافة مجمعة مع واجهة مصقولة، وHUD قابل للسحب، وإجراءات طائرة حقيقية! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:tr      Cilalı arayüz, sürüklenebilir HUD ve gerçek uçak prosedürlerine sahip 27+ paketlenmiş eklenti! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:id      27+ addon terbundel dengan UI yang dipoles, HUD yang dapat diseret, dan prosedur pesawat nyata! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:th      แอดออนรวมกว่า 27 รายการพร้อม UI ที่สวยงาม HUD แบบลากได้ และขั้นตอนของเครื่องบินจริง! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:pl      Ponad 27 dołączonych dodatków z dopracowanym interfejsem użytkownika, przeciąganym HUD-em i prawdziwymi procedurami lotniczymi! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:nl      27+ gebundelde add-ons met gepolijste gebruikersinterface, versleepbare HUD en echte vliegtuigprocedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:it      Oltre 27 addon inclusi con interfaccia utente rifinita, HUD trascinabile e procedure aeronautiche reali! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sv      27+ buntade tillägg med polerat gränssnitt, dragbar HUD och verkliga flygplansprocedurer! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:da      27+ bundtede tilføjelser med poleret brugerflade, trækbar HUD og rigtige flyprocedurer! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fi      Yli 27 mukana tulevaa lisäosaa, joissa on hiottu käyttöliittymä, raahattava HUD ja todelliset lentokoneen menettelytavat! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:nb      27+ buntede tillegg med polert brukergrensesnitt, dregbar HUD og ekte flyprosedyrer! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:cs      Více než 27 přibalených doplňků s vylepšeným uživatelským rozhraním, přetahovatelným HUD a skutečnými postupy v letadle! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:hu      27+ mellékelt kiegészítő csiszolt felülettel, húzható HUD-val és valós repülőgép-eljárásokkal! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ro      Peste 27 de addon-uri incluse cu interfață cizelată, HUD glisant și proceduri reale de avioane! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:uk      Більше 27 вбудованих аддонів із витонченим інтерфейсом користувача, HUD, який можна перетягувати, та реальними процедурами літака! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:hi      पॉलिश किए गए यूआई, ड्रैग करने योग्य एचयूडी, वास्तविक विमान प्रक्रियाओं के साथ 27+ बंडल किए गए एडऑन! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:bn      পালিশ করা ইউআই, টেনে আনা যায় এমন এইচইউডি, আসল বিমান প্রক্রিয়া সহ ২৭+ বান্ডেল করা অ্যাডঅন! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fa      بیش از ۲۷ افزونه همراه با رابط کاربری صیقلی، HUD قابل کشیدن و رویه‌های واقعی هواپیما! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:he      מעל 27 תוספים כלולים עם ממשק משתמש מלוטש, HUD הניתן לגרירה ונהלי מטוס אמיתיים! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ms      27+ addon terbundle dengan UI yang digilap, HUD yang boleh diseret dan prosedur pesawat sebenar! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:fil     27+ bundled add-ons na may polished UI, dragable HUD, at totoong mga pamamaraan ng eroplano! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:el      27+ ενσωματωμένα πρόσθετα με εκλεπτυσμένο UI, ρυθμιζόμενο HUD και πραγματικές διαδικασίες αεροσκαφών! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:hr      Više od 27 priloženih dodataka s poliranim sučeljem, HUD-om koji se može povući i stvarnim zrakoplovnim procedurama! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sk      Viac ako 27 balených doplnkov s vyladeným používateľským rozhraním, presúvateľným HUD a skutočnými letovými postupmi! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:bg      27+ пакетирани добавки с полиран потребителски интерфейс, подвижен HUD и реални процедури за самолети! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sr      Више од 27 пакетираних додатака са полираним интерфејсом, HUD-ом који се може превући и стварним процедурама за авионе! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:lt      Daugiau nei 27 priedų rinkinys su patobulinta sąsaja, velkamu HUD ir tikromis orlaivių procedūromis! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:lv      Vairāk nekā 27 komplektēti papildinājumi ar pulētu lietotāja saskarni, velkamu HUD un reālām gaisa kuģu procedūrām! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:et      27+ lisatud lisaprogrammi koos viimistletud kasutajaliidese, lohistatava HUDi ja reaalsete lennuki protseduuridega! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sl      Več kot 27 priloženih dodatkov s poliranim uporabniškim vmesnikom, vlečnim HUD-om in resničnimi letalskimi postopki! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ca      Més de 27 complements integrats amb una interfície polida, HUD arrossegable i procediments d'aeronaus reals! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:af      27+ gebondelde byvoegings met gepoleerde gebruikerskoppelvlak, sleepbare HUD en regte vliegtuigprosedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:sw      Viongezo 27+ vilivyounganishwa na UI iliyoboreshwa, HUD inayoweza kuburuzwa, na taratibu halisi za ndege! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:zu      Izingezeli ezingaphezu kwe-27 ezihlanganisiwe ne-UI epholishiwe, i-HUD ehudulekayo, nezinqubo zezindiza zangempela! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:mn      Өнгөлөг хэрэглэгчийн интерфেইс, чирэх боломжтой HUD, бодит агаарын хөлгийн процедур бүхий 27 гаруй багц нэмэлтүүд! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:my      လှပသော UI၊ ဆွဲယူနိုင်သော HUD နှင့် အမှန်တကယ် လေယာဉ် ပျံសန်းမှု လုပ်ငန်းစဉ်များ ပါဝင်သော ၂၇+ ပေါင်းစပ် အက်ဒွန်များ။ © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:km      កម្មវិធីបន្ថែមដែលភ្ជាប់មកជាមួយ 27+ ជាមួយ UI ដ៏ស្រស់ស្អាត HUD អាចអូសបាន និងនីតិវិធីយន្តហោះពិតប្រាកដ! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:lo      27+ ແອດອอนທີ່ມາພ້ອມກັບ UI ທີ່ສວຍງາມ, HUD ທີ່ສາມາດລາກໄດ້ ແລະຂັ້ນຕອນການບິນຕົວຈิง! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
-// @description:ur      پالش شدہ UI، ڈریگیبل HUD، اور حقیقی ہوائی جہاز کے طریقہ کار کے ساتھ 27+ بنڈل ایڈونز! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
+// @description         12 bundled modules with polished UI, draggable HUD, real aircraft procedures! © 2026 AMFI-Disable. Part of the GeoFS-V3.9_Ecosystem.
 
 // @namespace           https://greasyfork.org/users/1594049
-// @version             1.0.0
+// @version             1.0.1
 // @author              AMFI-Disable
 // @match               https://www.geo-fs.com/geofs.php*
-// @icon                https://geofs-assets.evengao6688.workers.dev/icons/addon-pack.png
+// @icon                https://www.geo-fs.com/images/icons/favicon.ico
 // @require             https://update.greasyfork.org/scripts/581510/code.js
 // @require             https://update.greasyfork.org/scripts/581511/code.js
 // @grant               none
@@ -135,11 +85,10 @@
  *  6. GeoFS-V3.9_Flight-Path-Vector
  *  7. GeoFS-V3.9_Fuel-Simulator
  *  8. GeoFS-V3.9_Information-Display
- *  9. GeoFS-V3.9_JetBridge-System
- * 10. GeoFS-V3.9_Landing-Statistics
- * 11. GeoFS-V3.9_Overpowered-Engines
- * 12. GeoFS-V3.9_Realism-Pack
- * 13. GeoFS-V3.9_Satellite-Imagery
+ *  9. GeoFS-V3.9_Landing-Statistics
+ * 10. GeoFS-V3.9_Overpowered-Engines
+ * 11. GeoFS-V3.9_Realism-Pack
+ * 12. GeoFS-V3.9_Satellite-Imagery
  * 
  * © 2026 AMFI-Disable. Licensed under the MIT License.
  * Part of the GeoFS-V3.9_Ecosystem (https://sites.google.com/view/geofs-v39-ecosystem/home).
@@ -172,7 +121,23 @@
 // MODULE 1: GeoFS-V3.9_Core-Library
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this core library only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Core-Library] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     // Physical Constants: Standardized conversion coefficients
     window.DEGREES_TO_RAD = window.DEGREES_TO_RAD || 0.017453292519943295;
@@ -183,7 +148,7 @@
      * V39_NOTIF: Singleton UI Notification Engine
      * Orchestrates high-fidelity glassmorphic toast alerts with queue management.
      */
-    window.V39_NOTIF = {
+    window.V39_NOTIF = window.V39_NOTIF || {
         /**
          * Dispatches a new notification toast to the global container.
          * 
@@ -192,11 +157,19 @@
          * @param {number} [duration=4000] - Lifespan of the toast in milliseconds.
          */
         show: function(text, type = 'info', duration = 4000) {
+            // Dependencies may initialize multiple times; combine only routine startup messages.
+            if (type === 'success' && /^GeoFS-V3\.9_.+\bLoaded\.$/i.test(text)) {
+                if (!window._v39ReadyNoticeScheduled) {
+                    window._v39ReadyNoticeScheduled = true;
+                    setTimeout(() => this.show('GeoFS-V3.9 ready', 'info', 2500), 1500);
+                }
+                return;
+            }
             const container = this._ensureContainer();
             const toast = document.createElement('div');
             
             const colors = {
-                info: { border: '#ff9f05', bg: 'rgba(26,26,26,0.9)', icon: '📋' },
+                info: { border: '#dddddd', bg: 'rgba(26,26,26,0.9)', icon: '📋' },
                 success: { border: '#10b981', bg: 'rgba(10,35,25,0.9)', icon: '✅' },
                 warn: { border: '#fbbf24', bg: 'rgba(35,30,10,0.9)', icon: '⚠️' },
                 critical: { border: '#ef4444', bg: 'rgba(35,10,10,0.9)', icon: '🔥' }
@@ -206,18 +179,17 @@
             
             toast.className = 'V39-toast';
             toast.style.cssText = `
-                margin-bottom: 10px; padding: 12px 18px; 
+                margin-bottom: 6px; padding: 7px 12px; 
                 background: ${theme.bg}; backdrop-filter: blur(12px); 
-                border: 1px solid rgba(255,255,255,0.1); 
-                border-left: 4px solid ${theme.border}; 
-                border-radius: 8px; color: white; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; 
+                border: 1px solid ${theme.border}; 
+                border-radius: 15px; color: white; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; 
                 font-size: 11px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
                 display: flex; align-items: center; gap: 12px; pointer-events: auto; 
                 animation: V39-toast-in 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-                min-width: 250px; text-transform: uppercase; letter-spacing: 0.5px;
+                max-width: 320px;
             `;
 
-            toast.innerHTML = `<span style="font-size: 14px;">${theme.icon}</span> <span>${text.toUpperCase()}</span>`;
+            toast.textContent = text;
             container.appendChild(toast);
 
             setTimeout(() => {
@@ -295,7 +267,7 @@
                     top: 100px;
                     right: 20px;
                     width: 250px;
-                    background: rgba(26, 26, 26, 0.9);
+                    background: rgba(0, 0, 0, 0.8);
                     border: 1px solid rgba(255, 255, 255, 0.12);
                     border-radius: 12px;
                     padding: 15px;
@@ -309,24 +281,24 @@
                     font-family: 'Roboto', sans-serif;
                     pointer-events: auto !important;
                 }
-                .hud-drag-handle { grid-column: 1 / -1; text-align: center; color: rgba(255, 159, 5, 0.3); font-size: 7.5px; letter-spacing: 2px; cursor: move; margin-bottom: 5px; text-transform: uppercase; }
+                .hud-drag-handle { grid-column: 1 / -1; text-align: center; color: rgba(255, 255, 255, 0.3); font-size: 10px; letter-spacing: 2px; cursor: move; margin-bottom: 5px; text-transform: uppercase; }
                 .unified-tabs { grid-column: 1 / -1; display: grid; gap: 3px; margin-bottom: 10px; }
-                .unified-tab { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); border-radius: 4px; font-size: 8px; padding: 4px; cursor: pointer; transition: all 0.2s; font-weight: 700; text-transform: uppercase; }
+                .unified-tab { background: rgba(255,255,255,0.05); border: 1px solid #888; color: rgba(255,255,255,0.6); border-radius: 4px; font-size: 10px; padding: 4px; cursor: pointer; transition: all 0.2s; font-weight: 700; text-transform: uppercase; }
                 .unified-tab:hover { background: rgba(255,255,255,0.1); }
-                .unified-tab.active { color: #ff9f05; border-color: #ff9f05; background: rgba(255, 159, 5, 0.15); }
+                .unified-tab.active { color: #dddddd; border-color: #dddddd; background: rgba(255, 255, 255, 0.15); }
                 .unified-content { display: none; padding: 10px; max-height: 400px; overflow-y: auto; }
                 .unified-content.active { display: block; }
                 .unified-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
                 #hudMinimizeBtn {
                     position: fixed; width: 40px; height: 40px; border-radius: 50%;
                     background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(8px);
-                    border: 1px solid rgba(255, 255, 255, 0.15); color: #ff9f05;
+                    border: 1px solid rgba(255, 255, 255, 0.15); color: #dddddd;
                     display: flex; align-items: center; justify-content: center;
                     cursor: pointer; z-index: 220001; font-size: 18px; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
                 }
                 .hud-cell { display: flex; flex-direction: column; }
-                .hud-label { font-size: 8px; color: #ff9f05; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
-                .hud-value { font-size: 13px; font-weight: 700; color: #fff; font-family: 'Roboto Mono', monospace; }
+                .hud-label { font-size: 10px; color: #dddddd; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.8; }
+                .hud-value { font-size: 13px; font-weight: 700; color: #fff; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; }
             `;
             document.head.appendChild(style);
         }
@@ -440,10 +412,16 @@
             btn.className = 'unified-tab';
             btn.textContent = label;
             btn.onclick = () => window.switchHUDProTab(tabId);
-            tabsContainer.appendChild(btn);
-            tabsContainer.style.gridTemplateColumns = `repeat(${tabsContainer.children.length}, 1fr)`;
+            const tabOrder = ['id', 'fuel', 'checks', 'realism'];
+            const rank = id => {
+                const index = tabOrder.indexOf(id.replace(/^tab-btn-/, ''));
+                return index < 0 ? tabOrder.length : index;
+            };
+            const next = Array.from(tabsContainer.children).find(child => rank(child.id) > rank(btn.id));
+            tabsContainer.insertBefore(btn, next || null);
             console.log(`[GeoFS-Core] >> Created button for tab: ${tabId}`);
         }
+        tabsContainer.style.gridTemplateColumns = `repeat(${tabsContainer.children.length}, minmax(0, 1fr))`;
 
         // Logic: Create the content container if it doesn't exist.
         if (!document.getElementById(`tab-content-${tabId}`)) {
@@ -555,7 +533,6 @@
 
     console.log("[GeoFS-V3.9_Core-Library] >> Core foundations loaded and ready.");
     if (window.V39_NOTIF) window.V39_NOTIF.success("GeoFS-V3.9_Core-Library Loaded.");
-})();
 
 /**
  * GeoFS-V3.9 Aircraft Technical Registry
@@ -634,17 +611,35 @@ window.AIRCRAFT_DATA = {
     "5791": { "name": "Lockheed C-5M Galaxy", "maxFlaps": 5, "hasGear": true, "hasSpoilers": true, "oew": 172370, "mtow": 381000, "maxFuel": 150800 },
     "5847": { "name": "Boeing 727-200", "maxFlaps": 8, "hasGear": true, "hasSpoilers": true, "oew": 45360, "mtow": 95000, "maxFuel": 30600 }
 };
+})();
 
 // ============================================================
 // MODULE 2: GeoFS-V3.9_Design-System
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Design-System] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
+
     if (document.getElementById('geofs-design-system')) return;
     
     const css = `
 /* ── GeoFS-V3.9_Design-System ── */
-/* Features: Native GeoFS styling layout with dark panels, white text, and orange highlights. */
+/* Features: Native GeoFS styling layout with native in-flight controls and neutral colors. */
 
 /* ── Addon-Pack dropdown items ── */
 .addonpack-dropdown {
@@ -668,7 +663,7 @@ window.AIRCRAFT_DATA = {
 }
 .addonpack-dropdown:hover {
     background: rgba(45, 45, 45, 0.95);
-    border-color: rgba(255, 159, 5, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
     transform: translateX(2px);
     box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
@@ -679,7 +674,7 @@ window.AIRCRAFT_DATA = {
     margin-right: 8px;
     font-size: 10px;
     transition: transform 0.3s ease;
-    color: #ff9f05;
+    color: #dddddd;
     -webkit-user-select: none;
     user-select: none;
 }
@@ -696,7 +691,7 @@ window.AIRCRAFT_DATA = {
     padding: 0 8px;
     background: rgba(20, 20, 20, 0.95);
     border-radius: 8px;
-    border: 1px solid rgba(255, 159, 5, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     margin: 2px 4px 8px 4px;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
@@ -713,7 +708,7 @@ window.AIRCRAFT_DATA = {
     padding: 8px 12px;
     margin: 2px 0;
     border-radius: 6px;
-    background: rgba(255, 159, 5, 0.03);
+    background: rgba(255, 255, 255, 0.03);
     color: #eef2f7;
     font-size: 12.5px;
     font-weight: 500;
@@ -723,8 +718,8 @@ window.AIRCRAFT_DATA = {
     user-select: none;
 }
 .addonpack-sub-item:hover {
-    background: rgba(255, 159, 5, 0.08);
-    border-left-color: #ff9f05;
+    background: rgba(255, 255, 255, 0.08);
+    border-left-color: #dddddd;
     color: #ffffff;
 }
 
@@ -739,7 +734,7 @@ window.AIRCRAFT_DATA = {
     font-size: 11.5px;
     line-height: 1.5;
     white-space: pre-wrap;
-    border-left: 2px solid rgba(255, 159, 5, 0.5);
+    border-left: 2px solid rgba(255, 255, 255, 0.5);
     margin-left: 12px;
 }
 .addonpack-description.open {
@@ -757,7 +752,7 @@ window.AIRCRAFT_DATA = {
     background: rgba(26, 26, 26, 0.9);
     padding: 14px 16px;
     border-radius: 12px;
-    font-family: 'Roboto Mono', 'Consolas', monospace;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-size: 12.5px;
     font-weight: 600;
     color: #e0e8f0;
@@ -775,7 +770,7 @@ window.AIRCRAFT_DATA = {
     user-select: none;
 }
 #flightDataDisplay .hud-label {
-    color: #ff9f05;
+    color: #dddddd;
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 0.5px;
@@ -798,7 +793,7 @@ window.AIRCRAFT_DATA = {
 #flightDataDisplay .hud-drag-handle {
     grid-column: 1 / -1;
     text-align: center;
-    color: rgba(255, 159, 5, 0.3);
+    color: rgba(255, 255, 255, 0.3);
     font-size: 14px;
     letter-spacing: 4px;
     line-height: 1;
@@ -809,14 +804,14 @@ window.AIRCRAFT_DATA = {
 }
 #flightDataDisplay .hud-section-header {
     grid-column: 1 / -1;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    color: rgba(255, 159, 5, 0.8);
+    color: rgba(255, 255, 255, 0.8);
     margin-top: 10px;
     margin-bottom: 4px;
-    border-bottom: 1px solid rgba(255, 159, 5, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     padding-bottom: 2px;
 }
 #flightDataDisplay .hud-section-header:first-of-type {
@@ -834,7 +829,7 @@ window.AIRCRAFT_DATA = {
     border: 1px solid rgba(255,255,255,0.1);
     color: rgba(255,255,255,0.85);
     border-radius: 4px;
-    font-size: 8px;
+    font-size: 10px;
     cursor: pointer;
     padding: 3px 2px;
     font-family: Roboto, sans-serif;
@@ -845,9 +840,9 @@ window.AIRCRAFT_DATA = {
     user-select: none;
 }
 #flightDataDisplay .unified-tab.active {
-    background: rgba(255, 159, 5, 0.15);
-    border-color: #ff9f05;
-    color: #ff9f05;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #dddddd;
+    color: #dddddd;
 }
 #flightDataDisplay .unified-content {
     display: none;
@@ -870,7 +865,7 @@ window.AIRCRAFT_DATA = {
     padding: 8px 14px;
     margin: 4px 0;
     border-radius: 6px;
-    background: rgba(255, 159, 5, 0.12);
+    background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     font-size: 12px;
     font-weight: 700;
@@ -882,7 +877,7 @@ window.AIRCRAFT_DATA = {
     user-select: none;
 }
 .addonpack-category:hover {
-    background: rgba(255, 159, 5, 0.2);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* ── HUD minimize button ── */
@@ -898,7 +893,7 @@ window.AIRCRAFT_DATA = {
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-left: none;
     border-radius: 0 7px 7px 0;
-    color: #ff9f05;
+    color: #dddddd;
     font-size: 15px;
     display: flex;
     align-items: center;
@@ -914,7 +909,7 @@ window.AIRCRAFT_DATA = {
 }
 #hudMinimizeBtn:hover {
     background: rgba(45, 45, 45, 0.95);
-    border-color: rgba(255, 159, 5, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
     color: #fff;
     box-shadow: 0 4px 14px rgba(0,0,0,0.4);
 }
@@ -947,15 +942,15 @@ window.AIRCRAFT_DATA = {
     user-select: none;
 }
 .addonpack-block:hover {
-    background: rgba(255, 159, 5, 0.1);
-    border-color: rgba(255, 159, 5, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
     color: #fff;
 }
 .addonpack-block.active {
-    background: rgba(255, 159, 5, 0.15);
-    border-color: #ff9f05;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #dddddd;
     color: #fff;
-    box-shadow: 0 0 8px rgba(255, 159, 5, 0.25);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.25);
 }
 
 /* ── Addon-Pack Card System ── */
@@ -1001,7 +996,7 @@ window.AIRCRAFT_DATA = {
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1.5px;
-    color: #ff9f05;
+    color: #dddddd;
     text-transform: uppercase;
 }
 .addonpack-card-content {
@@ -1011,13 +1006,13 @@ window.AIRCRAFT_DATA = {
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    border: 3px solid #ff9f05;
+    border: 3px solid #dddddd;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 20px rgba(255, 159, 5, 0.25);
-    background: rgba(255, 159, 5, 0.03);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.03);
 }
 .addonpack-badge {
     flex: 1;
@@ -1055,10 +1050,10 @@ window.AIRCRAFT_DATA = {
     appearance: none;
     width: 16px;
     height: 16px;
-    background: #ff9f05;
+    background: #dddddd;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(255, 159, 5, 0.5);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     border: 2px solid #fff;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -1070,16 +1065,16 @@ window.AIRCRAFT_DATA = {
 .addonpack-input {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ff9f05;
+    color: #dddddd;
     border-radius: 6px;
     padding: 4px 8px;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-size: 11px;
     text-align: center;
     transition: border-color 0.2s;
 }
 .addonpack-input:focus {
-    border-color: #ff9f05;
+    border-color: #dddddd;
     outline: none;
 }
 
@@ -1100,8 +1095,8 @@ window.AIRCRAFT_DATA = {
     user-select: none;
 }
 .addonpack-btn:hover {
-    background: rgba(255, 159, 5, 0.15);
-    border-color: #ff9f05;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #dddddd;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
@@ -1123,7 +1118,51 @@ window.AIRCRAFT_DATA = {
     background: rgba(34, 197, 94, 0.3);
     border-color: #22c55e;
 }
-    `;
+    
+/* GeoFS in-flight controls: native black pads, gray outlines, and neutral typography. */
+#flightDataDisplay, #hudMinimizeBtn, .addonpack-card, #opEngineCard, #geofs-failure-menu {
+    background: rgba(0, 0, 0, 0.8) !important;
+    border: 1px solid #888 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35) !important;
+    font-family: Helvetica, Arial, sans-serif !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+#flightDataDisplay .hud-drag-handle, #flightDataDisplay .hud-section-header,
+#flightDataDisplay .hud-label, #opEngineHeaderText, #fail-header span {
+    color: #ddd !important;
+    font-family: Helvetica, Arial, sans-serif !important;
+    letter-spacing: normal !important;
+}
+#flightDataDisplay .unified-tab {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #888;
+    border-radius: 15px;
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    letter-spacing: normal;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+#flightDataDisplay .unified-tab.active {
+    background: #4caf50;
+    border-color: #888;
+    color: #fff;
+}
+#flightDataDisplay .hud-section-header { border-bottom-color: #888; }
+#opEngineHeader { background: transparent !important; border-bottom: 1px solid #888 !important; }
+#geofs-failure-menu, #opEngineCard, #statsCard { accent-color: #536dfe; }
+#fail-btn { font-family: Helvetica, Arial, sans-serif; font-weight: normal !important; }
+/* Keep the existing content and controls, but remove decorative inner cards. */
+#flightDataDisplay .hud-section-header { letter-spacing: normal; margin-top: 6px; }
+#hud-checklist-display { background: transparent !important; border: 0 !important; padding: 0 !important; }
+#geofs-failure-menu .sect-header { background: transparent !important; border-bottom: 1px solid #666; border-radius: 0 !important; }
+#statsCard .stat-item { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+#statsCard .addonpack-score-circle { box-shadow: none !important; }
+
+`;
 
     const style = document.createElement('style');
     style.id = 'geofs-design-system';
@@ -1150,7 +1189,29 @@ window.AIRCRAFT_DATA = {
  */
 
 (() => {
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Autothrottle] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
+
     function main () {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Autothrottle] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         geofs.autothrottle = {
             on: !1,
 
@@ -1183,15 +1244,15 @@ window.AIRCRAFT_DATA = {
                                 </span>
                             </div>
                             <div class="geofs-autopilot-control" style="display: inline-block; vertical-align: bottom; margin-left: 5px; text-align: center;">
-                                <span style="display: block; font-size: 10px; font-weight: bold; color: #aaa; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px;">LND</span>
-                                <span class="ext-autothrottle-switch ext-autothrottle-mode" id="autothrottle-landing-mode-switch">
-                                    <a class="ext-autothrottle-switchLeft switchLeft green-pad" data-method="setArm" value="false" id="armOff">OFF</a>
-                                    <a class="ext-autothrottle-switchRight switchRight" data-method="setArm" value="true" id="armOn">ON</a>
+                                <span style="display: block; font-size: 10px; font-weight: bold; color: #aaa; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px;">LANDING</span>
+                                <span class="ext-autothrottle-switch ext-autothrottle-mode" id="autothrottle-landing-mode-switch" role="group" aria-label="Landing mode">
+                                    <a class="ext-autothrottle-switchLeft switchLeft landing-selected" data-method="setArm" value="false" id="armOff" role="button" tabindex="0" aria-pressed="true">OFF</a>
+                                    <a class="ext-autothrottle-switchRight switchRight" data-method="setArm" value="true" id="armOn" role="button" tabindex="0" aria-pressed="false">ARM</a>
                                 </span>
                             </div>
                         </div>
                         <div class="mdl-tooltip" id="autothrottle-tooltip" for="autothrottle-button">Toggle autothrottle on/off</div>
-                        <div class="mdl-tooltip" id="autothrottle-landing-mode-tooltip" for="autothrottle-landing-mode-switch">Landing Mode (Auto-Retard on touchdown)</div>
+                        <div class="mdl-tooltip" id="autothrottle-landing-mode-tooltip" for="autothrottle-landing-mode-switch">Landing mode: when armed, throttle goes to idle at touchdown</div>
                     </div>
                 `).appendTo(".geofs-autopilot-bar");
 
@@ -1204,6 +1265,14 @@ window.AIRCRAFT_DATA = {
                     }
                 }
                 
+                // Keep the native-style landing switches usable from the keyboard.
+                $(document).on("keydown", "#autothrottle-landing-mode-switch a", (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        $(e.currentTarget).trigger("click");
+                    }
+                });
+
                 // Auto-select on focus/click
                 $(document).on("focus click", ".ext-autothrottle-speed", (e) => {
                     e.target.select();
@@ -1472,6 +1541,10 @@ window.AIRCRAFT_DATA = {
                        border-color: #ef4444 !important;
                        box-shadow: 0 0 10px rgba(239, 68, 68, 0.4) !important;
                     }
+                    #autothrottle-landing-mode-switch .landing-selected {
+                       background: #555;
+                       border-color: #888;
+                    }
                 `;
                 document.head.appendChild(style);
             },
@@ -1728,8 +1801,8 @@ window.AIRCRAFT_DATA = {
         geofs.autopilot.setArm = (a) => {
             const b = JSON.parse(a);
             geofs.autothrottle.armed = b;
-            $("#armOn").toggleClass("green-pad active", b);
-            $("#armOff").toggleClass("green-pad active", !b);
+            $("#armOn").toggleClass("green-pad active", b).attr("aria-pressed", String(b));
+            $("#armOff").toggleClass("landing-selected active", !b).attr("aria-pressed", String(!b));
         };
 
         /**
@@ -1793,12 +1866,32 @@ window.AIRCRAFT_DATA = {
 // MODULE 4: GeoFS-V3.9_Checklist-System
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Checklist-System] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     /**
      * Initialization Guard: Ensures the checklist engine only boots once per session.
      */
     window.initChecklistSystem = () => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Checklist-System] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         if (window.checklistSystem) return;
 
         console.log("[GeoFS-V3.9_Checklist-System] >> INITIALIZING CHECKLIST ENGINE...");
@@ -1935,11 +2028,11 @@ window.AIRCRAFT_DATA = {
              */
             init: function() {
                 const checksHTML = `
-                    <div id="hud-checklist-display" style="background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); margin: 0; max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255, 159, 5, 0.3) transparent; width: 100%; box-sizing: border-box;">
+                    <div id="hud-checklist-display" style="background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.12); margin: 0; max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.3) transparent; width: 100%; box-sizing: border-box;">
                         <div style="color: rgba(255,255,255,0.5); font-size: 10px; text-align: center; padding: 20px 0;">Initializing...</div>
                     </div>
                 `;
-                window.registerHUDTab('checks', 'CHECKLIST', checksHTML, false);
+                window.registerHUDTab('checks', 'CHECKS', checksHTML, false);
                 setTimeout(() => this.detectAircraft(), 1000);
 
                 // Telemetry Synthesis: Background loop for automated item completion
@@ -1980,7 +2073,7 @@ window.AIRCRAFT_DATA = {
                         this.currentAircraft = acData.name;
                     }
 
-                    if (window.V39_NOTIF) window.V39_NOTIF.info(`Checklist Engine Ready: ${this.currentAircraft}`);
+
                 }
                 
                 this.updateUI();
@@ -2022,31 +2115,31 @@ window.AIRCRAFT_DATA = {
                 }
 
                 let html = `
-                    <div style="font-size: 10px; color: #ff9f05; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; width: 100%; box-sizing: border-box;">${this.currentAircraft}</div>
+                    <div style="font-size: 10px; color: #dddddd; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; width: 100%; box-sizing: border-box;">${this.currentAircraft}</div>
                     <div style="display: flex; gap: 4px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; width: 100%;">
                 `;
 
                 // Render Phase Tabs
                 this.currentChecklist.forEach((phase, idx) => {
                     const isActive = this.currentPhase === idx;
-                    html += `<div onclick="window.checklistSystem.setPhase(${idx})" style="flex: 1; text-align: center; padding: 5px 2px; font-size: 9px; font-weight: 800; border-radius: 4px; background: ${isActive ? '#ff9f05' : 'rgba(255,255,255,0.05)'}; color: ${isActive ? '#000' : 'rgba(255,255,255,0.5)'}; cursor: pointer; white-space: nowrap; transition: all 0.2s;">${phase.title.split(' ')[0]}</div>`;
+                    html += `<div onclick="window.checklistSystem.setPhase(${idx})" style="flex: 1; text-align: center; padding: 5px 2px; font-size: 10px; font-weight: 800; border-radius: 4px; background: ${isActive ? '#4caf50' : 'rgba(255,255,255,0.05)'}; color: ${isActive ? '#fff' : 'rgba(255,255,255,0.5)'}; cursor: pointer; white-space: nowrap; transition: all 0.2s;">${phase.title.split(' ')[0]}</div>`;
                 });
                 html += `</div>`;
 
                 const renderSection = (section, sIdx, isEmergency = false) => {
                     if (!isEmergency && sIdx !== this.currentPhase) return '';
                     let sHtml = `<div style="margin-bottom: 15px; width: 100%; box-sizing: border-box;">
-                        <div style="font-size: 10px; font-weight: bold; margin-bottom: 6px; color: ${isEmergency ? '#ef4444' : 'rgba(255,255,255,0.7)'}; background: ${isEmergency ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.03)'}; padding: 3px 6px; border-radius: 4px; border-left: 2px solid ${isEmergency ? '#ef4444' : '#ff9f05'}; text-transform: uppercase; letter-spacing: 0.5px;">${section.title}</div>
+                        <div style="font-size: 10px; font-weight: bold; margin-bottom: 6px; color: ${isEmergency ? '#ef4444' : 'rgba(255,255,255,0.7)'}; background: ${isEmergency ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.03)'}; padding: 3px 6px; border-radius: 4px; border-left: 2px solid ${isEmergency ? '#ef4444' : '#dddddd'}; text-transform: uppercase; letter-spacing: 0.5px;">${section.title}</div>
                         <div style="display: flex; flex-direction: column; gap: 3px; width: 100%;">`;
                     
                     section.items.forEach((item, iIdx) => {
                         const id = (isEmergency ? 'emg-' : 'chk-') + sIdx + '-' + iIdx;
                         const isDone = this.completedItems.has(id);
                         sHtml += `
-                            <div onclick="window.checklistSystem.toggleItem('${id}')" style="display: flex; flex-direction: column; cursor: pointer; padding: 5px; border-radius: 4px; background: ${isDone ? 'rgba(16,185,129,0.08)' : 'rgba(255,255,255,0.015)'}; transition: all 0.15s; border: 1px solid ${isDone ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.02)'}; width: 100%; box-sizing: border-box;">
+                            <div onclick="window.checklistSystem.toggleItem('${id}')" style="display: flex; flex-direction: column; cursor: pointer; padding: 5px; border-radius: 4px; background: transparent; transition: all 0.15s; border: 0; width: 100%; box-sizing: border-box;">
                                 <div style="display: flex; align-items: center; gap: 6px; width: 100%;">
                                     <div style="min-width: 10px; height: 10px; border: 1px solid ${isDone ? '#10b981' : (isEmergency ? '#ef4444' : 'rgba(255,255,255,0.2)')}; border-radius: 2px; display: flex; align-items: center; justify-content: center;">
-                                        ${isDone ? '<span style="color: #10b981; font-size: 8px;">✓</span>' : ''}
+                                        ${isDone ? '<span style="color: #10b981; font-size: 10px;">✓</span>' : ''}
                                     </div>
                                     <span style="font-size: 10px; font-weight: 700; color: ${isDone ? 'rgba(255,255,255,0.4)' : '#fff'}; text-decoration: ${isDone ? 'line-through' : 'none'}; flex: 1;">
                                         ${item.sync ? (this.isUnregistered ? '<span style="color: #ef4444; margin-right: 4px;">[UNSUPPORTED]</span>' : '<span style="color: #fbbf24; margin-right: 4px;">⚡</span>') : ''}${item.text}
@@ -2068,8 +2161,8 @@ window.AIRCRAFT_DATA = {
                 if (this.isUnregistered) {
                     html += `
                         <div style="margin-top: 12px; padding: 8px; background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-radius: 4px;">
-                            <div style="color: #ef4444; font-size: 8px; font-weight: 900; text-transform: uppercase; margin-bottom: 2px;">⚠️ Sync Unavailable</div>
-                            <div style="color: rgba(255,255,255,0.4); font-size: 7.5px; line-height: 1.2; font-style: italic;">
+                            <div style="color: #ef4444; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 2px;">⚠️ Sync Unavailable</div>
+                            <div style="color: rgba(255,255,255,0.4); font-size: 10px; line-height: 1.2; font-style: italic;">
                                 Manual mode active. Technical telemetry for ID [${this.missingId}] is not in the registry. Automated checklist completion is disabled.
                             </div>
                         </div>
@@ -2250,7 +2343,23 @@ window.AIRCRAFT_DATA = {
 // MODULE 5: GeoFS-V3.9_Failure-Simulator
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Failure-Simulator] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     class FailureSimulator {
         /**
@@ -2695,7 +2804,7 @@ window.AIRCRAFT_DATA = {
     style.innerHTML = `
         .pulse-red { animation: pulseRed 1s infinite alternate; }
         @keyframes pulseRed { from { box-shadow: 0 0 5px #ef4444; } to { box-shadow: 0 0 15px #ef4444; } }
-        .sect-header:hover { background: rgba(255, 159, 5, 0.15); }
+        .sect-header:hover { background: rgba(255, 255, 255, 0.15); }
     `;
     document.head.appendChild(style);
 
@@ -2756,19 +2865,19 @@ window.AIRCRAFT_DATA = {
 
     function buildRow(title, desc, id, failId, path) {
         return `
-        <div style="margin-bottom: 8px; padding: 10px; background: rgba(255,159,5,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+        <div style="margin-bottom: 8px; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                 <div style="display:flex; align-items:center; gap:8px;">
                     <div id="led-${failId}" style="width:8px; height:8px; border-radius:50%; background:#22c55e; box-shadow:0 0 5px #22c55e; transition:0.3s;"></div>
-                    <span style="font-size:11px; font-weight:bold; color:#ff9f05;">${title}</span>
+                    <span style="font-size:11px; font-weight:bold; color:#dddddd;">${title}</span>
                 </div>
                 <span id="val${id}" style="font-size:10px; color:rgba(255,255,255,0.4);">0%</span>
             </div>
-            <div style="font-size:9px; color:rgba(255,255,255,0.4); margin-bottom:8px; font-style:italic; line-height:1.2;">${desc}</div>
+            <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:8px; font-style:italic; line-height:1.2;">${desc}</div>
             <input type="range" id="slide-${id}" min="0" max="1" step="0.01" style="width:100%; height:4px; margin-bottom:10px;" oninput="window.failureSimulator.setProbability('${path}', parseFloat(this.value), '${id}')">
             <div style="display:flex; gap:5px;">
-                <button onclick="window.failureSimulator.fail('${failId}')" style="flex:1; padding:5px; background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ff6b6b; font-size:9px; cursor:pointer;">FAIL</button>
-                <button onclick="window.failureSimulator.fix('${failId}')" style="flex:1; padding:5px; background:rgba(34,197,94,0.2); border:1px solid #22c55e; color:#4ade80; font-size:9px; cursor:pointer;">FIX</button>
+                <button onclick="window.failureSimulator.fail('${failId}')" style="flex:1; padding:5px; background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#ff6b6b; font-size:10px; cursor:pointer;">FAIL</button>
+                <button onclick="window.failureSimulator.fix('${failId}')" style="flex:1; padding:5px; background:rgba(34,197,94,0.2); border:1px solid #22c55e; color:#4ade80; font-size:10px; cursor:pointer;">FIX</button>
             </div>
         </div>`;
     }
@@ -2783,7 +2892,7 @@ window.AIRCRAFT_DATA = {
             
             let html = `
                 <div style="display:flex; justify-content:space-between; margin-bottom:20px; cursor:move;" id="fail-header">
-                    <span style="font-weight:bold; font-size:12px; letter-spacing:1px; color:#ff9f05;">⚠️ FAILURE SIMULATOR</span>
+                    <span style="font-weight:bold; font-size:12px; letter-spacing:1px; color:#dddddd;">⚠️ FAILURE SIMULATOR</span>
                     <button onclick="document.getElementById('geofs-failure-menu').style.display='none'" style="background:none; border:none; color:white; cursor:pointer; font-size:18px;">✕</button>
                 </div>
                 <div style="max-height:70vh; overflow-y:auto; padding-right:5px;">
@@ -2792,15 +2901,15 @@ window.AIRCRAFT_DATA = {
 
             const section = (title, groupId, contentHtml) => `
                 <div style="margin-bottom:15px;">
-                    <div class="sect-header" onclick="window.failureSimulator.toggleSection('${groupId}')" style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:rgba(255,159,5,0.05); border-radius:8px; cursor:pointer; transition:0.2s;">
+                    <div class="sect-header" onclick="window.failureSimulator.toggleSection('${groupId}')" style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:rgba(255, 255, 255, 0.05); border-radius:8px; cursor:pointer; transition:0.2s;">
                         <div style="display:flex; align-items:center; gap:10px;">
                             <span id="sect-arrow-${groupId}" style="font-size:10px; transition:0.3s; transform:rotate(90deg);">▶</span>
-                            <span style="font-size:10px; color:#ff9f05; text-transform:uppercase; letter-spacing:2px; font-weight:900;">${title}</span>
+                            <span style="font-size:10px; color:#dddddd; text-transform:uppercase; letter-spacing:2px; font-weight:900;">${title}</span>
                         </div>
                         <div style="display:flex; gap:3px;" onclick="event.stopPropagation()">
-                            <button onclick="window.failureSimulator.groupAuto('${groupId}')" style="padding:2px 6px; font-size:8px; background:rgba(255,159,5,0.15); border:1px solid #ff9f05; color:#ff9f05; cursor:pointer; border-radius:4px; font-weight:bold;">AUTO</button>
-                            <button onclick="window.failureSimulator.groupFail('${groupId}')" style="padding:2px 6px; font-size:8px; background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ff6b6b; cursor:pointer; border-radius:4px; font-weight:bold;">FAIL</button>
-                            <button onclick="window.failureSimulator.groupFix('${groupId}')" style="padding:2px 6px; font-size:8px; background:rgba(34,197,94,0.1); border:1px solid #22c55e; color:#4ade80; cursor:pointer; border-radius:4px; font-weight:bold;">FIX</button>
+                            <button onclick="window.failureSimulator.groupAuto('${groupId}')" style="padding:2px 6px; font-size:10px; background:rgba(255, 255, 255, 0.15); border:1px solid #dddddd; color:#dddddd; cursor:pointer; border-radius:4px; font-weight:bold;">AUTO</button>
+                            <button onclick="window.failureSimulator.groupFail('${groupId}')" style="padding:2px 6px; font-size:10px; background:rgba(239,68,68,0.1); border:1px solid #ef4444; color:#ff6b6b; cursor:pointer; border-radius:4px; font-weight:bold;">FAIL</button>
+                            <button onclick="window.failureSimulator.groupFix('${groupId}')" style="padding:2px 6px; font-size:10px; background:rgba(34,197,94,0.1); border:1px solid #22c55e; color:#4ade80; cursor:pointer; border-radius:4px; font-weight:bold;">FIX</button>
                         </div>
                     </div>
                     <div id="sect-content-${groupId}" style="padding:10px 5px 0 5px;">${contentHtml}</div>
@@ -2843,10 +2952,11 @@ window.AIRCRAFT_DATA = {
     };
 
     window.initFailures = () => {
+        if (isUnsupportedGeoFS()) return;
         if (document.getElementById('fail-btn')) return;
         const btn = document.createElement('div');
         btn.id = 'fail-btn';
-        btn.style.cssText = "position:fixed; right:15px; bottom:15px; z-index:2000000; padding:5px 15px; background:#ef4444; color:white; border:1px solid white; border-radius:5px; font-weight:bold; font-size:10px; cursor:move; box-shadow:0 4px 15px rgba(0,0,0,0.5);";
+        btn.style.cssText = "position:fixed; right:15px; bottom:15px; z-index:2000000; padding:5px 15px; background:rgba(0,0,0,0.7); color:white; border:1px solid #888; border-radius:15px; font-weight:bold; font-size:10px; cursor:move; box-shadow:0 4px 15px rgba(0,0,0,0.5);";
         btn.innerText = "FAILURES";
         
         let hasMoved = false;
@@ -2858,7 +2968,14 @@ window.AIRCRAFT_DATA = {
         document.body.appendChild(btn);
     };
 
-    function check() { if (window.geofs && window.geofs.aircraft && window.geofs.aircraft.instance) window.initFailures(); else setTimeout(check, 1000); }
+    function check() {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Failure-Simulator] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
+        if (window.geofs && window.geofs.aircraft && window.geofs.aircraft.instance) window.initFailures();
+        else setTimeout(check, 1000);
+    }
     if (window.SafeInit) {
         window.SafeInit('GeoFS-V3.9_Failure-Simulator', check);
     } else {
@@ -2869,11 +2986,27 @@ window.AIRCRAFT_DATA = {
 // ============================================================
 // MODULE 6: GeoFS-V3.9_Flight-Path-Vector
 // ============================================================
-(() => {
+/**
+ * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+ * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+ * deactivates if GeoFS v4.0+ is detected.
+ */
+function isUnsupportedGeoFS() {
+    const raw = window.geofs?.version;
+    if (raw === undefined || raw === null) return false;
+    const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+    const num = typeof clean === 'number' ? clean : parseFloat(clean);
+    return !isNaN(num) && num >= 4.0;
+}
+
 function cF(x, y, z) {
     return { x, y, z };
 }
 function waitForEntities() {
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Flight-Path-Vector] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
     try {
         if (geofs.api) {
             // Entities are already defined, no need to wait
@@ -2893,6 +3026,10 @@ window.lastLoc = null;
 window.onload = setTimeout(waitForEntities, 10000);
 window.howFar = 15; //                                THIS DETERMINES HOW FAR AWAY THE DOT IS. IT IS A FACTOR, AND THE ACTUAL DISTANCE IS DIRECTLY RELATED TO THE TRUE AIRSPEED.
 function main() {
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Flight-Path-Vector] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
     (() => {
         
         if (window.V39_NOTIF) window.V39_NOTIF.success("GeoFS-V3.9_Flight-Path-Vector V2.0.1 Loaded.");
@@ -3025,13 +3162,28 @@ function main() {
         });
     })();
 }
-})();
 
 // ============================================================
 // MODULE 7: GeoFS-V3.9_Fuel-Simulator
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Fuel-Simulator] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     console.log("[GeoFS-V3.9_Fuel-Simulator] >> Initializing simulation logic...");
 
@@ -3211,37 +3363,37 @@ function main() {
         createUI: function() {
             console.log("[GeoFS-V3.9_Fuel-Simulator] >> Registering UI Tab...");
             const content = `
-                <div style="display: flex; flex-direction: column; gap: 12px; padding: 10px; background: rgba(10, 15, 20, 0.4); border-radius: 8px;">
+                <div style="display: flex; flex-direction: column; gap: 12px; padding: 10px; background: transparent;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; border-left: 3px solid #ff9f05;">
-                            <div style="font-size: 9px; color: #aaa; text-transform: uppercase;">Fuel Quantity</div>
-                            <div id="fuel-pct-val" style="font-size: 16px; font-weight: bold; color: #fff;">...</div>
+                        <div style="padding: 2px;">
+                            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;">Fuel Quantity</div>
+                            <div id="fuel-pct-val" style="font-size: 18px; font-weight: bold; color: #fff;">...</div>
                         </div>
-                        <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; border-left: 3px solid #ff9f05;">
-                            <div style="font-size: 9px; color: #aaa; text-transform: uppercase;">Burn Rate</div>
-                            <div id="fuel-burn-val" style="font-size: 16px; font-weight: bold; color: #fff;">...</div>
+                        <div style="padding: 2px;">
+                            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;">Burn Rate</div>
+                            <div id="fuel-burn-val" style="font-size: 12px; font-weight: bold; color: #fff;">...</div>
                         </div>
-                        <div style="background: rgba(0,0,0,0.3); padding: 8px; border-radius: 4px; border-left: 3px solid #facc15; grid-column: span 2;">
-                            <div style="font-size: 9px; color: #aaa; text-transform: uppercase;">Gross Weight</div>
-                            <div id="fuel-weight-val" style="font-size: 16px; font-weight: bold; color: #fff;">...</div>
+                        <div style="padding: 2px; grid-column: span 2;">
+                            <div style="font-size: 10px; color: #aaa; text-transform: uppercase;">Gross Weight</div>
+                            <div id="fuel-weight-val" style="font-size: 12px; font-weight: bold; color: #fff;">...</div>
                         </div>
                     </div>
-                    <div style="padding: 12px; background: rgba(255,255,255,0.03); border-radius: 6px;">
+                    <div style="padding: 2px;">
                         <input type="range" id="fuel-slider-pro" min="0" max="100" step="1" value="100" 
                             style="width: 100%;" oninput="window.fuelSimulatorSuite.setFuel(this.value)">
-                        <div style="display: flex; justify-content: space-between; font-size: 9px; color: #aaa; margin-top: 4px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #aaa; margin-top: 4px;">
                             <span>SET FUEL</span><span id="fuel-slider-label">100%</span>
                         </div>
                     </div>
                     <div style="display: flex; gap: 6px;">
                         <button id="fuel-btn-dyn" onclick="window.fuelSimulatorSuite.toggleDynamicSFC()" 
-                            style="flex: 1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 9px; cursor: pointer; border-radius: 4px;">DYN SFC</button>
+                            style="flex: 1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 10px; cursor: pointer; border-radius: 4px;">DYN SFC</button>
                         <button id="fuel-btn-tanks" onclick="window.fuelSimulatorSuite.toggleRealisticTanks()" 
-                            style="flex: 1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 9px; cursor: pointer; border-radius: 4px;">REAL TANKS</button>
+                            style="flex: 1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 10px; cursor: pointer; border-radius: 4px;">REAL TANKS</button>
                     </div>
                     <button id="fuel-btn-auto" onclick="window.fuelSimulatorSuite.toggleAutoRefuel()" 
                         style="padding: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; font-size: 10px; cursor: pointer; border-radius: 4px;">AUTO-REFUEL</button>
-                    <div id="fuel-status-msg" style="font-size: 8px; color: #ff9f05; text-align: center; opacity: 0.6;">WAITING FOR AIRCRAFT...</div>
+                    <div id="fuel-status-msg" style="font-size: 10px; color: #dddddd; text-align: center; opacity: 0.6;">WAITING FOR AIRCRAFT...</div>
                 </div>
             `;
             window.registerHUDTab('fuel', 'FUEL', content, false);
@@ -3253,7 +3405,7 @@ function main() {
                 const btnAuto = document.getElementById('fuel-btn-auto');
                 if (btnDyn) btnDyn.style.background = this.state.dynamicSFC ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.05)";
                 if (btnTanks) btnTanks.style.background = this.state.realisticTanks ? "rgba(34,197,94,0.2)" : "rgba(255,255,255,0.05)";
-                if (btnAuto) btnAuto.style.background = this.state.autoRefuel ? "rgba(255,159,5,0.15)" : "rgba(255,255,255,0.05)";
+                if (btnAuto) btnAuto.style.background = this.state.autoRefuel ? "rgba(76,175,80,0.5)" : "rgba(255,255,255,0.05)";
             }, 100);
             
             if (!window._fuelTickInterval) {
@@ -3303,7 +3455,7 @@ function main() {
             this.state.autoRefuel = !this.state.autoRefuel;
             localStorage.setItem('geofs-V39-fuel-auto', this.state.autoRefuel);
             const btn = document.getElementById('fuel-btn-auto');
-            if (btn) btn.style.background = this.state.autoRefuel ? "rgba(255,159,5,0.15)" : "rgba(255,255,255,0.05)";
+            if (btn) btn.style.background = this.state.autoRefuel ? "rgba(76,175,80,0.5)" : "rgba(255,255,255,0.05)";
             this.notify(`Auto-Refuel ${this.state.autoRefuel ? 'ON' : 'OFF'}`);
         },
 
@@ -3437,6 +3589,10 @@ function main() {
     window.fuelSimulatorSuite = fuelSimulatorSuite;
 
     window.initFuelSimulatorPro = () => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Fuel-Simulator] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         if (window.fuelSimulatorTabRegistered) return;
         if (typeof window.registerHUDTab !== 'function') return;
         window.fuelSimulatorTabRegistered = true;
@@ -3447,6 +3603,10 @@ function main() {
         window.SafeInit('GeoFS-V3.9_Fuel-Simulator', window.initFuelSimulatorPro);
     } else {
         const checker = setInterval(() => {
+            if (isUnsupportedGeoFS()) {
+                clearInterval(checker);
+                return;
+            }
             if (window.registerHUDTab) {
                 clearInterval(checker);
                 window.initFuelSimulatorPro();
@@ -3459,13 +3619,33 @@ function main() {
 // MODULE 8: GeoFS-V3.9_Information-Display
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Information-Display] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     /**
      * Initialization routine: Registers the INFORMATION tab within the HUD.
      * Requires Core Library helper functions (registerHUDTab, hudCell).
      */
     window.initHUDInformationDisplayPro = () => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Information-Display] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         if (window.hudInformationDisplayPro) return;
         
         console.log("[GeoFS-V3.9_Information-Display] >> Initializing telemetry display...");
@@ -3499,24 +3679,24 @@ function main() {
         const idHTML = `
             <div id="hud-ac-header" style="grid-column: 1 / -1; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px;">
                 <div id="hud-ac-name" style="font-size: 11px; font-weight: 900; color: #fff;">Loading Aircraft...</div>
-                <div id="hud-ac-id-badge" style="display: inline-block; font-size: 7px; padding: 1px 4px; background: #ff9f05; color: #000; border-radius: 3px; font-weight: 800; margin-top: 4px;">ID: --</div>
+                <div id="hud-ac-id-badge" style="display: inline-block; font-size: 10px; padding: 1px 4px; background: #dddddd; color: #000; border-radius: 3px; font-weight: 800; margin-top: 4px;">ID: --</div>
             </div>
             <div class="hud-section-header full-width">Performance</div>
             ${safeCell('KTS KIAS', 'N/A', '', 'hud-kias')} 
-            ${safeCell('M MACH', 'N/A', '', 'hud-mach')} 
+            ${safeCell('FT ALT', 'N/A', '', 'hud-alt')}
+            ${safeCell('FPM V/S', 'N/A', '', 'hud-vs')}
+            ${safeCell('DEG HDG', 'N/A', '', 'hud-hdg')}
+            <div class="hud-section-header full-width">Additional data</div>
+            ${safeCell('M MACH', 'N/A', '', 'hud-mach')}
             ${safeCell('DEG AOA', 'N/A', '', 'hud-aoa')}
-            ${safeCell('G G-FORCE', 'N/A', '', 'hud-g')} 
-            ${safeCell('FPM V/S', 'N/A', '', 'hud-vs')} 
-            ${safeCell('FT ALT', 'N/A', '', 'hud-alt')} 
-            ${safeCell('FT AGL', 'N/A', '', 'hud-agl')} 
-            <div class="hud-section-header full-width">Navigation</div>
-            ${safeCell('DEG HDG', 'N/A', '', 'hud-hdg')} 
+            ${safeCell('G G-FORCE', 'N/A', '', 'hud-g')}
+            ${safeCell('FT AGL', 'N/A', '', 'hud-agl')}
             ${safeCell('KTS GS', 'N/A', '', 'hud-gs')} 
             ${safeCell('DEG GSLOPE', 'N/A', '', 'hud-gslope')}
         `;
         
         // Registration: Inject into the HUD tab manager
-        window.registerHUDTab('id', 'INFORMATION', idHTML, true);
+        window.registerHUDTab('id', 'INFO', idHTML, true);
         window.hudInformationDisplayPro = true;
 
         /**
@@ -3543,7 +3723,7 @@ function main() {
                     if (data) {
                         // Known Aircraft: Use registry name
                         nameEl.textContent = data.name;
-                        badgeEl.style.background = "#ff9f05"; 
+                        badgeEl.style.background = "#dddddd"; 
                         badgeEl.textContent = `REG: ${ac.id}`;
                     } else {
                         // Unknown Aircraft: Stochastic "Identity Obfuscation" Logic
@@ -3557,11 +3737,11 @@ function main() {
                         const rawName = ac.definition.externalName || ac.definition.name || "Unknown Aircraft";
                         const cleanName = rawName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
                         
-                        nameEl.innerHTML = `<span style="opacity: 0.6; font-style: italic;">${joke}</span><br><span style="font-size: 9px; font-weight: 400;">(${cleanName})</span>`;
+                        nameEl.innerHTML = `<span style="opacity: 0.6; font-style: italic;">${joke}</span><br><span style="font-size: 10px; font-weight: 400;">(${cleanName})</span>`;
                         badgeEl.style.background = "#94a3b8"; 
                         badgeEl.textContent = `ID: ${ac.id}`;
                     }
-                    if (window.V39_NOTIF) window.V39_NOTIF.info(`Identity Resolved: ${ac.id}`);
+
                 }
             }
 
@@ -3613,6 +3793,10 @@ function main() {
         window.SafeInit('GeoFS-V3.9_Information-Display', window.initHUDInformationDisplayPro);
     } else {
         const checker = setInterval(() => {
+            if (isUnsupportedGeoFS()) {
+                clearInterval(checker);
+                return;
+            }
             if (window.registerHUDTab && window.hudCell) {
                 clearInterval(checker);
                 window.initHUDInformationDisplayPro();
@@ -3622,22 +3806,26 @@ function main() {
 })();
 
 // ============================================================
-// MODULE 9: GeoFS-V3.9_JetBridge-System
+// MODULE 9: GeoFS-V3.9_Landing-Statistics
 // ============================================================
 (() => {
-    
-    console.log("[GeoFS-V3.9_JetBridge] >> Logic engine initialized.");
-    if (window.V39_NOTIF) window.V39_NOTIF.success("GeoFS-V3.9_JetBridge-System Loaded.");
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
 
-    // Stub initialization of the JetBridge System
-    // User will provide actual logic scripts next
-})();
-
-// ============================================================
-// MODULE 10: GeoFS-V3.9_Landing-Statistics
-// ============================================================
-(() => {
-    
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Landing-Statistics] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     window.MS_TO_KNOTS = window.MS_TO_KNOTS || 1.94384449;
     window.DEGREES_TO_RAD = window.DEGREES_TO_RAD || 0.017453292519943295769236907684886127134428718885417254560971914401710091146034494436822415696345094822123044925073790592483854692275281012398474218934047117319168245015010769561697553581238605305168789;
@@ -3691,7 +3879,7 @@ function main() {
                 localStorage.setItem("myScriptUserId", userId);
             }
             try {
-                await fetch("https://geofs-assets.evengao6688.workers.dev/track", {
+                await fetch("https://track.tylerbialowas-bard.workers.dev", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ script: SCRIPT_NAME, userId: userId }),
@@ -3703,6 +3891,10 @@ function main() {
 
     // Technical Module Initialization Entrypoint (called by SafeInit)
     window.initLandingStats = () => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Landing-Statistics] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         if (window.isStatsLoaded) return;
         window.isStatsLoaded = true;
 
@@ -3734,7 +3926,7 @@ function main() {
                     flex-direction: column;
                 }
                 .stat-label {
-                    font-size: 9px;
+                    font-size: 10px;
                     color: rgba(100, 200, 255, 0.7);
                     text-transform: uppercase;
                     font-weight: 700;
@@ -3744,7 +3936,7 @@ function main() {
                     font-size: 13px;
                     color: #fff;
                     font-weight: 600;
-                    font-family: 'Roboto Mono', monospace;
+                    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
                 }
                 .feedback-box {
                     padding: 10px 14px;
@@ -3796,7 +3988,7 @@ function main() {
                     font-size: 0.75rem;
                     font-weight: 800;
                     letter-spacing: 1.5px;
-                    color: #ff9f05;
+                    color: #dddddd;
                     text-transform: uppercase;
                 }
                 .addonpack-card-content {
@@ -3806,24 +3998,24 @@ function main() {
                     width: 64px;
                     height: 64px;
                     border-radius: 50%;
-                    border: 3px solid #ff9f05;
+                    border: 3px solid #dddddd;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    box-shadow: 0 0 20px rgba(255, 159, 5, 0.3);
-                    background: rgba(255, 159, 5, 0.05);
+                    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+                    background: rgba(255, 255, 255, 0.05);
                     flex-shrink: 0;
                 }
                 .score-value {
                     font-size: 18px;
                     font-weight: 800;
                     color: #fff;
-                    font-family: 'Roboto Mono', monospace;
+                    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
                     line-height: 1.1;
                 }
                 .score-label {
-                    font-size: 7px;
+                    font-size: 10px;
                     color: rgba(255, 255, 255, 0.8);
                     text-transform: uppercase;
                     font-weight: 700;
@@ -4117,7 +4309,7 @@ function main() {
                 </div>
 
                 <div class="feedback-box" style="border-left-color: ${passenger.color}">
-                    <div style="font-size: 8px; font-weight: 800; color: rgba(100, 200, 255, 0.8); text-transform: uppercase; margin-bottom: 3px; letter-spacing: 0.5px;">Flight Report & Feedback</div>
+                    <div style="font-size: 10px; font-weight: 800; color: rgba(100, 200, 255, 0.8); text-transform: uppercase; margin-bottom: 3px; letter-spacing: 0.5px;">Flight Report & Feedback</div>
                     <div style="font-weight: 600; margin-bottom: 3px;">${qText}</div>
                     <div style="opacity: 0.85; font-size: 10px;">${passenger.text}</div>
                 </div>
@@ -4297,10 +4489,26 @@ function main() {
 })();
 
 // ============================================================
-// MODULE 11: GeoFS-V3.9_Overpowered-Engines
+// MODULE 10: GeoFS-V3.9_Overpowered-Engines
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Overpowered-Engines] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     console.log("[GeoFS-V3.9_Overpowered-Engines] >> Initializing SAS stability engine...");
 
@@ -4334,17 +4542,17 @@ function main() {
             card.id = "opEngineCard"; 
             card.style.cssText = `
                 position: fixed; bottom: 120px; left: 540px; width: 320px; height: auto; z-index: 10000; 
-                display: none; padding: 0; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; 
-                overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,0.6); background: rgba(10,15,20,0.85); 
-                backdrop-filter: blur(12px); color: white; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; user-select: none; 
+                display: none; padding: 0; border: 1px solid #888; border-radius: 15px; 
+                overflow: hidden; box-shadow: 0 0 5px #000; background: rgba(0,0,0,0.8); 
+                color: white; font-family: Helvetica, Arial, sans-serif; user-select: none; 
                 box-sizing: border-box; transform: translate(0,0); transition: none; cursor: grab;
             `;
             
             card.innerHTML = `
-                <div id="opEngineHeader" style="background: rgba(255,75,43,0.1); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); pointer-events: none;">
+                <div id="opEngineHeader" style="background: rgba(255,255,255,0.05); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); pointer-events: none;">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 14px;">🚀</span>
-                        <span id="opEngineHeaderText" style="font-weight: 800; font-size: 11px; letter-spacing: 1.5px; color: #ff4b2b; text-transform: uppercase;">Overpowered Engines</span>
+                        
+                        <span id="opEngineHeaderText" style="font-weight: normal; font-size: 12px; letter-spacing: normal; color: #fff; text-transform: uppercase;">Overpowered Engines</span>
                     </div>
                     <button onclick="window.toggleOpEngineUI()" style="background: none; border: none; color: #666; cursor: pointer; font-size: 18px; transition: 0.2s; pointer-events: auto;" onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='#666'">✕</button>
                 </div>
@@ -4358,31 +4566,31 @@ function main() {
                             <div style="display: flex; gap: 8px;">
                             <button id="opThrustBtn" onclick="window.toggleThrustMode()" style="
                                 flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; 
-                                padding: 10px; border-radius: 10px; cursor: pointer; font-size: 10px; font-weight: 800; 
-                                transition: all 0.3s; letter-spacing: 1.5px;
+                                padding: 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: normal; 
+                                transition: all 0.3s; letter-spacing: normal;
                             ">ACTIVATE THRUST</button>
                             <button id="opSASBtn" onclick="window.toggleSASMode()" title="Stability Augmentation System" style="
-                                width: 50px; background: rgba(0,242,255,0.05); border: 1px solid rgba(0,242,255,0.1); color: #00f2ff; 
+                                width: 50px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #dddddd; 
                                 padding: 10px; border-radius: 10px; cursor: pointer; font-size: 10px; font-weight: 900; 
                                 transition: all 0.3s;
                             ">SAS</button>
                         </div>
                         
-                        <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="background: transparent; padding: 4px 0;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span style="font-size: 8px; color: #888; text-transform: uppercase;">Thrust Multiplier</span>
+                                <span style="font-size: 10px; color: #888; text-transform: uppercase;">Thrust Multiplier</span>
                                 <div style="display: flex; align-items: center; gap: 5px;">
                                     <input type="number" id="opMultInput" value="${window.opMultiplier}" step="0.1" style="
-                                        background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #ff4b2b; 
+                                        background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #dddddd; 
                                         width: 60px; font-size: 12px; font-weight: 900; text-align: center; border-radius: 4px; padding: 2px;
                                     " oninput="window.overpoweredEnginesSuite.syncThrustFromInput(this.value)">
-                                    <span style="color: #ff4b2b; font-weight: 900; font-size: 12px;">x</span>
+                                    <span style="color: #dddddd; font-weight: 900; font-size: 12px;">x</span>
                                 </div>
                             </div>
                             <input type="range" id="opMultSlider" min="0" max="${this.thrustSnapPoints.length - 1}" step="1" 
                                 value="${this.getThrustIndex(window.opMultiplier)}" 
                                 oninput="window.overpoweredEnginesSuite.syncThrustFromSlider(this.value)" 
-                                style="width: 100%; accent-color: #ff4b2b; cursor: pointer; height: 4px; background: rgba(255,255,255,0.1);">
+                                style="width: 100%; accent-color: #dddddd; cursor: pointer; height: 4px; background: rgba(255,255,255,0.1);">
                             </div>
                         </div>
                     </div>
@@ -4393,19 +4601,19 @@ function main() {
                         <div id="opCeilingSection" style="display: flex; flex-direction: column; gap: 10px; pointer-events: auto;">
                             <button id="opCeilingBtn" onclick="window.toggleCeilingMode()" style="
                                 background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; 
-                                padding: 10px; border-radius: 10px; cursor: pointer; font-size: 10px; font-weight: 800; 
-                                transition: all 0.3s; letter-spacing: 1.5px;
+                                padding: 10px; border-radius: 15px; cursor: pointer; font-size: 12px; font-weight: normal; 
+                                transition: all 0.3s; letter-spacing: normal;
                             ">BYPASS ATMOSPHERE</button>
                             
-                            <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                            <div style="background: transparent; padding: 4px 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                    <span style="font-size: 8px; color: #888; text-transform: uppercase;">Altitude Ceiling</span>
-                                    <span id="opCeilingReadout" style="color: #ff9f05; font-weight: 900; font-size: 12px;">${this.formatNumberCompact(window.opCeiling)} ft</span>
+                                    <span style="font-size: 10px; color: #888; text-transform: uppercase;">Altitude Ceiling</span>
+                                    <span id="opCeilingReadout" style="color: #dddddd; font-weight: 900; font-size: 12px;">${this.formatNumberCompact(window.opCeiling)} ft</span>
                                 </div>
                                 <input type="range" id="opCeilingSlider" min="0" max="${this.ceilingSnapPoints.length - 1}" step="1" 
                                     value="${this.getCeilingIndex(window.opCeiling)}" 
                                     oninput="window.overpoweredEnginesSuite.syncCeilingFromSlider(this.value)" 
-                                    style="width: 100%; accent-color: #ff9f05; cursor: pointer; height: 4px; background: rgba(255,255,255,0.1);">
+                                    style="width: 100%; accent-color: #dddddd; cursor: pointer; height: 4px; background: rgba(255,255,255,0.1);">
                             </div>
                         </div>
                     </div>
@@ -4413,14 +4621,14 @@ function main() {
                     <!-- FOOTER & KEYBIND -->
                     <div style="display: flex; justify-content: space-between; align-items: center; pointer-events: auto;">
                         <button id="opKeybindBtn" onclick="window.overpoweredEnginesSuite.startKeybind()" style="
-                            background: rgba(255,75,43,0.1); border: 1px solid rgba(255,75,43,0.3); color: #ff4b2b; 
-                            padding: 4px 10px; border-radius: 6px; font-size: 9px; font-weight: bold; cursor: pointer; text-transform: uppercase;
+                            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: #dddddd; 
+                            padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; text-transform: uppercase;
                         ">${this.state.keybind}</button>
                         <div style="display: flex; flex-direction: column; align-items: flex-end;">
-                             <div id="opStatusMsg" style="font-size: 8px; color: #aaa; text-align: right; opacity: 0.6; font-style: italic;">
+                             <div id="opStatusMsg" style="font-size: 10px; color: #aaa; text-align: right; opacity: 0.6; font-style: italic;">
                                 Press [${this.state.keybind.toUpperCase()}] to toggle Thrust.
                             </div>
-                            <div id="opSASMsg" style="font-size: 7px; color: #00f2ff; text-align: right; opacity: 0.5; display: ${globalThis.isSASActive ? 'block' : 'none'};">
+                            <div id="opSASMsg" style="font-size: 10px; color: #dddddd; text-align: right; opacity: 0.5; display: ${globalThis.isSASActive ? 'block' : 'none'};">
                                 SAS ACTIVE: Turns may feel stiff.
                             </div>
                         </div>
@@ -4449,7 +4657,7 @@ function main() {
                     thrustSection.style.opacity = "1";
                     lockOverlay.style.display = "none";
                     headerText.innerText = "Overpowered Engines";
-                    headerText.style.color = "#ff4b2b";
+                    headerText.style.color = "#dddddd";
                 }
             });
             
@@ -4658,7 +4866,7 @@ function main() {
                     this.state.keybind = key; localStorage.setItem('geofs-op-keybind', key);
                     this.state.isSettingKey = false;
                     document.getElementById("opKeybindBtn").textContent = key;
-                    document.getElementById("opKeybindBtn").style.color = "#ff4b2b";
+                    document.getElementById("opKeybindBtn").style.color = "#dddddd";
                     document.getElementById("opStatusMsg").textContent = `Press [${key.toUpperCase()}] to toggle Thrust.`;
                     if (window.V39_NOTIF) window.V39_NOTIF.success(`🎹 Hotkey set to [ ${key.toUpperCase()} ]`);
                 }
@@ -4682,24 +4890,24 @@ function main() {
             // Thrust Toggle State.
             if (tBtn) {
                 tBtn.innerText = globalThis.isThrustActive ? "THRUST: ACTIVE" : "ACTIVATE THRUST";
-                tBtn.style.background = globalThis.isThrustActive ? "rgba(255,75,43,0.3)" : "rgba(255,255,255,0.05)";
-                tBtn.style.borderColor = globalThis.isThrustActive ? "#ff4b2b" : "rgba(255,255,255,0.1)";
-                tBtn.style.boxShadow = globalThis.isThrustActive ? "0 0 15px rgba(255,75,43,0.3)" : "none";
+                tBtn.style.background = globalThis.isThrustActive ? "rgba(76,175,80,0.5)" : "rgba(255,255,255,0.05)";
+                tBtn.style.borderColor = globalThis.isThrustActive ? "#4caf50" : "rgba(255,255,255,0.1)";
+                tBtn.style.boxShadow = globalThis.isThrustActive ? "0 0 15px rgba(255,255,255,0.2)" : "none";
                 tBtn.disabled = isAthrActive;
             }
             // Ceiling Bypass State.
             if (cBtn) {
                 cBtn.innerText = globalThis.isCeilingActive ? "CEILING: BYPASSED" : "BYPASS ATMOSPHERE";
-                cBtn.style.background = globalThis.isCeilingActive ? "rgba(255,159,5,0.3)" : "rgba(255,255,255,0.05)";
-                cBtn.style.borderColor = globalThis.isCeilingActive ? "#ff9f05" : "rgba(255,255,255,0.1)";
-                cBtn.style.boxShadow = globalThis.isCeilingActive ? "0 0 15px rgba(255,159,5,0.3)" : "none";
+                cBtn.style.background = globalThis.isCeilingActive ? "rgba(76,175,80,0.5)" : "rgba(255,255,255,0.05)";
+                cBtn.style.borderColor = globalThis.isCeilingActive ? "#4caf50" : "rgba(255,255,255,0.1)";
+                cBtn.style.boxShadow = globalThis.isCeilingActive ? "0 0 15px rgba(255, 255, 255, 0.3)" : "none";
                 cBtn.disabled = isAthrActive;
             }
             // SAS State.
             if (sBtn) {
-                sBtn.style.background = globalThis.isSASActive ? "rgba(255,159,5,0.3)" : "rgba(255,159,5,0.05)";
-                sBtn.style.borderColor = globalThis.isSASActive ? "#ff9f05" : "rgba(255,159,5,0.15)";
-                sBtn.style.boxShadow = globalThis.isSASActive ? "0 0 15px rgba(255,159,5,0.3)" : "none";
+                sBtn.style.background = globalThis.isSASActive ? "rgba(76,175,80,0.5)" : "rgba(255, 255, 255, 0.05)";
+                sBtn.style.borderColor = globalThis.isSASActive ? "#4caf50" : "rgba(255, 255, 255, 0.15)";
+                sBtn.style.boxShadow = globalThis.isSASActive ? "0 0 15px rgba(255, 255, 255, 0.3)" : "none";
                 document.getElementById("opSASMsg").style.display = globalThis.isSASActive ? 'block' : 'none';
             }
             
@@ -4877,7 +5085,11 @@ function main() {
         window.V39_NOTIF.success("GeoFS-V3.9_Overpowered-Engines V2.0.1 Loaded.");
     }
 
-    setInterval(() => {
+    const checkInterval = setInterval(() => {
+        if (isUnsupportedGeoFS()) {
+            clearInterval(checkInterval);
+            return;
+        }
         const e = geofs?.aircraft?.instance?.aircraftRecord?.id || null;
         if (e !== lastAcId) {
             t_cache = { thrust: {}, zeroThrustAltitude: null, zeroRPMAltitude: null, torque: {} };
@@ -4887,7 +5099,15 @@ function main() {
     }, 1000);
 
     // SAS Ticker loop (50Hz)
-    setInterval(() => overpoweredEnginesSuite.tickSAS(), 20);
+    const sasInterval = setInterval(() => {
+        if (isUnsupportedGeoFS()) {
+            clearInterval(sasInterval);
+            return;
+        }
+        overpoweredEnginesSuite.tickSAS();
+    }, 20);
+
+    if (isUnsupportedGeoFS()) return;
 
     const autopilotBar = document.getElementsByClassName("geofs-autopilot-bar")[0];
     if (autopilotBar && !document.getElementById("opModBtn")) {
@@ -4909,12 +5129,32 @@ function main() {
 })();
 
 // ============================================================
-// MODULE 12: GeoFS-V3.9_Realism-Pack
+// MODULE 11: GeoFS-V3.9_Realism-Pack
 // ============================================================
 (() => {
-    
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Realism-Pack] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
 
     window.initRealismPackPro = () => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Realism-Pack] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
         if (window.realismPackInstance) return;
 
         // Dependency Validation: Ensure HUD registry and aircraft instance are accessible
@@ -4959,9 +5199,9 @@ function main() {
             window.realismSettings[key] = !window.realismSettings[key];
             const tgl = document.getElementById(`toggle_${key}`);
             if (tgl) {
-                tgl.style.background = window.realismSettings[key] ? '#ff9f05' : 'rgba(255,255,255,0.05)';
+                tgl.style.background = window.realismSettings[key] ? '#4caf50' : 'rgba(255,255,255,0.05)';
                 tgl.firstElementChild.style.left = window.realismSettings[key] ? '18px' : '2px';
-                tgl.style.boxShadow = window.realismSettings[key] ? '0 0 10px rgba(255, 159, 5, 0.5)' : 'none';
+                tgl.style.boxShadow = window.realismSettings[key] ? '0 0 10px rgba(255, 255, 255, 0.5)' : 'none';
             }
         };
 
@@ -4976,7 +5216,7 @@ function main() {
             return `
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 2px 0; transition: all 0.2s ease;">
                     <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6); font-weight: 500; letter-spacing: 0.3px;">${label.toUpperCase()}</span>
-                    <div onclick="window.toggleRealismParam('${key}')" id="toggle_${key}" style="width: 32px; height: 16px; background: ${window.realismSettings[key] ? '#ff9f05' : 'rgba(255,255,255,0.05)'}; border-radius: 10px; cursor: pointer; position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); box-shadow: ${window.realismSettings[key] ? '0 0 10px rgba(255, 159, 5, 0.3)' : 'none'};">
+                    <div onclick="window.toggleRealismParam('${key}')" id="toggle_${key}" style="width: 32px; height: 16px; background: ${window.realismSettings[key] ? '#4caf50' : 'rgba(255,255,255,0.05)'}; border-radius: 10px; cursor: pointer; position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255,255,255,0.1); box-shadow: ${window.realismSettings[key] ? '0 0 10px rgba(255, 255, 255, 0.3)' : 'none'};">
                         <div style="width: 12px; height: 12px; background: #fff; border-radius: 50%; position: absolute; top: 1px; left: ${window.realismSettings[key] ? '18px' : '2px'}; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
                     </div>
                 </div>`;
@@ -5015,10 +5255,10 @@ function main() {
                 const realismHTML = `
                     <div style="display: flex; flex-direction: column; gap: 10px; padding: 2px;">
                         <!-- Category: Physics Settings -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: transparent; padding: 2px;">
                             <div style="display: flex; flex-direction: column; gap: 4px;">
-                                <div style="font-size: 0.6rem; color: #ff9f05; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
-                                    <span style="width: 4px; height: 4px; background: #ff9f05; border-radius: 50%;"></span> PHYSICS
+                                <div style="font-size: 0.6rem; color: #dddddd; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+                                    <span style="width: 4px; height: 4px; background: #dddddd; border-radius: 50%;"></span> PHYSICS
                                 </div>
                                 ${makeToggle("G-Breath", "gBreath")}
                                 ${makeToggle("Blackout", "blackout")}
@@ -5029,8 +5269,8 @@ function main() {
                             </div>
                             <!-- Category: System Modifications -->
                             <div style="display: flex; flex-direction: column; gap: 4px;">
-                                <div style="font-size: 0.6rem; color: #34d399; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
-                                    <span style="width: 4px; height: 4px; background: #34d399; border-radius: 50%;"></span> SYSTEMS
+                                <div style="font-size: 0.6rem; color: #dddddd; font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;">
+                                    <span style="width: 4px; height: 4px; background: #dddddd; border-radius: 50%;"></span> SYSTEMS
                                 </div>
                                 ${makeToggle("Spin Fix", "spinFix")}
                                 ${makeToggle("Blade X", "bladeCollisions")}
@@ -5042,13 +5282,13 @@ function main() {
                         </div>
                         
                         <!-- Telemetry: Live G-Force Visualizer -->
-                        <div style="padding: 10px; background: linear-gradient(to right, rgba(255, 159, 5, 0.08), rgba(0,0,0,0.3)); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(5px);">
+                        <div style="padding: 10px; background: transparent; border-top: 1px solid rgba(255,255,255,0.2);">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                                 <span style="font-size: 0.6rem; color: rgba(255,255,255,0.5); font-weight: 700; letter-spacing: 0.5px;">G-FORCE TELEMETRY</span>
-                                <span id="realismGVal" class="highlight" style="font-size: 0.85rem; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 700; color: #ff9f05;">1.0 G</span>
+                                <span id="realismGVal" class="highlight" style="font-size: 0.85rem; font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; font-weight: 700; color: #dddddd;">1.0 G</span>
                             </div>
                             <div style="width: 100%; height: 4px; background: rgba(0,0,0,0.4); border-radius: 2px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
-                                <div id="realismGBar" style="width: 10%; height: 100%; background: #ff9f05; transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 8px rgba(255, 159, 5, 0.5);"></div>
+                                <div id="realismGBar" style="width: 10%; height: 100%; background: #dddddd; transition: width 0.1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);"></div>
                             </div>
                         </div>
                     </div>
@@ -5275,7 +5515,7 @@ function main() {
                     const id = Number(geofs.aircraft.instance.id);
                     if (window.lastAudioLoad === id) return;
                     if ([4, 3054].includes(id)) {
-                        const s = document.createElement('script'); s.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_737.js"; document.body.appendChild(s);
+                        const s = document.createElement('script'); s.src = "https://raw.githack.com/AbnormalHuman/GeoFS-737-Immersion-SFX/main/index.js"; document.body.appendChild(s);
                     } else if ([240, 25, 4402].includes(id)) {
                         const s = document.createElement('script'); s.src = "https://geofs-assets.evengao6688.workers.dev/addons/realism_addon/scripts/sfx_777.js"; document.body.appendChild(s);
                     } else if ([2865, 2870, 2871, 242, 2843, 2899, 24, 2973].includes(id)) {
@@ -5342,6 +5582,10 @@ function main() {
 
     // Standardized Ecosystem Bootloader: Waits for foundations before executing SafeInit.
     const bootChecker = setInterval(() => {
+        if (isUnsupportedGeoFS()) {
+            clearInterval(bootChecker);
+            return;
+        }
         if (window.registerHUDTab && window.geofs?.aircraft?.instance) {
             clearInterval(bootChecker);
             if (window.SafeInit) {
@@ -5354,13 +5598,35 @@ function main() {
 })();
 
 // ============================================================
-// MODULE 13: GeoFS-V3.9_Satellite-Imagery
+// MODULE 12: GeoFS-V3.9_Satellite-Imagery
 // ============================================================
 (function() {
     "use strict";
 
+    /**
+     * Runtime Version Guard: GeoFS-V3.9 Suite Compatibility
+     * Ensures this module only executes on GeoFS v3.9 or earlier, and gracefully
+     * deactivates if GeoFS v4.0+ is detected.
+     */
+    function isUnsupportedGeoFS() {
+        const raw = window.geofs?.version;
+        if (raw === undefined || raw === null) return false;
+        const clean = typeof raw === 'string' ? raw.replace(/^[^\d.]*/, '') : raw;
+        const num = typeof clean === 'number' ? clean : parseFloat(clean);
+        return !isNaN(num) && num >= 4.0;
+    }
+
+    if (isUnsupportedGeoFS()) {
+        console.warn("[GeoFS-V3.9_Satellite-Imagery] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+        return;
+    }
+
     // ⏱ Delay everything by 10 seconds to ensure GeoFS core finishes boot
     setTimeout(() => {
+        if (isUnsupportedGeoFS()) {
+            console.warn("[GeoFS-V3.9_Satellite-Imagery] Inactive: GeoFS v" + window.geofs?.version + " detected (suite only supports GeoFS v3.9 and earlier).");
+            return;
+        }
 
         const multiplayerServer = "default";
 
